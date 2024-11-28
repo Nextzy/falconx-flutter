@@ -1,0 +1,45 @@
+name: faltool
+description: A new Flutter package project.
+version: 1.0.13
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  #PLATFORM: All
+  equatable: ^2.0.7
+  ansicolor: ^2.0.3
+  uuid: ^4.5.1
+  logger: ^2.5.0
+  stack_trace: ^1.11.0
+  dartx: ^1.2.0
+  rxdart: ^0.28.0
+  enum_to_string: ^2.0.1
+  dartz: ^0.10.1
+  package_info_plus: ^8.1.1
+  device_info_plus: ^11.1.1
+  flutter_keyboard_visibility: ^6.0.0
+  version: ^3.0.2
+  crypto: ^3.0.6
+  share_plus: ^10.1.2
+  url_strategy: ^0.3.0
+
+
+  #PLATFORM: Android, iOS, Linux, MacOS, Windows
+  path_provider: ^2.1.5
+  universal_html: ^2.2.4
+  universal_io: ^2.2.2
+
+  #PLATFORM: Android, iOS, MacOS, Web
+#  flutter_image_compress: ^2.3.0
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+
+  flutter_test:
+    sdk: flutter
+
+flutter:

@@ -1,0 +1,12 @@
+# melos_managed_dependency_overrides: faltool,falconnect,falkit,falmodel,falstore
+dependency_overrides:
+  falconnect:
+    path: ../falconnect
+  falkit:
+    path: ../falkit
+  falmodel:
+    path: ../falmodel
+  falstore:
+    path: ../falstore
+  faltool:
+    path: ../faltool

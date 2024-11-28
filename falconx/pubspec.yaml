@@ -1,0 +1,36 @@
+name: falconx
+description: A new Flutter package project.
+version: 2.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  faltool:
+  falkit:
+  falmodel:
+  falconnect:
+  falstore:
+
+  #PLATFORM: All
+  provider: ^6.1.2
+
+  #PLATFORM: Android, iOS, Linux, MacOS
+  flutter_local_notifications: ^18.0.1
+
+  #======= Utils ========#
+  #PLATFORM: All
+  go_router: ^14.6.1
+  flutter_bloc: ^8.1.6
+  #PLATFORM: Android, iOS, Web
+  uni_links: ^0.5.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
