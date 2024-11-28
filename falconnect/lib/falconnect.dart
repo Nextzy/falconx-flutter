@@ -1,4 +1,4 @@
-library falconnect;
+library;
 
 export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:web_socket_channel/web_socket_channel.dart';

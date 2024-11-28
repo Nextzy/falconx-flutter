@@ -1,4 +1,4 @@
-library faltool;
+library;
 
 export 'tools/tools.dart';
 export 'logger.dart';
@@ -8,6 +8,7 @@ export 'utils/utils.dart';
 
 export 'package:universal_io/io.dart' hide SocketException, HttpResponse;
 export 'package:equatable/equatable.dart';
+// export 'package:image_compression_flutter/image_compression_flutter.dart';
 export 'package:dartx/dartx.dart';
 export 'package:dartz/dartz.dart'
     hide
@@ -34,3 +35,5 @@ export 'package:version/version.dart';
 export 'package:crypto/crypto.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:share_plus/share_plus.dart';
+export 'package:freezed_annotation/freezed_annotation.dart';
+export 'package:json_annotation/json_annotation.dart';
