@@ -65,7 +65,7 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   Key? get key => widget.key;
 
   @override
-  String? get restorationId => widget.key?.toString() ?? runtimeType.toString();
+  String? get restorationId => widget.key?.toString();
 
   Future<Version> get currentVersion async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
