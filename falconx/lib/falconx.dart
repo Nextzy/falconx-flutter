@@ -25,7 +25,6 @@ export 'package:provider/provider.dart';
 
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
-export 'package:go_router/go_router.dart';
 export 'package:uni_links/uni_links.dart';
 export 'networks/internet_connection_bloc.dart';
 export 'config/build_config.dart';
