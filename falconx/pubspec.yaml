@@ -1,6 +1,6 @@
 name: falconx
 description: A new Flutter package project.
-version: 3.0.0
+version: 3.0.1
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -9,10 +9,15 @@ dependencies:
   flutter:
     sdk: flutter
   faltool:
+    path: ../faltool
   falkit:
+    path: ../falkit
   falmodel:
+    path: ../falmodel
   falconnect:
+    path: ../falconnect
   falstore:
+    path: ../falstore
 
   #PLATFORM: All
   provider: ^6.1.2

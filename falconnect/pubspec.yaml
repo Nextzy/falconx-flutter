@@ -9,7 +9,9 @@ dependencies:
   flutter:
     sdk: flutter
   faltool:
+    path: ../falkit
   falmodel:
+    path: ../falmodel
 
   #PLATFORM: All
   ansicolor: ^2.0.3
