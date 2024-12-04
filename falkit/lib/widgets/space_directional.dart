@@ -15,7 +15,11 @@ class SpaceDirectional {
     double bottom = 0.0,
   }) =>
       EdgeInsetsDirectional.only(
-          start: start, top: top, end: end, bottom: bottom);
+        start: start,
+        top: top,
+        end: end,
+        bottom: bottom,
+      );
 
   static EdgeInsetsGeometry insetSymmetric({
     double horizontal = 0.0,

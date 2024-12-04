@@ -1,4 +1,3 @@
-// Created by Nonthawit on 5/7/2023 AD Lead Flutter at NEXTZY and EXISTING
 export 'code5XX/bad_gateway_exception.dart';
 export 'code5XX/gateway_timeout_exception.dart';
 export 'code5XX/internal_error_exception.dart';

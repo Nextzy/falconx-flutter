@@ -1,4 +1,3 @@
-// Created by Nonthawit on 22/11/2024 AD Lead Flutter at NEXTZY and EXISTING
 import 'package:falconx/lib.dart';
 
 class ContentSafeState<T> extends Cubit<WidgetStateEvent<T>> {

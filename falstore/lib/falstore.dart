@@ -1,3 +1,3 @@
-library falstore;
+library;
 
 export 'databases/databases.dart';

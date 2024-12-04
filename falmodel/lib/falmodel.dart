@@ -1,4 +1,4 @@
-library falmodel;
+library;
 
 export 'failures/failure.dart';
 export 'exceptions/exceptions.dart';

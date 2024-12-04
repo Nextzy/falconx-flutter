@@ -1,4 +1,4 @@
-library falkit;
+library;
 
 export 'package:gap/gap.dart';
 export 'package:flutter_svg/flutter_svg.dart';
