@@ -9,7 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   faltool:
-    path: ../falkit
+    path: ../faltool
   falmodel:
     path: ../falmodel
 
