@@ -1,4 +1,3 @@
-// Created by Nonthawit on 18/6/2023 AD Lead Flutter at NEXTZY and EXISTING
 import 'package:falmodel/lib.dart';
 
 abstract class TupleState<DATA> with EquatableMixin {

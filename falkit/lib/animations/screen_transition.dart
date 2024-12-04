@@ -67,11 +67,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
   /// Optional inherit theme
   final bool inheritTheme;
 
-  /// Optional fullscreen dialog mode
-  final bool fullscreenDialog;
-
-  final bool opaque;
-
   /// Page transition constructor. We can pass the next page as a child,
   ScreenTransition({
     Key? key,
@@ -84,8 +79,8 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
     this.alignment,
     this.duration = const Duration(milliseconds: 300),
     this.reverseDuration = const Duration(milliseconds: 300),
-    this.fullscreenDialog = false,
-    this.opaque = false,
+    super.fullscreenDialog = false,
+    super.opaque = false,
     super.settings,
   })  : assert(inheritTheme ? ctx != null : true,
             "'ctx' cannot be null when 'inheritTheme' is true, set ctx: context"),
@@ -102,8 +97,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
           transitionDuration: duration,
           reverseTransitionDuration: reverseDuration,
           maintainState: true,
-          opaque: opaque,
-          fullscreenDialog: fullscreenDialog,
           transitionsBuilder: (BuildContext context,
               Animation<double> animation,
               Animation<double> secondaryAnimation,

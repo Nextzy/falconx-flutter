@@ -2,15 +2,11 @@ import 'package:falkit/lib.dart';
 
 class NoAnimationPage extends MaterialPageRoute<dynamic> {
   NoAnimationPage({
-    required WidgetBuilder builder,
-    RouteSettings? settings,
-    bool maintainState = true,
-    bool fullscreenDialog = false,
-  }) : super(
-      builder: builder,
-      maintainState: maintainState,
-      settings: settings,
-      fullscreenDialog: fullscreenDialog);
+    required super.builder,
+    super.settings,
+    super.maintainState,
+    super.fullscreenDialog,
+  });
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,

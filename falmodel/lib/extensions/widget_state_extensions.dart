@@ -1,4 +1,3 @@
-// Created by Nonthawit on 8/7/2024 AD Lead Flutter at NEXTZY and EXISTING
 import 'package:falmodel/lib.dart';
 
 extension FullWidgetStateExtension on FullWidgetState {
