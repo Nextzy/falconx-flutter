@@ -56,7 +56,7 @@ class Failure<T> extends Equatable {
     );
   }
 
-  Failure copy(
+  Failure copy({
     String? code,
     String? message,
     String? developerMessage,
@@ -64,7 +64,7 @@ class Failure<T> extends Equatable {
     StackTrace? stacktrace,
     List<Failure>? failureList,
     T? data,
-  ) {
+  }) {
     return Failure(
       code: code ?? this.code,
       message: message ?? this.message,
