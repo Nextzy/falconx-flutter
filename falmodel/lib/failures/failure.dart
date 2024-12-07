@@ -1,14 +1,7 @@
 // ignore_for_file: constant_identifier_names
 import 'package:falmodel/lib.dart';
 
-class Failure extends Equatable {
-  final String? code;
-  final String? message;
-  final String? developerMessage;
-  final Object? exception;
-  final StackTrace? stacktrace;
-  final List<Failure>? failureList;
-
+class Failure<T> extends Equatable {
   const Failure({
     this.code,
     this.message,
@@ -16,13 +9,23 @@ class Failure extends Equatable {
     this.exception,
     this.stacktrace,
     this.failureList,
+    this.data,
   });
+
+  final String? code;
+  final String? message;
+  final String? developerMessage;
+  final Object? exception;
+  final StackTrace? stacktrace;
+  final List<Failure>? failureList;
+  final T? data;
 
   factory Failure.fromError(
     Error error, {
     String? code,
     StackTrace? stacktrace,
     List<Failure>? failureList,
+    T? data,
   }) {
     return Failure(
       code: code,
@@ -31,6 +34,7 @@ class Failure extends Equatable {
       exception: error,
       stacktrace: stacktrace ?? error.stackTrace ?? StackTrace.current,
       failureList: failureList,
+      data: data,
     );
   }
 
@@ -39,6 +43,7 @@ class Failure extends Equatable {
     String? code,
     StackTrace? stacktrace,
     List<Failure>? failureList,
+    T? data,
   }) {
     return Failure(
       code: code,
@@ -47,6 +52,7 @@ class Failure extends Equatable {
       exception: exception,
       stacktrace: stacktrace ?? StackTrace.current,
       failureList: failureList,
+      data: data,
     );
   }
 
@@ -58,5 +64,6 @@ class Failure extends Equatable {
         exception,
         stacktrace,
         failureList,
+        data,
       ];
 }

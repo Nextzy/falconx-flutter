@@ -4,7 +4,7 @@ extension FalconEitherExtensions<F extends Failure, DATA> on Either<F, DATA> {
   B resolve<B>(B Function(DATA data) data, B Function(Failure fail) fail) =>
       fold(fail, data);
 
-  bool get isFailure => this is Left;
+  bool get isFail => this is Left;
 
   bool get isData => this is Right;
 
