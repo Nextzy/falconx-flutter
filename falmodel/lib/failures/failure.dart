@@ -56,6 +56,26 @@ class Failure<T> extends Equatable {
     );
   }
 
+  Failure copy(
+    String? code,
+    String? message,
+    String? developerMessage,
+    Object? exception,
+    StackTrace? stacktrace,
+    List<Failure>? failureList,
+    T? data,
+  ) {
+    return Failure(
+      code: code ?? this.code,
+      message: message ?? this.message,
+      developerMessage: developerMessage ?? this.developerMessage,
+      exception: exception ?? this.exception,
+      stacktrace: stacktrace ?? this.stacktrace,
+      failureList: failureList ?? this.failureList,
+      data: data ?? this.data,
+    );
+  }
+
   @override
   List<Object?> get props => [
         code,
