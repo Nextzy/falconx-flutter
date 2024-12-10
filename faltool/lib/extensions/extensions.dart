@@ -3,6 +3,7 @@ export 'context_extensions.dart';
 export 'date_time_extension.dart';
 export 'dynamic_extensions.dart';
 export 'enum_extensions.dart';
+export 'number_extensions.dart';
 export 'future_extensions.dart';
 export 'list_extensions.dart';
 export 'map_extensions.dart';
