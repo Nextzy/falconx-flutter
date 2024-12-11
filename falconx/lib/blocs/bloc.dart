@@ -143,6 +143,31 @@ ensure the event handler has not completed.
       },
     );
   }
+
+  Future<void> callEitherStreamDebounce<A>({
+    required Object id,
+    required Stream<Either<Failure, A>> call,
+    required A defaultData,
+    required Function(
+      Emitter<WidgetStateEvent<DATA>> emitter,
+      WidgetStateEvent<A?> state,
+    ) onData,
+    Function(
+      Emitter<WidgetStateEvent<DATA>> emitter,
+      Failure failure,
+    )? onFailure,
+    bool debounceFetch = true,
+  }) =>
+      callStream<A>(
+        call: fetchEitherStreamSafe<A>(
+          key: id,
+          call: call,
+          debounceFetch: debounceFetch,
+          defaultData: defaultData,
+        ),
+        onData: onData,
+        onFailure: onFailure,
+      );
 }
 
 abstract class FalconWidgetStateEventBloc<EVENT, DATA>
@@ -229,6 +254,29 @@ ensure the event handler has not completed.
       },
     );
   }
+
+  Future<void> callEitherStreamDebounce<A>({
+    required Object id,
+    required Stream<Either<Failure, A>> call,
+    required Function(
+      Emitter<WidgetStateEvent<DATA?>> emitter,
+      WidgetStateEvent<A?> state,
+    ) onData,
+    Function(
+      Emitter<WidgetStateEvent<DATA?>> emitter,
+      Failure failure,
+    )? onFailure,
+    bool debounceFetch = true,
+  }) =>
+      callStream<A>(
+        call: fetchEitherStream<A>(
+          key: id,
+          call: call,
+          debounceFetch: debounceFetch,
+        ),
+        onData: onData,
+        onFailure: onFailure,
+      );
 }
 
 abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
