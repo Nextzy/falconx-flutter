@@ -8,7 +8,6 @@ export 'utils/utils.dart';
 
 export 'package:universal_io/io.dart' hide SocketException, HttpResponse;
 export 'package:equatable/equatable.dart';
-// export 'package:image_compression_flutter/image_compression_flutter.dart';
 export 'package:dartx/dartx.dart';
 export 'package:dartz/dartz.dart'
     hide
@@ -38,3 +37,4 @@ export 'package:share_plus/share_plus.dart';
 export 'package:freezed_annotation/freezed_annotation.dart';
 export 'package:json_annotation/json_annotation.dart';
 export 'package:numeral/numeral.dart';
+export 'package:shared_preferences/shared_preferences.dart';
