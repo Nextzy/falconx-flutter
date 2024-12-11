@@ -145,7 +145,7 @@ ensure the event handler has not completed.
   }
 
   Future<void> callEitherStreamDebounce<A>({
-    required Object id,
+    required Object key,
     required Stream<Either<Failure, A>> call,
     required A defaultData,
     required Function(
@@ -160,7 +160,7 @@ ensure the event handler has not completed.
   }) =>
       callStream<A>(
         call: fetchEitherStreamSafe<A>(
-          key: id,
+          key: key,
           call: call,
           debounceFetch: debounceFetch,
           defaultData: defaultData,
@@ -256,7 +256,7 @@ ensure the event handler has not completed.
   }
 
   Future<void> callEitherStreamDebounce<A>({
-    required Object id,
+    required Object key,
     required Stream<Either<Failure, A>> call,
     required Function(
       Emitter<WidgetStateEvent<DATA?>> emitter,
@@ -270,7 +270,7 @@ ensure the event handler has not completed.
   }) =>
       callStream<A>(
         call: fetchEitherStream<A>(
-          key: id,
+          key: key,
           call: call,
           debounceFetch: debounceFetch,
         ),
