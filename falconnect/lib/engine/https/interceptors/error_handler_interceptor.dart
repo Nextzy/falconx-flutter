@@ -35,7 +35,9 @@ abstract class NetworkErrorHandlerInterceptor extends InterceptorsWrapper {
 
   void onServerError(DioException err, ErrorInterceptorHandler handler);
 
-  void onNonStandardError(DioException err, ErrorInterceptorHandler handler) {}
+  void onNonStandardError(DioException err, ErrorInterceptorHandler handler) {
+    handler.next(err);
+  }
 
   ///========================= PRIVATE METHOD =========================///
   bool _isClientError(Response? response) =>

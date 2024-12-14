@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-extension RequestOptionExtensions on RequestOptions {
+extension FalconnectRequestOptionExtensions on RequestOptions {
   void setHeaderTokenBearer(String token) {
     headers[HttpHeader.AUTHORIZE] = 'Bearer $token';
   }
