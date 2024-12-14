@@ -2,13 +2,13 @@
 
 import 'package:falconnect/lib.dart';
 
-class DatasourceBoundState<DataType, ResponseType> {
-  DatasourceBoundState._();
+class DatasourceBoundWithFailureState<DataType, ResponseType> {
+  DatasourceBoundWithFailureState._();
 
-  static const String TAG = 'DatasourceBoundState';
+  static const String TAG = 'DatasourceBoundWithFailureState';
 
   /// Converts a local database operation into a Stream that handles local data fetching only.
-  /// Returns a Stream of Either<Exception, DataType> to handle success and exception cases.
+  /// Returns a Stream of Either<Failure, DataType> to handle success and failure cases.
   ///
   /// This is a local-only version focused solely on database operations,
   /// without any remote API calls.
@@ -18,28 +18,28 @@ class DatasourceBoundState<DataType, ResponseType> {
   ///   Returns Future<DataType>.
   ///
   /// * [handleError] - Optional custom error handler.
-  ///   Takes (error, stackTrace) and returns custom Exception.
-  ///   If not provided, default Exception will be used.
+  ///   Takes (error, stackTrace) and returns custom Failure.
+  ///   If not provided, default Failure will be used.
   ///
   /// Flow:
   /// 1. Executes [loadFromDbFuture] to fetch local data
   /// 2. Emits local data as Either.Right<DataType>
   ///
   /// Error Handling:
-  /// - All database errors are wrapped in Either.Left<Exception>
+  /// - All database errors are wrapped in Either.Left<Failure>
   /// - Custom error handling can be implemented via [handleError]
-  /// - Default Exception includes error message, exception, and stack trace
+  /// - Default Failure includes error message, exception, and stack trace
   ///
   /// Example:
   /// ```dart
   /// final stream = NetworkBoundResource.asLocalStream<DomainModel>(
   ///   loadFromDbFuture: () => database.loadData(),
-  ///   handleError: (error, stackTrace) => DatabaseException(error),
+  ///   handleError: (error, stackTrace) => DatabaseFailure(error),
   /// );
   /// ```
-  static Stream<Either<Exception, DataType>> asLocalStream<DataType>({
+  static Stream<Either<Failure, DataType>> asLocalStream<DataType>({
     required Future<DataType> Function() loadFromDbFuture,
-    Exception Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
   }) async* {
     try {
       DataType dataFromDb = await loadFromDbFuture();
@@ -48,19 +48,20 @@ class DatasourceBoundState<DataType, ResponseType> {
       return;
     } catch (exception, stackTrace) {
       NLog.e(TAG, 'Load from DB failed', exception);
-      final tmpException = handleError?.call(exception, stackTrace);
-      if (exception is Exception) {
-        yield Left(tmpException ?? exception);
-      } else {
-        yield Left(tmpException ?? Exception(exception));
-      }
+      final failure = handleError?.call(exception, stackTrace);
+      yield Left(failure ??
+          Failure(
+            message: exception.toString(),
+            exception: exception,
+            stacktrace: stackTrace,
+          ));
       return;
     }
   }
 
-  static Future<Either<Exception, DataType>> asLocalFuture<DataType>({
+  static Future<Either<Failure, DataType>> asLocalFuture<DataType>({
     required Future<DataType> Function() loadFromDbFuture,
-    Exception Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
   }) =>
       asLocalStream(
         loadFromDbFuture: loadFromDbFuture,
@@ -68,7 +69,7 @@ class DatasourceBoundState<DataType, ResponseType> {
       ).first;
 
   /// Converts a remote API call into a Stream that handles remote operations only.
-  /// Returns a Stream of Either<Exception, DataType> to handle success and exception cases.
+  /// Returns a Stream of Either<Failure, DataType> to handle success and failure cases.
   ///
   /// This is a simplified version of asStream() that only handles remote data fetching,
   /// without local database operations.
@@ -82,8 +83,8 @@ class DatasourceBoundState<DataType, ResponseType> {
   ///   If not provided, ResponseType must be the same as DataType for direct casting.
   ///
   /// * [handleError] - Optional custom error handler.
-  ///   Takes (error, stackTrace) and returns custom Exception.
-  ///   If not provided, default Exception will be used.
+  ///   Takes (error, stackTrace) and returns custom Failure.
+  ///   If not provided, default Failure will be used.
   ///
   /// Flow:
   /// 1. Executes [createCallFuture] to fetch remote data
@@ -92,23 +93,23 @@ class DatasourceBoundState<DataType, ResponseType> {
   /// 4. Emits processed data as Either.Right<DataType>
   ///
   /// Error Handling:
-  /// - All errors are wrapped in Either.Left<Exception>
+  /// - All errors are wrapped in Either.Left<Failure>
   /// - Custom error handling can be implemented via [handleError]
-  /// - Default Exception includes error message, exception, and stack trace
+  /// - Default Failure includes error message, exception, and stack trace
   ///
   /// Example:
   /// ```dart
   /// final stream = NetworkBoundResource.asRemoteStream<ApiResponse, DomainModel>(
   ///   createCallFuture: () => api.fetchData(),
   ///   processResponse: (response) => response.toDomainModel(),
-  ///   handleError: (error, stackTrace) => CustomException(error),
+  ///   handleError: (error, stackTrace) => CustomFailure(error),
   /// );
   /// ```
-  static Stream<Either<Exception, DataType>>
+  static Stream<Either<Failure, DataType>>
       asRemoteStream<ResponseType, DataType>({
     required Future<ResponseType> Function() createCallFuture,
     FutureOr<DataType> Function(ResponseType response)? processResponse,
-    Exception Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
   }) async* {
     assert(
       ResponseType == DataType ||
@@ -132,21 +133,22 @@ class DatasourceBoundState<DataType, ResponseType> {
       return;
     } catch (exception, stackTrace) {
       NLog.e(TAG, 'Fetching failed', exception);
-      final tmpException = handleError?.call(exception, stackTrace);
-      if (exception is Exception) {
-        yield Left(tmpException ?? exception);
-      } else {
-        yield Left(tmpException ?? Exception(exception));
-      }
+      final failure = handleError?.call(exception, stackTrace);
+      yield Left(failure ??
+          Failure(
+            message: exception.toString(),
+            exception: exception,
+            stacktrace: stackTrace,
+          ));
       return;
     }
   }
 
-  static Future<Either<Exception, DataType>>
+  static Future<Either<Failure, DataType>>
       asRemoteFuture<ResponseType, DataType>({
     required Future<ResponseType> Function() createCallFuture,
     FutureOr<DataType> Function(ResponseType response)? processResponse,
-    Exception Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
   }) =>
           asRemoteStream(
             createCallFuture: createCallFuture,
@@ -155,7 +157,7 @@ class DatasourceBoundState<DataType, ResponseType> {
           ).first;
 
   /// Converts asynchronous operations into a Stream that handles both local database and remote API operations.
-  /// Returns a Stream of Either<Exception, DataType> to handle success and exception cases.
+  /// Returns a Stream of Either<Failure, DataType> to handle success and failure cases.
   ///
   /// This method implements a Repository Pattern with offline-first capability and provides
   /// a structured flow for data operations.
@@ -178,8 +180,8 @@ class DatasourceBoundState<DataType, ResponseType> {
   ///   Converts ResponseType to DataType.
   ///
   /// * [handleError] - Optional custom error handler.
-  ///   Takes (error, stackTrace) and returns custom Exception.
-  ///   If not provided, default Exception will be used.
+  ///   Takes (error, stackTrace) and returns custom Failure.
+  ///   If not provided, default Failure will be used.
   ///
   /// Flow:
   /// 1. If [loadFromDbFuture] exists:
@@ -194,9 +196,9 @@ class DatasourceBoundState<DataType, ResponseType> {
   ///    - Emits processed data
   ///
   /// Error Handling:
-  /// - All errors are wrapped in Either.Left<Exception>
+  /// - All errors are wrapped in Either.Left<Failure>
   /// - Custom error handling can be implemented via [handleError]
-  /// - Default Exception includes error message, exception, and stack trace
+  /// - Default Failure includes error message, exception, and stack trace
   ///
   /// Example:
   /// ```dart
@@ -206,17 +208,16 @@ class DatasourceBoundState<DataType, ResponseType> {
   ///   createCallFuture: () => api.fetchData(),
   ///   saveCallResult: (response) => database.saveData(response),
   ///   processResponse: (response) => response.toDomainModel(),
-  ///   handleError: (error, stackTrace) => CustomException(error),
+  ///   handleError: (error, stackTrace) => CustomFailure(error),
   /// );
   /// ```
-  static Stream<Either<Exception, DataType>>
-      asStream<ResponseType, DataType>({
+  static Stream<Either<Failure, DataType>> asStream<ResponseType, DataType>({
     Future<DataType> Function()? loadFromDbFuture,
     bool Function(DataType? data)? shouldFetch,
     Future<ResponseType> Function()? createCallFuture,
     Future? Function(ResponseType response)? saveCallResult,
     FutureOr<DataType> Function(ResponseType response)? processResponse,
-    Exception Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
   }) async* {
     assert(
       ResponseType == DataType ||
@@ -225,7 +226,7 @@ class DatasourceBoundState<DataType, ResponseType> {
     );
 
     ///========================= INNER METHOD =========================///
-    Stream<Either<Exception, DataType>> fetchRemoteData() async* {
+    Stream<Either<Failure, DataType>> fetchRemoteData() async* {
       if (createCallFuture != null) {
         try {
           final ResponseType response = await createCallFuture();
@@ -247,12 +248,13 @@ class DatasourceBoundState<DataType, ResponseType> {
           yield Right(data);
         } catch (exception, stackTrace) {
           NLog.e(TAG, 'Fetching failed', exception);
-          final tmpException = handleError?.call(exception, stackTrace);
-          if (exception is Exception) {
-            yield Left(tmpException ?? exception);
-          } else {
-            yield Left(tmpException ?? Exception(exception));
-          }
+          final failure = handleError?.call(exception, stackTrace);
+          yield Left(failure ??
+              Failure(
+                message: exception.toString(),
+                exception: exception,
+                stacktrace: stackTrace,
+              ));
         }
       }
       return;
@@ -263,12 +265,13 @@ class DatasourceBoundState<DataType, ResponseType> {
         return await loadFromDbFuture!.call();
       } catch (exception, stackTrace) {
         NLog.e(TAG, 'Load from DB failed', exception);
-        final tmpException = handleError?.call(exception, stackTrace);
-        if (exception is Exception) {
-          throw Left(tmpException ?? exception);
-        } else {
-          throw Left(tmpException ?? Exception(exception));
-        }
+        final failure = handleError?.call(exception, stackTrace);
+        throw failure ??
+            Failure(
+              message: exception.toString(),
+              exception: exception,
+              stacktrace: stackTrace,
+            );
       }
     }
 
@@ -278,8 +281,8 @@ class DatasourceBoundState<DataType, ResponseType> {
       DataType dataFromDb;
       try {
         dataFromDb = await loadDbData();
-      } on Exception catch (exception) {
-        yield Left(exception);
+      } on Failure catch (failure) {
+        yield Left(failure);
         return;
       }
       NLog.i(TAG, 'Success load data from database');
@@ -297,8 +300,8 @@ class DatasourceBoundState<DataType, ResponseType> {
       DataType dataFromDb;
       try {
         dataFromDb = await loadDbData();
-      } on Exception catch (exception) {
-        yield Left(exception);
+      } on Failure catch (failure) {
+        yield Left(failure);
         return;
       }
       NLog.i(TAG, 'Success load data from database');
