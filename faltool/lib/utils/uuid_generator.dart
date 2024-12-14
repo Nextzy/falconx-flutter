@@ -1,7 +1,7 @@
 import 'package:uuid/uuid.dart';
 
-class UniqueKeyTool{
+class UuidGenerator{
   static const Uuid _uuid = Uuid();
 
-  static String generateUuid() => _uuid.v4();
+  static String getV4() => _uuid.v4();
 }

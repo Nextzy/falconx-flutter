@@ -4,8 +4,11 @@ import 'package:falconnect/lib.dart';
 class ClientErrorException extends NetworkException {
   const ClientErrorException({
     required super.code,
-    super.developerMessage,
     super.message,
+    super.response,
+    super.requestOptions,
+    super.developerMessage,
+    super.stackTrace,
     super.errors,
   }) : assert(code >= 400 && code < 500, 'Error code not 400 to 500');
 }

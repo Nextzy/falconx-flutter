@@ -2,7 +2,6 @@ library;
 
 export 'tools/tools.dart';
 export 'logger.dart';
-export 'group_data/group.dart';
 export 'extensions/extensions.dart';
 export 'utils/utils.dart';
 
