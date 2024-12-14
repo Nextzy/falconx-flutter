@@ -5,7 +5,10 @@ class ServerErrorException extends NetworkException {
   const ServerErrorException({
     required super.code,
     super.message,
+    super.response,
+    super.requestOptions,
     super.developerMessage,
+    super.stackTrace,
     super.errors,
   }) : assert(code >= 500 && code < 600, 'Error code not 500 to 600');
 }
