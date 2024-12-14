@@ -214,7 +214,7 @@ class DatasourceBoundState<EntityType, ResponseType> {
 
           if (saveCallResult != null) {
             await saveCallResult(response);
-            NLog.i(TAG, 'Success save result data');
+            NLog.i(TAG, 'Success save response data');
           }
 
           late EntityType data;
