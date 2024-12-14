@@ -21,21 +21,21 @@ abstract class NetworkErrorHandlerInterceptor extends InterceptorsWrapper {
       );
     } else if (_isServerError(response)) {
       final Exception? exception = _getExceptionFromResponse(err);
-      onServerError(exception ?? err, handler);
+      onServerError(err.copyWith(error: exception), handler);
     } else if (_isClientError(response)) {
       final Exception? exception = _getExceptionFromResponse(err);
-      onClientError(exception ?? err, handler);
+      onClientError(err.copyWith(error: exception), handler);
     } else {
       onNonStandardError(err, handler);
       super.onError(err, handler);
     }
   }
 
-  void onClientError(Exception? err, ErrorInterceptorHandler handler);
+  void onClientError(DioException err, ErrorInterceptorHandler handler);
 
-  void onServerError(Exception? err, ErrorInterceptorHandler handler);
+  void onServerError(DioException err, ErrorInterceptorHandler handler);
 
-  void onNonStandardError(Exception? err, ErrorInterceptorHandler handler) {}
+  void onNonStandardError(DioException err, ErrorInterceptorHandler handler) {}
 
   ///========================= PRIVATE METHOD =========================///
   bool _isClientError(Response? response) =>
