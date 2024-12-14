@@ -51,7 +51,7 @@ Logger _log = Logger(
 
 abstract class FalconState<T extends StatefulWidget> extends State<T>
     with WidgetsBindingObserver, RestorationMixin {
-  FalconState({FullWidgetState? state}) : _initState = state;
+  FalconState({FullWidgetState? initialWidgetState}) : _initState = initialWidgetState;
 
   final FullWidgetState? _initState;
   late final FullWidgetStateNotifier stateNotifier;
