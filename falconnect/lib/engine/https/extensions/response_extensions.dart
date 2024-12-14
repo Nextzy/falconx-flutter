@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-extension HttpFutureDynamicExtensions<T> on Future<Response<dynamic>> {
+extension FalconnectHttpFutureDynamicExtensions<T> on Future<Response<dynamic>> {
   Future<Response<T>> mapJson<T>(
       FutureOr<T> Function(Map<String, Object?> response) f) {
     return then((Response<dynamic> response) async {
@@ -18,7 +18,7 @@ extension HttpFutureDynamicExtensions<T> on Future<Response<dynamic>> {
   }
 }
 
-extension FutureResponseExtensions<T> on Future<Response<T>> {
+extension FalconnectFutureResponseExtensions<T> on Future<Response<T>> {
   Future<T> unwrapResponse() {
     return then<T>((Response<T> response) {
       return Future.value(response.data);
@@ -41,7 +41,7 @@ extension FutureResponseExtensions<T> on Future<Response<T>> {
   }
 }
 
-extension HttpFutureResponseExtensions<T> on Future<HttpResponse<T>> {
+extension FalconnectHttpFutureResponseExtensions<T> on Future<HttpResponse<T>> {
   Future<T> unwrapResponse() {
     return then<T>((HttpResponse<T> response) {
       return Future.value(response.data);
@@ -49,7 +49,7 @@ extension HttpFutureResponseExtensions<T> on Future<HttpResponse<T>> {
   }
 }
 
-extension ResponseExtensions on Response? {
+extension FalconnectResponseExtensions on Response? {
   Response<T> copyWith<T>({
     T? data,
     Headers? headers,
