@@ -19,13 +19,13 @@ export 'dart:async';
 export 'dart:math';
 export 'dart:convert';
 export 'package:flutter/services.dart';
+export 'package:app_links/app_links.dart';
 export 'package:flutter/material.dart'
     hide Notification, Badge, ImageDecoderCallback;
 export 'package:provider/provider.dart';
 
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
-export 'package:uni_links/uni_links.dart';
 export 'networks/internet_connection_bloc.dart';
 export 'config/build_config.dart';
 export 'extensions/extensions.dart';

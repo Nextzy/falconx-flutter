@@ -1,6 +1,6 @@
 name: falconx
 description: A new Flutter package project.
-version: 3.4.4
+version: 3.4.5
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -28,8 +28,7 @@ dependencies:
   #======= Utils ========#
   #PLATFORM: All
   flutter_bloc: ^8.1.6
-  #PLATFORM: Android, iOS, Web
-  uni_links: ^0.5.1
+  app_links: ^6.3.3
 
 
 dev_dependencies:

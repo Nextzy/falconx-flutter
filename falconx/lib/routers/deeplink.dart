@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 class Deeplink {
   Deeplink();
 
+  final _appLinks = AppLinks();
   StreamSubscription? _deepLinkSubscription;
   Function(Uri uri)? _onDeeplinkUri;
   final Queue<Uri> _uriList = Queue<Uri>.from([]);
@@ -35,7 +36,7 @@ class Deeplink {
 
   void _handleIncomingLinks() {
     if (!kIsWeb) {
-      _deepLinkSubscription = uriLinkStream.listen((Uri? uri) {
+      _deepLinkSubscription = _appLinks.uriLinkStream.listen((Uri? uri) {
         if (uri != null) {
           _uriList.add(uri);
 
@@ -53,7 +54,7 @@ class Deeplink {
 
   Future<void> _handleInitialUri() async {
     try {
-      final uri = await getInitialUri();
+      final uri = await _appLinks.getInitialLink();
       if (uri == null) {
         Log.i('no initial uri');
       } else {
