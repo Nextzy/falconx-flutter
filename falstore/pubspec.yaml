@@ -15,6 +15,7 @@ dependencies:
 
   #PLATFORM: All
   flutter_secure_storage: ^9.2.2
+  ansicolor: ^2.0.3
 
 
 dev_dependencies:

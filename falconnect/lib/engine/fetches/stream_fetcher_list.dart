@@ -14,7 +14,7 @@ class EitherStreamFetcherList {
       _fetcherMap[key] = fetcher;
       return fetcher.fetch(call);
     } else {
-      Log.w('Debounce fetch!!!');
+      printError('Debounce fetch!!!');
       return (_fetcherMap[key]! as EitherStreamFetcher<T>).stream;
     }
   }

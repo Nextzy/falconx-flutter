@@ -49,7 +49,7 @@ extension EmitterExtensions<T> on Emitter<WidgetStateEvent<T>> {
           if (error is Failure) {
             onFailure?.call(this, error);
           } else {
-            Log.error(error, stackTrace);
+            printError(error, stackTrace);
             FlutterError.reportError(FlutterErrorDetails(
               exception: error,
               stack: stackTrace,
@@ -181,7 +181,7 @@ ensure the event handler has not completed.
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchEitherStream<A>(
+        call: fetchEitherWithWidgetStateStream<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -314,7 +314,7 @@ ensure the event handler has not completed.
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchEitherStream<A>(
+        call: fetchEitherWithWidgetStateStream<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -339,7 +339,7 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
 
   Future<void> onListenEvent(BlocEvent<EVENT> event, Emitter<STATE> emitter);
 
-  Stream<WidgetStateEvent<T?>> fetchEitherStream<T>({
+  Stream<WidgetStateEvent<T?>> fetchEitherWithWidgetStateStream<T>({
     required Object key,
     required Stream<Either<Failure, T>> call,
     bool debounceFetch = true,
@@ -350,13 +350,13 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
         debounceFetch: debounceFetch,
       );
 
-  Stream<WidgetStateEvent<T>> fetchEitherStreamSafe<T>({
+  Stream<WidgetStateEvent<T>> fetchEitherWithWidgetStateStreamSafe<T>({
     required Object key,
     required Stream<Either<Failure, T>> call,
     required T defaultData,
     bool debounceFetch = true,
   }) =>
-      fetchEitherStream(
+      fetchEitherWithWidgetStateStream(
         key: key,
         call: call,
         debounceFetch: debounceFetch,

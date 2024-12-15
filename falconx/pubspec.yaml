@@ -1,6 +1,6 @@
 name: falconx
 description: A new Flutter package project.
-version: 3.4.5
+version: 3.4.6
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -21,6 +21,7 @@ dependencies:
 
   #PLATFORM: All
   provider: ^6.1.2
+  ansicolor: ^2.0.3
 
   #PLATFORM: Android, iOS, Linux, MacOS
   flutter_local_notifications: ^18.0.1

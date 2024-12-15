@@ -1,7 +1,7 @@
 import 'package:falconx/lib.dart';
 
-extension FalconXFutureExtensions<T> on Future<T> {
-  Future<Either<Failure, T>> toEither({
+extension FalconFutureExtensions<T> on Future<T> {
+  Future<Either<Failure, T>> toEitherFailure({
     Failure Function(Object? error, StackTrace stacktrace)? handleError,
   }) =>
       then<Either<Failure, T>>(
@@ -33,14 +33,23 @@ extension FalconXFutureExtensions<T> on Future<T> {
               ),
             );
           } else {
-            return Left(
-              Failure(
-                message: error.toString(),
-                developerMessage: error.toString(),
-                exception: error,
-                stacktrace: stackTrace,
-              ),
-            );
+            return Left(Failure.fromException(error));
+          }
+        },
+      );
+
+  Future<Either<Exception, T>> toEitherException({
+    Exception Function(Object? error, StackTrace stacktrace)? handleError,
+  }) =>
+      then<Either<Exception, T>>(
+        (T value) => Right(value),
+      ).onError(
+        (error, stackTrace) {
+          if (handleError != null) return Left(handleError(error, stackTrace));
+          if (error is Exception) {
+            return Left(error);
+          } else {
+            return Left(Exception(error.toString()));
           }
         },
       );
