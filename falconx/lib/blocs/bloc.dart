@@ -113,10 +113,10 @@ ensure the event handler has not completed.
       WidgetStateEvent(FullWidgetState.success, data: data ?? state.data));
 
   Future<void> callStream<A>({
-    required Stream<WidgetStateEvent<A>> call,
+    required Stream<WidgetStateEvent<A?>> call,
     required Function(
       Emitter<WidgetStateEvent<DATA>> emitter,
-      WidgetStateEvent<A> state,
+      WidgetStateEvent<A?> state,
     ) onData,
     Function(
       Emitter<WidgetStateEvent<DATA>> emitter,
@@ -128,7 +128,7 @@ ensure the event handler has not completed.
 
     return _emitter!.onEach(
       call,
-      onData: (WidgetStateEvent<A> state) {
+      onData: (WidgetStateEvent<A?> state) {
         onData(_emitter!, state);
       },
       onError: (error, stackTrace) {
@@ -147,23 +147,21 @@ ensure the event handler has not completed.
   Future<void> callEitherFutureDebounce<A>({
     required Object key,
     required Future<Either<Failure, A>> call,
-    required A defaultData,
     required Function(
-      Emitter<WidgetStateEvent<DATA?>> emitter,
+      Emitter<WidgetStateEvent<DATA>> emitter,
       WidgetStateEvent<A?> state,
     ) onData,
     Function(
-      Emitter<WidgetStateEvent<DATA?>> emitter,
+      Emitter<WidgetStateEvent<DATA>> emitter,
       Failure failure,
     )? onFailure,
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchEitherFutureSafe<A>(
+        call: fetchEitherFuture<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
-          defaultData: defaultData,
         ),
         onData: onData,
         onFailure: onFailure,
@@ -172,7 +170,6 @@ ensure the event handler has not completed.
   Future<void> callEitherStreamDebounce<A>({
     required Object key,
     required Stream<Either<Failure, A>> call,
-    required A defaultData,
     required Function(
       Emitter<WidgetStateEvent<DATA>> emitter,
       WidgetStateEvent<A?> state,
@@ -184,11 +181,11 @@ ensure the event handler has not completed.
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchEitherStreamSafe<A>(
+        call: fetchEitherStream<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
-          defaultData: defaultData,
+          // defaultData: state.data,
         ),
         onData: onData,
         onFailure: onFailure,
