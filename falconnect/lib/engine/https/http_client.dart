@@ -25,32 +25,6 @@ abstract class BaseHttpClient implements RequestApiService {
 
   Interceptors get interceptors => _dio.interceptors;
 
-  AccessTokenInterceptor? get tokenInterceptor =>
-      _dio.interceptors.firstOrNullWhere(
-              (interceptor) => interceptor is AccessTokenInterceptor)
-          as AccessTokenInterceptor?;
-
-  bool get hasAccessToken {
-    return tokenInterceptor?.hasAccessToken == true;
-  }
-
-  bool get hasRefreshAccessToken {
-    return tokenInterceptor?.hasRefreshToken == true;
-  }
-
-  void setupAccessToken(String token) {
-    tokenInterceptor?.accessToken = token;
-  }
-
-  void setupRefreshToken(String token) {
-    tokenInterceptor?.refreshToken = token;
-  }
-
-  void clearToken() {
-    tokenInterceptor?.accessToken = null;
-    tokenInterceptor?.refreshToken = null;
-  }
-
   /// Handy method to make http GET requests, which is a alias of  [dio.fetch(RequestOptions)].
   @override
   Future<Response<T>> get<T>(
