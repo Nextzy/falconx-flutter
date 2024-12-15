@@ -2,15 +2,16 @@ import 'package:falconnect/lib.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class AccessTokenInterceptor extends InterceptorsWrapper {
-  AccessTokenInterceptor({required this.retryAccessTokenLimit})
-      : retryCounter = 0;
+  AccessTokenInterceptor({
+    this.accessToken,
+    this.refreshToken,
+    this.retryLimit = 0,
+  }) : _retryCounter = 0;
 
   String? accessToken;
   String? refreshToken;
-  final int retryAccessTokenLimit;
-  int retryCounter;
-
-  int get tokenErrorCode;
+  int _retryCounter;
+  final int retryLimit;
 
   bool get hasAccessToken =>
       accessToken != null && accessToken?.isNotEmpty == true;
@@ -21,10 +22,11 @@ abstract class AccessTokenInterceptor extends InterceptorsWrapper {
   @protected
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    if (response.statusCode == tokenErrorCode) {
-      onHandleTokenResponse(response, handler);
+    if (isCatchError(response) && _retryCounter <= retryLimit) {
+      onTokenResponse(response, handler, _retryCounter);
+      _retryCounter += 1;
     } else {
-      retryCounter = 0;
+      _retryCounter = 0;
       super.onResponse(response, handler);
     }
   }
@@ -32,16 +34,20 @@ abstract class AccessTokenInterceptor extends InterceptorsWrapper {
   @protected
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (err.response?.statusCode == tokenErrorCode) {
-      onHandleTokenError(err, handler);
+    if (isCatchError(err.response) && _retryCounter <= retryLimit) {
+      onTokenError(err, handler, _retryCounter);
+      _retryCounter += 1;
     } else {
-      retryCounter = 0;
+      _retryCounter = 0;
       super.onError(err, handler);
     }
   }
 
-  void onHandleTokenResponse(
-      Response response, ResponseInterceptorHandler handler);
+  bool isCatchError(Response? response);
 
-  void onHandleTokenError(DioException err, ErrorInterceptorHandler handler);
+  void onTokenResponse(
+      Response response, ResponseInterceptorHandler handler, int retryCounter);
+
+  void onTokenError(
+      DioException err, ErrorInterceptorHandler handler, int retryCounter);
 }

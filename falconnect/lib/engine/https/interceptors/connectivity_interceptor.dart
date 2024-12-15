@@ -13,12 +13,16 @@ class ConnectivityInterceptor extends InterceptorsWrapper {
     if (_isNoConnectedInternet(result)) {
       handler.reject(
         DioException(
+          requestOptions: options,
+          error: NoInternetConnectionException(
             requestOptions: options,
-            error:
-                NoInternetConnectionException(developerMessage: options.path),
+            developerMessage: options.path,
             stackTrace: Trace.current(),
-            type: DioExceptionType.connectionError,
-            message: 'No internet connection.'),
+          ),
+          stackTrace: Trace.current(),
+          type: DioExceptionType.connectionError,
+          message: 'No internet connection.',
+        ),
       );
     } else {
       super.onRequest(options, handler);
