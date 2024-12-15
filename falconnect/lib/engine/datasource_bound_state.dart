@@ -52,7 +52,7 @@ class DatasourceBoundState<DataType, ResponseType> {
       if (exception is Exception) {
         yield Left(tmpException ?? exception);
       } else {
-        yield Left(tmpException ?? Exception(exception));
+        yield Left(tmpException ?? Exception(exception.toString()));
       }
       return;
     }
@@ -136,7 +136,7 @@ class DatasourceBoundState<DataType, ResponseType> {
       if (exception is Exception) {
         yield Left(tmpException ?? exception);
       } else {
-        yield Left(tmpException ?? Exception(exception));
+        yield Left(tmpException ?? Exception(exception.toString()));
       }
       return;
     }
@@ -209,8 +209,7 @@ class DatasourceBoundState<DataType, ResponseType> {
   ///   handleError: (error, stackTrace) => CustomException(error),
   /// );
   /// ```
-  static Stream<Either<Exception, DataType>>
-      asStream<ResponseType, DataType>({
+  static Stream<Either<Exception, DataType>> asStream<ResponseType, DataType>({
     Future<DataType> Function()? loadFromDbFuture,
     bool Function(DataType? data)? shouldFetch,
     Future<ResponseType> Function()? createCallFuture,
@@ -251,7 +250,7 @@ class DatasourceBoundState<DataType, ResponseType> {
           if (exception is Exception) {
             yield Left(tmpException ?? exception);
           } else {
-            yield Left(tmpException ?? Exception(exception));
+            yield Left(tmpException ?? Exception(exception.toString()));
           }
         }
       }
@@ -267,7 +266,7 @@ class DatasourceBoundState<DataType, ResponseType> {
         if (exception is Exception) {
           throw Left(tmpException ?? exception);
         } else {
-          throw Left(tmpException ?? Exception(exception));
+          throw Left(tmpException ?? Exception(exception.toString()));
         }
       }
     }

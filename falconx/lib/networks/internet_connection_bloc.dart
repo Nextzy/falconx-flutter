@@ -25,7 +25,8 @@ class InternetConnectionBloc extends BlocBase<List<ConnectivityResult>> {
   bool get isNotConnectedInternet => !isConnectedInternet;
 
   @override
-  Stream<List<ConnectivityResult>> get stream => _connectivity.onConnectivityChanged;
+  Stream<List<ConnectivityResult>> get stream =>
+      _connectivity.onConnectivityChanged;
 
   @override
   Future<void> close() async {
@@ -34,11 +35,7 @@ class InternetConnectionBloc extends BlocBase<List<ConnectivityResult>> {
   }
 
   void onConnectivityChanged(List<ConnectivityResult> result) {
-    if (isConnectedInternet) {
-      Log.i('Connectivity: $result');
-    } else {
-      Log.w('Connectivity: $result');
-    }
+    printInfo('Connectivity: $result');
     if (_stateController.isClosed) return;
     emit(result);
   }

@@ -72,7 +72,7 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
     final versionStr = packageInfo.version;
     final buildNumber = packageInfo.buildNumber;
     final fullVersion = '$versionStr+$buildNumber';
-    Log.i(fullVersion);
+    printInfo(fullVersion);
     return Version.parse(fullVersion);
   }
 

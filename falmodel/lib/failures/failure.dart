@@ -21,40 +21,42 @@ class Failure<T> extends Equatable {
   final T? data;
 
   factory Failure.fromError(
-    Error error, {
+    Error? error, {
     String? code,
+    String? message,
+    String? developMessage,
     StackTrace? stacktrace,
     List<Failure>? failureList,
     T? data,
-  }) {
-    return Failure(
-      code: code,
-      message: error.toString(),
-      developerMessage: error.toString(),
-      exception: error,
-      stacktrace: stacktrace ?? error.stackTrace ?? StackTrace.current,
-      failureList: failureList,
-      data: data,
-    );
-  }
+  }) =>
+      Failure(
+        code: code,
+        message: message,
+        developerMessage: developMessage ?? error.toString(),
+        exception: error,
+        stacktrace: stacktrace ?? error?.stackTrace ?? StackTrace.current,
+        failureList: failureList,
+        data: data,
+      );
 
   factory Failure.fromException(
-    Object exception, {
+    Object? exception, {
     String? code,
+    String? message,
+    String? developMessage,
     StackTrace? stacktrace,
     List<Failure>? failureList,
     T? data,
-  }) {
-    return Failure(
-      code: code,
-      message: exception.toString(),
-      developerMessage: exception.toString(),
-      exception: exception,
-      stacktrace: stacktrace ?? StackTrace.current,
-      failureList: failureList,
-      data: data,
-    );
-  }
+  }) =>
+      Failure(
+        code: code,
+        message: message,
+        developerMessage: developMessage ?? exception.toString(),
+        exception: exception,
+        stacktrace: stacktrace ?? StackTrace.current,
+        failureList: failureList,
+        data: data,
+      );
 
   Failure copy({
     String? code,
@@ -64,17 +66,16 @@ class Failure<T> extends Equatable {
     StackTrace? stacktrace,
     List<Failure>? failureList,
     T? data,
-  }) {
-    return Failure(
-      code: code ?? this.code,
-      message: message ?? this.message,
-      developerMessage: developerMessage ?? this.developerMessage,
-      exception: exception ?? this.exception,
-      stacktrace: stacktrace ?? this.stacktrace,
-      failureList: failureList ?? this.failureList,
-      data: data ?? this.data,
-    );
-  }
+  }) =>
+      Failure(
+        code: code ?? this.code,
+        message: message ?? this.message,
+        developerMessage: developerMessage ?? this.developerMessage,
+        exception: exception ?? this.exception,
+        stacktrace: stacktrace ?? this.stacktrace,
+        failureList: failureList ?? this.failureList,
+        data: data ?? this.data,
+      );
 
   @override
   List<Object?> get props => [

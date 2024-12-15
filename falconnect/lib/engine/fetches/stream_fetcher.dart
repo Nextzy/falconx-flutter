@@ -34,7 +34,7 @@ class EitherStreamFetcher<T> {
         );
       },
       onDone: () {
-        Log.success('Fetch: onDone called');
+        printSuccess('Fetch: onDone called');
         close();
       },
       onError: (error, stackTrace) {

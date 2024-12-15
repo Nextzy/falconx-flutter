@@ -24,8 +24,8 @@ extension FalconStreamDataAndFailureExtensions<F extends Failure, DATA>
       );
 }
 
-extension FalconStreamDataAndExceptionExtensions<F extends Failure,
-    E extends Exception, DATA> on Stream<Either<E, DATA>> {
+extension FalconStreamDataAndExceptionExtensions<E extends Exception, DATA>
+    on Stream<Either<E, DATA>> {
   Stream<Either<E, S>> mapEitherData<S>(
     S Function(DATA data) mapData,
   ) =>
@@ -36,8 +36,8 @@ extension FalconStreamDataAndExceptionExtensions<F extends Failure,
         ),
       );
 
-  Stream<Either<F, DATA>> mapEitherException(
-    F Function(E exception) mapException,
+  Stream<Either<Failure, DATA>> mapEitherException(
+    Failure Function(E exception) mapException,
   ) =>
       map(
         (event) => event.resolve(
@@ -46,14 +46,24 @@ extension FalconStreamDataAndExceptionExtensions<F extends Failure,
         ),
       );
 
-  Stream<Either<F, S>> mapEitherWithFailure<S>(
-    S Function(DATA data) mapData,
-    F Function(E exception) mapException,
-  ) =>
+  Stream<Either<Failure, DATA>> mapEitherExceptionToFailure() => map(
+        (event) => event.resolve(
+          (data) => Right(data),
+          (exception) => Left(Failure.fromException(exception.toString())),
+        ),
+      );
+
+  Stream<Either<Failure, S>> mapEitherWithFailure<S>(
+    S Function(DATA data) mapData, [
+    Failure Function(E exception)? mapException,
+  ]) =>
       map(
         (event) => event.resolve(
           (data) => Right(mapData(data)),
-          (exception) => Left(mapException(exception)),
+          (exception) => Left(
+            mapException?.call(exception) ??
+                Failure.fromException(exception.toString()),
+          ),
         ),
       );
 }

@@ -122,10 +122,10 @@ abstract class SocketClient implements RequestSocketService {
 
   Future<void> checkConnection() async {
     try {
-      Log.i('Socket: PING to server');
+      printInfo('Socket: PING to server');
       _channel?.sink.add('ping');
     } on StateError catch (error, stackTrace) {
-      Log.e(error, stackTrace: stackTrace);
+      printError(error, stackTrace);
       await createChannel();
     }
   }
@@ -169,6 +169,7 @@ abstract class SocketClient implements RequestSocketService {
     final protocol = _channel?.protocol;
     final closeCode = _channel?.closeCode;
     final closeReason = _channel?.closeReason;
-    Log.w('Protocol: $protocol\nClose code: $closeCode\nClose reason: $closeReason');
+    printError(
+        'Protocol: $protocol\nClose code: $closeCode\nClose reason: $closeReason');
   }
 }

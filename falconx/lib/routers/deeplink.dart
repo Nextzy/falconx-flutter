@@ -44,10 +44,10 @@ class Deeplink {
             _onDeeplinkUri?.call(_uriList.removeFirst());
           }
         } else {
-          Log.w('Null URI');
+          printInfo('Null URI');
         }
       }, onError: (err, stacktrace) {
-        Log.error(err, stacktrace);
+        printError(err, stacktrace);
       });
     }
   }
@@ -56,7 +56,7 @@ class Deeplink {
     try {
       final uri = await _appLinks.getInitialLink();
       if (uri == null) {
-        Log.i('no initial uri');
+        printInfo('no initial uri');
       } else {
         _uriList.add(uri);
         if (_finished) {
@@ -66,7 +66,7 @@ class Deeplink {
     } on PlatformException {
       // Platform messages may fail but we ignore the exception
     } on FormatException catch (err, stacktrace) {
-      Log.error(err, stacktrace);
+      printError(err, stacktrace);
     }
   }
 }
