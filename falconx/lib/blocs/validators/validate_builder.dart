@@ -40,10 +40,10 @@ abstract class ValidatorCubit<DATA> extends Cubit<ValidateState<DATA?>> {
 class ValidateBuilder<B extends Cubit<ValidateState<DATA?>>, DATA>
     extends StatefulWidget {
   const ValidateBuilder({
-    Key? key,
+    super.key,
     this.source,
     required this.builder,
-  }) : super(key: key);
+  });
 
   final B? source;
   final ValidateWidgetBuilder<DATA> builder;

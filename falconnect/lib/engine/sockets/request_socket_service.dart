@@ -1,5 +1,4 @@
 import 'package:falconnect/lib.dart';
-import 'package:faltool/faltool.dart';
 
 abstract class RequestSocketService {
   void createChannel();

@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-extension FalconnectHttpFutureDynamicExtensions<T> on Future<Response<dynamic>> {
+extension FalconnectHttpFutureDynamicExtensions on Future<Response<dynamic>> {
   Future<Response<T>> mapJson<T>(
       FutureOr<T> Function(Map<String, Object?> response) f) {
     return then((Response<dynamic> response) async {

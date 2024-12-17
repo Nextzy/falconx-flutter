@@ -36,7 +36,7 @@ extension FalconStreamDataAndExceptionExtensions<E extends Exception, DATA>
         ),
       );
 
-  Stream<Either<Failure, DATA>> mapEitherException(
+  Stream<Either<Failure, DATA>> mapEitherFailure(
     Failure Function(E exception) mapException,
   ) =>
       map(

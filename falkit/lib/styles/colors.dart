@@ -39,51 +39,51 @@ class TransparentPalette {
 
   final Color color;
 
-  Color get p1 => color.withOpacity(0.01);
+  Color get p1 => color.withValues(alpha: 0.01);
 
-  Color get p2 => color.withOpacity(0.02);
+  Color get p2 => color.withValues(alpha: 0.02);
 
-  Color get p3 => color.withOpacity(0.03);
+  Color get p3 => color.withValues(alpha: 0.03);
 
-  Color get p4 => color.withOpacity(0.04);
+  Color get p4 => color.withValues(alpha: 0.04);
 
-  Color get p5 => color.withOpacity(0.05);
+  Color get p5 => color.withValues(alpha: 0.05);
 
-  Color get p6 => color.withOpacity(0.06);
+  Color get p6 => color.withValues(alpha: 0.06);
 
-  Color get p8 => color.withOpacity(0.08);
+  Color get p8 => color.withValues(alpha: 0.08);
 
-  Color get p10 => color.withOpacity(0.10);
+  Color get p10 => color.withValues(alpha: 0.10);
 
-  Color get p12 => color.withOpacity(0.12);
+  Color get p12 => color.withValues(alpha: 0.12);
 
-  Color get p14 => color.withOpacity(0.14);
+  Color get p14 => color.withValues(alpha: 0.14);
 
-  Color get p16 => color.withOpacity(0.16);
+  Color get p16 => color.withValues(alpha: 0.16);
 
-  Color get p18 => color.withOpacity(0.18);
+  Color get p18 => color.withValues(alpha: 0.18);
 
-  Color get p20 => color.withOpacity(0.20);
+  Color get p20 => color.withValues(alpha: 0.20);
 
-  Color get p24 => color.withOpacity(0.24);
+  Color get p24 => color.withValues(alpha: 0.24);
 
-  Color get p30 => color.withOpacity(0.30);
+  Color get p30 => color.withValues(alpha: 0.30);
 
-  Color get p40 => color.withOpacity(0.40);
+  Color get p40 => color.withValues(alpha: 0.40);
 
-  Color get p50 => color.withOpacity(0.50);
+  Color get p50 => color.withValues(alpha: 0.50);
 
-  Color get p60 => color.withOpacity(0.60);
+  Color get p60 => color.withValues(alpha: 0.60);
 
-  Color get p70 => color.withOpacity(0.70);
+  Color get p70 => color.withValues(alpha: 0.70);
 
-  Color get p80 => color.withOpacity(0.80);
+  Color get p80 => color.withValues(alpha: 0.80);
 
-  Color get p90 => color.withOpacity(0.90);
+  Color get p90 => color.withValues(alpha: 0.90);
 
-  Color get p96 => color.withOpacity(0.96);
+  Color get p96 => color.withValues(alpha: 0.96);
 
-  Color get p98 => color.withOpacity(0.98);
+  Color get p98 => color.withValues(alpha: 0.98);
 
-  Color get p99 => color.withOpacity(0.99);
+  Color get p99 => color.withValues(alpha: 0.99);
 }

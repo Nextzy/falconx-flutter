@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 class BlocEvent<Event> {
   final Event name;
   final Object? data;

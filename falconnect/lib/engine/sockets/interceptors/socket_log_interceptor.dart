@@ -96,7 +96,7 @@ class SocketLogInterceptor extends SocketInterceptor {
   }
 
   static void _logPrintLong(Object? object) async {
-    if (!kReleaseMode) {
+    if (kDebugMode) {
       int defaultPrintLength = 1020;
       if (object == null || object.toString().length <= defaultPrintLength) {
         print(object);

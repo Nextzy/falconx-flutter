@@ -1,6 +1,7 @@
 name: falconx
 description: A new Flutter package project.
-version: 3.4.6
+version: 3.4.7
+publish_to: none
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
