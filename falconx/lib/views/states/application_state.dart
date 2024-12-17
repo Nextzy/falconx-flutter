@@ -1,5 +1,4 @@
 import 'package:falconx/lib.dart';
-import 'package:flutter/foundation.dart';
 
 abstract class FalconApplicationState<T extends StatefulWidget> extends FalconState<T> {
   final Deeplink deeplink = Deeplink();

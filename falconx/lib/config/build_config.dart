@@ -1,4 +1,3 @@
-import 'package:falconx/lib.dart';
 import 'package:flutter/foundation.dart';
 
 class BuildConfig {

@@ -16,30 +16,37 @@ class NetworkException implements Exception {
   final RequestOptions? requestOptions;
   final String? message;
   final String? developerMessage;
-  final List<Exception>? errors;
+  final List<NetworkException>? errors;
   final StackTrace? stackTrace;
 
-  DioException toDioException() => DioException(
-        requestOptions: requestOptions ?? RequestOptions(),
-        response: response,
+  DioException toDioException({
+    RequestOptions? requestOptions,
+    Response? response,
+    StackTrace? stackTrace,
+    DioExceptionType? type,
+    String? message,
+  }) =>
+      DioException(
+        requestOptions:
+            requestOptions ?? this.requestOptions ?? RequestOptions(),
+        response: response ?? this.response,
         error: this,
-        stackTrace: stackTrace ?? StackTrace.current,
-        type: DioExceptionType.unknown,
-        message: message,
+        stackTrace: stackTrace ?? this.stackTrace ?? StackTrace.current,
+        type: type ?? DioExceptionType.unknown,
+        message: message ?? this.message,
       );
 
   @override
   String toString() {
     String msg = '';
     if (code != 0) msg += '>>Code: $code\n';
-    if (requestOptions != null) msg += '>>Request options: $requestOptions\n';
-    if (response != null) msg += '>>Response: $response\n';
     if (message != null && message!.isNotEmpty) {
-      msg += ' | Exception: $message\n';
+      msg += '>>Message: $message\n';
     }
     if (developerMessage != null && developerMessage!.isNotEmpty) {
-      msg += '[$developerMessage]\n';
+      msg += '>>Developer message: $developerMessage\n';
     }
+    if (response != null) msg += '>>Response: $response\n';
     errors?.forEach(
       (error) => msg += '   ${error.toString()}]\n',
     );

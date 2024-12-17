@@ -1,6 +1,5 @@
 import 'package:falconnect/lib.dart';
 import 'package:falmodel/falmodel.dart';
-import 'package:faltool/faltool.dart';
 
 class SocketException implements Exception {
   const SocketException({

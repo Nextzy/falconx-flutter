@@ -158,7 +158,7 @@ ensure the event handler has not completed.
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchEitherFuture<A>(
+        call: fetchWidgetStateEitherFuture<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -181,7 +181,7 @@ ensure the event handler has not completed.
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchEitherWithWidgetStateStream<A>(
+        call: fetchWidgetStateEitherStream<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -291,7 +291,7 @@ ensure the event handler has not completed.
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchEitherFuture<A>(
+        call: fetchWidgetStateEitherFuture<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -314,7 +314,7 @@ ensure the event handler has not completed.
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchEitherWithWidgetStateStream<A>(
+        call: fetchWidgetStateEitherStream<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -339,7 +339,7 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
 
   Future<void> onListenEvent(BlocEvent<EVENT> event, Emitter<STATE> emitter);
 
-  Stream<WidgetStateEvent<T?>> fetchEitherWithWidgetStateStream<T>({
+  Stream<WidgetStateEvent<T?>> fetchWidgetStateEitherStream<T>({
     required Object key,
     required Stream<Either<Failure, T>> call,
     bool debounceFetch = true,
@@ -350,13 +350,13 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
         debounceFetch: debounceFetch,
       );
 
-  Stream<WidgetStateEvent<T>> fetchEitherWithWidgetStateStreamSafe<T>({
+  Stream<WidgetStateEvent<T>> fetchWidgetStateEitherStreamSafe<T>({
     required Object key,
     required Stream<Either<Failure, T>> call,
     required T defaultData,
     bool debounceFetch = true,
   }) =>
-      fetchEitherWithWidgetStateStream(
+      fetchWidgetStateEitherStream(
         key: key,
         call: call,
         debounceFetch: debounceFetch,
@@ -366,7 +366,7 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
         ),
       );
 
-  Stream<WidgetStateEvent<T?>> fetchEitherFuture<T>({
+  Stream<WidgetStateEvent<T?>> fetchWidgetStateEitherFuture<T>({
     required Object key,
     required Future<Either<Failure, T>> call,
     bool debounceFetch = true,
@@ -377,13 +377,13 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
         debounceFetch: debounceFetch,
       );
 
-  Stream<WidgetStateEvent<T>> fetchEitherFutureSafe<T>({
+  Stream<WidgetStateEvent<T>> fetchWidgetStateEitherFutureSafe<T>({
     required Object key,
     required Future<Either<Failure, T>> call,
     required T defaultData,
     bool debounceFetch = true,
   }) =>
-      fetchEitherFuture(
+      fetchWidgetStateEitherFuture(
         key: key,
         call: call,
         debounceFetch: debounceFetch,

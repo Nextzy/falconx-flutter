@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-abstract class NetworkErrorHandlerInterceptor extends InterceptorsWrapper {
+abstract class NetworkErrorHandlerInterceptor extends Interceptor {
   NetworkErrorHandlerInterceptor();
 
   @override
@@ -12,7 +12,7 @@ abstract class NetworkErrorHandlerInterceptor extends InterceptorsWrapper {
           err.requestOptions.connectTimeout?.inMilliseconds ?? -1;
       handler.reject(
         err.copyWith(
-          error: RequestTimeoutException(
+          error: DioTimeoutException(
             timeout: timeout,
             developerMessage: 'Error on NetworkErrorHandlerInterceptor',
           ),
@@ -27,7 +27,6 @@ abstract class NetworkErrorHandlerInterceptor extends InterceptorsWrapper {
       onClientError(err.copyWith(error: exception), handler);
     } else {
       onNonStandardError(err, handler);
-      super.onError(err, handler);
     }
   }
 
@@ -54,10 +53,16 @@ abstract class NetworkErrorHandlerInterceptor extends InterceptorsWrapper {
     final code = error.response?.statusCode ?? 0;
 
     String? errorMessage;
-    if (error.response?.data is String) {
-      errorMessage = error.response?.data;
-    } else if (error.response?.data is Map) {
-      errorMessage = error.response?.data['error'];
+    try {
+      if (error.response?.data is String) {
+        errorMessage = error.response?.data;
+      } else if (error.response?.data is Map) {
+        errorMessage = error.response?.data['error'];
+      } else {
+        errorMessage = error.response?.statusMessage ?? error.toString();
+      }
+    } catch (e) {
+      errorMessage = null;
     }
 
     if (code >= 500) {
@@ -127,7 +132,7 @@ abstract class NetworkErrorHandlerInterceptor extends InterceptorsWrapper {
           stackTrace: error.stackTrace,
         );
       } else if (code == 401) {
-        return SessionExpiredException(
+        return AuthenticationException(
           code: code,
           message: errorMessage ?? error.response?.statusMessage,
           developerMessage: 'Http Interceptor',

@@ -1,5 +1,4 @@
 import 'package:falconnect/lib.dart';
-import 'package:falmodel/falmodel.dart';
 
 abstract class RequestApiService {
   Future<Response<T>> get<T>(
