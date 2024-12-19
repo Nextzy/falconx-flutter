@@ -2,11 +2,13 @@ import 'package:falconnect/lib.dart';
 
 class ForbiddenException extends ClientErrorException {
   const ForbiddenException({
-    super.code = 403,
-    super.message,
+    super.statusCode = 403,
+    super.type,
+    super.statusMessage,
+    super.errorMessage,
+    super.developerMessage,
     super.response,
     super.requestOptions,
-    super.developerMessage,
     super.stackTrace,
     super.errors,
   });

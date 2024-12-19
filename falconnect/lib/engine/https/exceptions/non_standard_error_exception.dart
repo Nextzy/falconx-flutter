@@ -1,8 +1,8 @@
 import 'package:falconnect/lib.dart';
 
-class RequestTimeoutException extends ClientErrorException {
-  const RequestTimeoutException({
-    super.statusCode = 408,
+class NonStandardErrorException extends NetworkException {
+  const NonStandardErrorException({
+    required super.statusCode,
     super.type,
     super.statusMessage,
     super.errorMessage,
@@ -11,8 +11,5 @@ class RequestTimeoutException extends ClientErrorException {
     super.requestOptions,
     super.stackTrace,
     super.errors,
-    this.timeout,
-  });
-
-  final int? timeout;
+  }) : assert(statusCode >= 600, 'Error code < 600');
 }

@@ -5,10 +5,10 @@ class EmptyResponse extends Response<Object> {
     super.data = '',
     super.statusCode,
     super.statusMessage,
-    RequestOptions? requestOptions,
+    required super.requestOptions,
     super.isRedirect,
     super.redirects,
     super.extra,
     super.headers,
-  }) : super(requestOptions: requestOptions ?? RequestOptions());
+  });
 }

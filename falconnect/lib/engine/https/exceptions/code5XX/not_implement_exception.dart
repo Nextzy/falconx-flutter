@@ -2,11 +2,13 @@ import 'package:falconnect/lib.dart';
 
 class NotImplementException extends ServerErrorException {
   const NotImplementException({
-    super.code = 501,
-    super.message,
+    super.statusCode = 501,
+    super.type,
+    super.statusMessage,
+    super.errorMessage,
+    super.developerMessage,
     super.response,
     super.requestOptions,
-    super.developerMessage,
     super.stackTrace,
     super.errors,
   });

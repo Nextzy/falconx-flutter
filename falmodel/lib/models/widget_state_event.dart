@@ -16,16 +16,61 @@ enum FullWidgetState {
   success,
   cancel,
   warning,
-  fail,
+  fail;
+
+  bool get isInitial => this == FullWidgetState.initial;
+  bool get isNormal => this == FullWidgetState.normal;
+  bool get isEmpty => this == FullWidgetState.empty;
+  bool get isHovered => this == FullWidgetState.hovered;
+  bool get isFocused => this == FullWidgetState.focused;
+  bool get isPressed => this == FullWidgetState.pressed;
+  bool get isDragged => this == FullWidgetState.dragged;
+  bool get isSelected => this == FullWidgetState.selected;
+  bool get isScrolledUnder => this == FullWidgetState.scrolledUnder;
+  bool get isDisabled => this == FullWidgetState.disabled;
+  bool get isLoading => this == FullWidgetState.loading;
+  bool get isSuccess => this == FullWidgetState.success;
+  bool get isFail => this == FullWidgetState.fail;
+  bool get isWarning => this == FullWidgetState.warning;
+  bool get isCancel => this == FullWidgetState.cancel;
+
+  bool get isNotInitial => !isInitial;
+  bool get isNotNormal => !isNormal;
+  bool get isNotEmpty => !isEmpty;
+  bool get isNotHovered => !isHovered;
+  bool get isNotFocused => !isFocused;
+  bool get isNotPressed => !isPressed;
+  bool get isNotDragged => !isDragged;
+  bool get isNotSelected => !isSelected;
+  bool get isNotScrolledUnder => !isScrolledUnder;
+  bool get isNotDisabled => !isDisabled;
+  bool get isNotLoading => !isLoading;
+  bool get isNotSuccess => !isSuccess;
+  bool get isNotFail => !isFail;
+  bool get isNotWarning => !isWarning;
+  bool get isNotCancel => !isCancel;
+
+  WidgetState? get toWidgetState =>
+      switch(this){
+        FullWidgetState.hovered => WidgetState.hovered,
+        FullWidgetState.focused => WidgetState.focused,
+        FullWidgetState.pressed => WidgetState.pressed,
+        FullWidgetState.dragged => WidgetState.dragged,
+        FullWidgetState.selected => WidgetState.selected,
+        FullWidgetState.scrolledUnder => WidgetState.scrolledUnder,
+        FullWidgetState.disabled => WidgetState.disabled,
+        FullWidgetState.fail => WidgetState.error,
+        _ => null,
+      };
 }
 
 @immutable
 class WidgetStateEvent<DATA> {
   const WidgetStateEvent(
     this.state, {
-    this.event,
-    required this.data,
-    this.build = true,
+      required this.data,
+      this.event,
+      this.build = true,
   });
 
   final FullWidgetState state;
@@ -37,21 +82,21 @@ class WidgetStateEvent<DATA> {
   final DATA data;
   final bool build;
 
-  bool get isInitial => state == FullWidgetState.initial;
-  bool get isNormal => state == FullWidgetState.normal;
-  bool get isEmpty => state == FullWidgetState.empty;
-  bool get isHovered => state == FullWidgetState.hovered;
-  bool get isFocused => state == FullWidgetState.focused;
-  bool get isPressed => state == FullWidgetState.pressed;
-  bool get isDragged => state == FullWidgetState.dragged;
-  bool get isSelected => state == FullWidgetState.selected;
-  bool get isScrolledUnder => state == FullWidgetState.scrolledUnder;
-  bool get isDisabled => state == FullWidgetState.disabled;
-  bool get isLoading => state == FullWidgetState.loading;
-  bool get isSuccess => state == FullWidgetState.success;
-  bool get isFail => state == FullWidgetState.fail;
-  bool get isWarning => state == FullWidgetState.warning;
-  bool get isCancel => state == FullWidgetState.cancel;
+  bool get isInitial => state.isInitial;
+  bool get isNormal => state.isNormal;
+  bool get isEmpty => state.isEmpty;
+  bool get isHovered => state.isHovered;
+  bool get isFocused => state.isFocused;
+  bool get isPressed => state.isPressed;
+  bool get isDragged => state.isDragged;
+  bool get isSelected => state.isSelected;
+  bool get isScrolledUnder => state.isScrolledUnder;
+  bool get isDisabled => state.isDisabled;
+  bool get isLoading => state.isLoading;
+  bool get isSuccess => state.isSuccess;
+  bool get isFail => state.isFail;
+  bool get isWarning => state.isWarning;
+  bool get isCancel => state.isCancel;
 
   bool get isNotInitial => !isInitial;
   bool get isNotNormal => !isNormal;
