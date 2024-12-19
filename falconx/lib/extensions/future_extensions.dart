@@ -7,33 +7,73 @@ extension FalconFutureExtensions<T> on Future<T> {
       then<Either<Failure, T>>(
         (T value) => Right(value),
       ).onError(
-        (error, stackTrace) {
-          if (handleError != null) return Left(handleError(error, stackTrace));
-
-          if (error is NetworkException) {
+        (exception, stackTrace) {
+          if (exception is DioException) {
+            final tmpError = exception.error;
+            if (tmpError case NetworkException networkException) {
+              Log.e(networkException, stackTrace: networkException.stackTrace);
+              return Left(
+                handleError?.call(exception, stackTrace) ??
+                    Failure(
+                      code: networkException.statusCode.toString(),
+                      message: networkException.errorMessage ??
+                          networkException.statusMessage,
+                      developerMessage: networkException.developerMessage,
+                      exception: networkException,
+                      stacktrace: stackTrace,
+                      failureList: networkException.errors
+                          ?.whereType<NetworkException>()
+                          .map(
+                            (e) => Failure(
+                              code: e.statusCode.toString(),
+                              message: networkException.errorMessage ??
+                                  networkException.statusMessage,
+                              developerMessage:
+                                  networkException.developerMessage,
+                              exception: e,
+                              stacktrace: stackTrace,
+                            ),
+                          )
+                          .toList(),
+                    ),
+              );
+            } else if (tmpError != null) {
+              Log.e(tmpError, stackTrace: exception.stackTrace);
+              return Left(
+                handleError?.call(exception, stackTrace) ??
+                    Failure.fromException(
+                      tmpError,
+                      stacktrace: exception.stackTrace,
+                    ),
+              );
+            } else {
+              Log.e(exception, stackTrace: exception.stackTrace);
+              return Left(
+                handleError?.call(exception, stackTrace) ??
+                    Failure.fromException(
+                      exception,
+                      stacktrace: exception.stackTrace,
+                    ),
+              );
+            }
+          } else if (exception is Exception) {
+            Log.e(exception);
             return Left(
-              Failure(
-                code: error.code.toString(),
-                message: error.message,
-                developerMessage: error.developerMessage,
-                exception: error,
-                stacktrace: stackTrace,
-                failureList: error.errors
-                    ?.whereType<NetworkException>()
-                    .map(
-                      (e) => Failure(
-                        code: e.code.toString(),
-                        message: e.message,
-                        developerMessage: e.developerMessage,
-                        exception: e,
-                        stacktrace: stackTrace,
-                      ),
-                    )
-                    .toList(),
-              ),
+              handleError?.call(exception, stackTrace) ??
+                  Failure.fromException(
+                    exception,
+                    stacktrace: stackTrace,
+                  ),
             );
           } else {
-            return Left(Failure.fromException(error));
+            Log.e(exception);
+            return Left(
+              handleError?.call(exception, stackTrace) ??
+                  Failure.fromException(
+                    exception,
+                    stacktrace: stackTrace,
+                  ),
+            );
           }
         },
       );
@@ -44,12 +84,31 @@ extension FalconFutureExtensions<T> on Future<T> {
       then<Either<Exception, T>>(
         (T value) => Right(value),
       ).onError(
-        (error, stackTrace) {
-          if (handleError != null) return Left(handleError(error, stackTrace));
-          if (error is Exception) {
-            return Left(error);
+        (exception, stackTrace) {
+          if (exception is DioException) {
+            final tmpError = exception.error;
+            if (tmpError case NetworkException networkException) {
+              Log.e(networkException, stackTrace: networkException.stackTrace);
+              return Left(
+                handleError?.call(exception, stackTrace) ?? networkException,
+              );
+            } else {
+              Log.e(exception, stackTrace: exception.stackTrace);
+              return Left(
+                handleError?.call(exception, stackTrace) ?? exception,
+              );
+            }
+          } else if (exception is Exception) {
+            Log.e(exception);
+            return Left(
+              handleError?.call(exception, stackTrace) ?? exception,
+            );
           } else {
-            return Left(Exception(error.toString()));
+            Log.e(exception);
+            return Left(
+              handleError?.call(exception, stackTrace) ??
+                  Exception(exception.toString()),
+            );
           }
         },
       );

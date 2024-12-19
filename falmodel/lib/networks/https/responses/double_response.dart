@@ -1,8 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:falmodel/lib.dart';
 
-class BoolResponse extends Response<bool> {
-  BoolResponse({
+class DoubleResponse extends Response<double> {
+  DoubleResponse({
     super.data,
     super.statusCode,
     super.statusMessage,

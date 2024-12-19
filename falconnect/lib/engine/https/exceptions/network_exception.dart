@@ -2,20 +2,24 @@ import 'package:dio/dio.dart';
 
 class NetworkException implements Exception {
   const NetworkException({
-    this.code = 0,
+    this.statusCode = 0,
+    this.type,
+    this.statusMessage,
+    this.errorMessage,
+    this.developerMessage,
     this.response,
     this.requestOptions,
-    this.message,
-    this.developerMessage,
     this.stackTrace,
     this.errors,
   });
 
-  final int code;
+  final int statusCode;
+  final String? type;
+  final String? statusMessage;
+  final String? errorMessage;
+  final String? developerMessage;
   final Response? response;
   final RequestOptions? requestOptions;
-  final String? message;
-  final String? developerMessage;
   final List<NetworkException>? errors;
   final StackTrace? stackTrace;
 
@@ -33,15 +37,21 @@ class NetworkException implements Exception {
         error: this,
         stackTrace: stackTrace ?? this.stackTrace ?? StackTrace.current,
         type: type ?? DioExceptionType.unknown,
-        message: message ?? this.message,
+        message: message ?? statusMessage,
       );
 
   @override
   String toString() {
     String msg = '';
-    if (code != 0) msg += '>>Code: $code\n';
-    if (message != null && message!.isNotEmpty) {
-      msg += '>>Message: $message\n';
+    if (statusCode != 0) msg += '>>Status code: $statusCode\n';
+    if (type != null && type!.isNotEmpty) {
+      msg += '>>Type: $type\n';
+    }
+    if (statusMessage != null && statusMessage!.isNotEmpty) {
+      msg += '>>Status message: $statusMessage\n';
+    }
+    if (errorMessage != null && errorMessage!.isNotEmpty) {
+      msg += '>>Error message: $errorMessage\n';
     }
     if (developerMessage != null && developerMessage!.isNotEmpty) {
       msg += '>>Developer message: $developerMessage\n';

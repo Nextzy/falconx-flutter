@@ -1,6 +1,15 @@
 import 'package:falconnect/lib.dart';
 
-abstract class NetworkErrorHandlerInterceptor extends Interceptor {
+/// Support Error Response:
+/// {
+///   "type": "ERROR_TYPE",
+///   "message": "Message show to user",
+///   "developerMessage": "Message show to developer",
+///   "errors": {
+///     ...
+///   }
+/// }
+abstract class NetworkErrorHandlerInterceptor extends QueuedInterceptor {
   NetworkErrorHandlerInterceptor();
 
   @override
@@ -14,16 +23,21 @@ abstract class NetworkErrorHandlerInterceptor extends Interceptor {
         err.copyWith(
           error: DioTimeoutException(
             timeout: timeout,
-            developerMessage: 'Error on NetworkErrorHandlerInterceptor',
+            requestOptions: err.requestOptions,
+            response: err.response,
+            message: err.message,
+            stackTrace: err.stackTrace,
           ),
           stackTrace: err.stackTrace,
         ),
       );
     } else if (_isServerError(response)) {
-      final Exception? exception = _getExceptionFromResponse(err);
+      final Exception? exception =
+          _getExceptionFromResponse(err.response, stacktrace: err.stackTrace);
       onServerError(err.copyWith(error: exception), handler);
     } else if (_isClientError(response)) {
-      final Exception? exception = _getExceptionFromResponse(err);
+      final Exception? exception =
+          _getExceptionFromResponse(err.response, stacktrace: err.stackTrace);
       onClientError(err.copyWith(error: exception), handler);
     } else {
       onNonStandardError(err, handler);
@@ -49,141 +63,183 @@ abstract class NetworkErrorHandlerInterceptor extends Interceptor {
       (response.statusCode ?? 0) >= 500 &&
       (response.statusCode ?? 0) < 600;
 
-  Exception? _getExceptionFromResponse(DioException error) {
-    final code = error.response?.statusCode ?? 0;
+  Exception? _getExceptionFromResponse(
+    Response? response, {
+    StackTrace? stacktrace,
+  }) {
+    final statusCode = response?.statusCode ?? 0;
 
+    String? type;
     String? errorMessage;
+    String? developerMessage;
     try {
-      if (error.response?.data is String) {
-        errorMessage = error.response?.data;
-      } else if (error.response?.data is Map) {
-        errorMessage = error.response?.data['error'];
-      } else {
-        errorMessage = error.response?.statusMessage ?? error.toString();
+      if (response?.data is String) {
+        errorMessage = response?.data;
+      } else if (response?.data is Map) {
+        type = response?.data['type'];
+        errorMessage = response?.data['error'];
+        developerMessage = response?.data['developerMessage'];
       }
     } catch (e) {
       errorMessage = null;
     }
 
-    if (code >= 500) {
-      if (code == 500) {
+    if (statusCode >= 600) {
+      return NonStandardErrorException(
+        statusCode: statusCode,
+        type: type,
+        statusMessage: response?.statusMessage,
+        errorMessage: errorMessage,
+        developerMessage: developerMessage,
+        requestOptions: response?.requestOptions,
+        response: response,
+        stackTrace: stacktrace ?? StackTrace.current,
+      );
+    } else if (statusCode >= 500 && statusCode < 600) {
+      if (statusCode == 500) {
         return InternalServerErrorException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
-      } else if (code == 501) {
+      } else if (statusCode == 501) {
         return NotImplementException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
-      } else if (code == 502) {
+      } else if (statusCode == 502) {
         return BadGatewayException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
-      } else if (code == 503) {
+      } else if (statusCode == 503) {
         return ServiceUnavailableException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
-      } else if (code == 504) {
+      } else if (statusCode == 504) {
         return GatewayTimeoutException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
       } else {
         return ServerErrorException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
       }
-    } else if (code >= 400) {
-      if (code == 400) {
+    } else if (statusCode >= 400 && statusCode < 500) {
+      if (statusCode == 400) {
         return BadRequestException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
-      } else if (code == 401) {
+      } else if (statusCode == 401) {
         return AuthenticationException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
-      } else if (code == 403) {
+      } else if (statusCode == 403) {
         return ForbiddenException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
-      } else if (code == 404) {
+      } else if (statusCode == 404) {
         return NotFoundException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
-      } else if (code == 405) {
+      } else if (statusCode == 405) {
         return MethodNotAllowedException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
-      } else if (code == 408) {
+      } else if (statusCode == 408) {
         return RequestTimeoutException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
       } else {
         return ClientErrorException(
-          code: code,
-          message: errorMessage ?? error.response?.statusMessage,
-          developerMessage: 'Http Interceptor',
-          requestOptions: error.response?.requestOptions,
-          response: error.response,
-          stackTrace: error.stackTrace,
+          statusCode: statusCode,
+          type: type,
+          statusMessage: response?.statusMessage,
+          errorMessage: errorMessage,
+          developerMessage: developerMessage,
+          requestOptions: response?.requestOptions,
+          response: response,
+          stackTrace: stacktrace ?? StackTrace.current,
         );
       }
     }
