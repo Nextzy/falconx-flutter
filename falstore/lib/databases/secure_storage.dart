@@ -2,12 +2,12 @@ import 'package:falstore/lib.dart';
 
 /// Singleton
 class SecureStorage {
-  final FlutterSecureStorage _storage;
-  static const SecureStorage instance = SecureStorage._singleton();
-
   const SecureStorage._singleton(
       {FlutterSecureStorage storage = const FlutterSecureStorage()})
       : _storage = storage;
+
+  final FlutterSecureStorage _storage;
+  static const SecureStorage instance = SecureStorage._singleton();
 
   Future<void> save(String key, {required String data}) =>
       _storage.write(key: key, value: data).then((value) {
