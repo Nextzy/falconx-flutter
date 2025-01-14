@@ -36,8 +36,6 @@ dependencies:
   #PLATFORM: Android, iOS, Linux, MacOS, Windows
   path_provider: ^2.1.5
   universal_io: ^2.2.2
-  #PLATFORM: Web
-  web: ^1.1.0
 
   #PLATFORM: Android, iOS, MacOS, Web
 #  flutter_image_compress: ^2.3.0
