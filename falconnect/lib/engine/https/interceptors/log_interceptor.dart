@@ -76,24 +76,28 @@ class HttpLogInterceptor extends Interceptor {
         options.headers.forEach((key, v) => _printKV(' $key', _title(v)));
       }
       if (requestBody) {
-        JsonEncoder encoder = const JsonEncoder.withIndent('  ');
         final data = options.data;
-        String prettyPrint;
-        if (data is FormData) {
-          logPrint(_json('Form Data:'));
-          final newList = data.fields
-              .map((MapEntry<String, String> e) => {e.key: e.value})
-              .toList();
-          newList.addAll(data.files
-              .map((MapEntry<String, MultipartFile> e) =>
-                  {e.key: _getMultipartFileString(e.value)})
-              .toList());
-          prettyPrint = encoder.convert(newList);
-        } else {
-          logPrint(_json('Body Data:'));
-          prettyPrint = encoder.convert(data);
+        try {
+          JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+          String prettyPrint;
+          if (data is FormData) {
+            logPrint(_json('Form Data:'));
+            final newList = data.fields
+                .map((MapEntry<String, String> e) => {e.key: e.value})
+                .toList();
+            newList.addAll(data.files
+                .map((MapEntry<String, MultipartFile> e) =>
+                    {e.key: _getMultipartFileString(e.value)})
+                .toList());
+            prettyPrint = encoder.convert(newList);
+          } else {
+            logPrint(_json('Body Data:'));
+            prettyPrint = encoder.convert(data);
+          }
+          _printAll(_json(prettyPrint));
+        } catch (e) {
+          _printAll(_json(data.toString()));
         }
-        _printAll(_json(prettyPrint));
       }
       logPrint('');
     }
@@ -143,9 +147,13 @@ class HttpLogInterceptor extends Interceptor {
       }
       if (responseBody) {
         logPrint(_json('Response Text:'));
-        JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-        String prettyPrint = encoder.convert(response.data);
-        _printAll(_json(prettyPrint));
+        try {
+          JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+          String prettyPrint = encoder.convert(response.data);
+          _printAll(_json(prettyPrint));
+        } catch (e) {
+          _printAll(response.data.toString());
+        }
       }
       logPrint('');
     }
