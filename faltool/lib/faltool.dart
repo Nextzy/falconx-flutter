@@ -27,7 +27,6 @@ export 'package:logger/logger.dart';
 export 'package:stack_trace/stack_trace.dart';
 export 'package:enum_to_string/enum_to_string.dart';
 export 'package:device_info_plus/device_info_plus.dart';
-export 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 export 'package:package_info_plus/package_info_plus.dart';
 export 'package:version/version.dart';
 export 'package:crypto/crypto.dart';

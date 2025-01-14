@@ -15,8 +15,8 @@ dependencies:
 
   #PLATFORM: All
   gap: ^3.0.1
-  flutter_svg: ^2.0.16
-  extended_image: ^9.0.9
+  flutter_svg: ^2.0.17
+  extended_image: ^9.1.0
   smooth_page_indicator: ^1.2.0+3
   flutter_animate: ^4.5.2
 

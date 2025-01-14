@@ -17,9 +17,9 @@ dependencies:
   #PLATFORM: All
   ansicolor: ^2.0.3
   dio: ^5.7.0
-  retrofit: ^4.4.1
+  retrofit: ^4.4.2
   web_socket_channel: ^3.0.1
-  connectivity_plus: ^6.1.1
+  connectivity_plus: ^6.1.2
   dio_cache_interceptor: ^3.5.1
 
 dev_dependencies:
