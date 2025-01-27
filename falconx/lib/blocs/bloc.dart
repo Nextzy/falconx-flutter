@@ -138,31 +138,8 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
 
   DATA? get data => state.data;
 
-  void _assertEmitter() {
-    assert(
-      _emitter != null,
-      '''
-emit was called after an event handler completed normally.
-This is usually due to an unawaited future in an event handler.
-Please make sure to await all asynchronous operations with event handlers
-and use emit.isDone after asynchronous operations before calling emit() to
-ensure the event handler has not completed.
-
-  **❌BAD**
-  on<Event>((event, emit) {
-    future.whenComplete(() => emitSuccess(...));
-  });
-
-  **✅GOOD**
-  on<Event>((event, emit) async {
-    await future.whenComplete(() => emitSuccess(...));
-  });
-''',
-    );
-  }
-
   void _emit(WidgetStateEvent<DATA?> state) {
-    _assertEmitter();
+    assertEmitter();
     _emitter?.call(state);
   }
 
@@ -195,7 +172,7 @@ ensure the event handler has not completed.
       Failure failure,
     )? onFailure,
   }) {
-    _assertEmitter();
+    assertEmitter();
     return _emitter!.onEach(
       call,
       onData: (WidgetStateEvent<A?> state) {
@@ -266,15 +243,43 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
     on<BlocEvent<EVENT>>(
         (BlocEvent<EVENT> event, Emitter<STATE> emitter) async {
       _emitter = emitter;
-      await onListenEvent(event, emitter);
+      await onBlocEvent(event);
       _emitter = null;
     });
+  }
+
+  Emitter<STATE> get emitter {
+    assertEmitter();
+    return _emitter!;
   }
 
   Emitter<STATE>? _emitter;
   final EitherStreamFetcherList _fetcher;
 
-  Future<void> onListenEvent(BlocEvent<EVENT> event, Emitter<STATE> emitter);
+  Future<void> onBlocEvent(BlocEvent<EVENT> event);
+
+  void assertEmitter() {
+    assert(
+      _emitter != null,
+      '''
+emit was called after an event handler completed normally.
+This is usually due to an unawaited future in an event handler.
+Please make sure to await all asynchronous operations with event handlers
+and use emit.isDone after asynchronous operations before calling emit() to
+ensure the event handler has not completed.
+
+  **❌BAD**
+  on<Event>((event, emit) {
+    future.whenComplete(() => emitSuccess(...));
+  });
+
+  **✅GOOD**
+  on<Event>((event, emit) async {
+    await future.whenComplete(() => emitSuccess(...));
+  });
+''',
+    );
+  }
 
   Stream<WidgetStateEvent<T?>> fetchWidgetStateEitherStream<T>({
     required Object key,
@@ -332,6 +337,7 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
 
   @override
   Future<void> close() async {
+    _emitter = null;
     await _fetcher.closeAsync();
     return super.close();
   }
