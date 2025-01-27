@@ -6,5 +6,6 @@ export 'widget_state_notifier.dart';
 export 'pop_result.dart';
 export 'content_state.dart';
 export 'content_safe_state.dart';
+export 'bloc_consumer.dart';
 
  

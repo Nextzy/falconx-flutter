@@ -5,7 +5,7 @@ typedef BlocWidgetListenerState<S> = void Function(
 typedef BlocWidgetListenerEvent<S> = void Function(
     BuildContext context, S event, Object? data);
 typedef CanPopListener<S> = bool Function(S state);
-typedef PopListener<S> = void Function(S state);
+typedef PopListener<S> = void Function(S state, Object? result);
 @Deprecated(
   'Use PopListener instead. '
   'This feature was deprecated after v3.12.0-1.0.pre.',
@@ -48,27 +48,11 @@ abstract class FalconBlocState<WIDGET extends StatefulWidget,
     BlocListenerCondition<STATE>? buildWhen,
     required Widget Function(BuildContext context, STATE state) builder,
   }) =>
-      BlocConsumer<BLOC, STATE>(
+      WidgetStateBlocConsumer<EVENT, BLOC, STATE>(
         bloc: bloc,
-        listener: (BuildContext context, STATE state) {
-          if (state is WidgetStateEvent && state.event != null) {
-            listenEvent?.call(
-                context, state.event!.name as EVENT, state.event!.data);
-          }
-
-          listenState?.call(context, state);
-        },
-        listenWhen: (previous, current) => true,
-        buildWhen: (previous, current) {
-          // Not build the widget when state have the event
-          if (current is WidgetStateEvent && current.event != null) {
-            return false;
-          } else if (current is WidgetStateEvent && current.event == null) {
-            return current.build;
-          } else {
-            return buildWhen?.call(previous, current) ?? true;
-          }
-        },
+        listenEvent: listenEvent,
+        listenState: listenState,
+        buildWhen: buildWhen,
         builder: (context, state) => GestureDetector(
           onTap: clearFocus,
           child: _buildCompatPopScope<STATE>(
@@ -81,7 +65,7 @@ abstract class FalconBlocState<WIDGET extends StatefulWidget,
         ),
       );
 
-  Widget buildWithAnotherBloc<EVENT, S, B extends StateStreamable<S>>({
+  Widget buildWithAnotherBloc<EVENT, B extends StateStreamable<S>, S>({
     required B bloc,
     BlocWidgetListenerEvent<EVENT>? listenEvent,
     BlocWidgetListenerState<S>? listenState,
@@ -95,27 +79,11 @@ abstract class FalconBlocState<WIDGET extends StatefulWidget,
     BlocListenerCondition<S>? buildWhen,
     required Widget Function(BuildContext context, S state) builder,
   }) =>
-      BlocConsumer<B, S>(
+      WidgetStateBlocConsumer<EVENT, B, S>(
         bloc: bloc,
-        listener: (BuildContext context, S state) {
-          if (state is WidgetStateEvent && state.event != null) {
-            listenEvent?.call(
-                context, state.event!.name as EVENT, state.event!.data);
-          }
-
-          listenState?.call(context, state);
-        },
-        listenWhen: (previous, current) => true,
-        buildWhen: (previous, current) {
-          // Not build the widget when state have the event
-          if (current is WidgetStateEvent && current.event != null) {
-            return false;
-          } else if (current is WidgetStateEvent && current.event == null) {
-            return current.build;
-          } else {
-            return buildWhen?.call(previous, current) ?? true;
-          }
-        },
+        listenEvent: listenEvent,
+        listenState: listenState,
+        buildWhen: buildWhen,
         builder: (context, state) => GestureDetector(
           onTap: clearFocus,
           child: _buildCompatPopScope<S>(
@@ -138,10 +106,10 @@ abstract class FalconBlocState<WIDGET extends StatefulWidget,
       onPop != null || canPop != null
           ? PopScope(
               canPop: canPop?.call(state) ?? true,
-              onPopInvoked: (didPop) {
+              onPopInvokedWithResult: (didPop, result) {
                 if (didPop) return;
                 clearFocus();
-                onPop?.call(state);
+                onPop?.call(state, result);
               },
               child: child,
             )
