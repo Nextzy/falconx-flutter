@@ -26,6 +26,7 @@ export 'package:provider/provider.dart';
 
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
+export 'package:bloc_concurrency/bloc_concurrency.dart';
 export 'networks/internet_connection_bloc.dart';
 export 'config/build_config.dart';
 export 'extensions/extensions.dart';
