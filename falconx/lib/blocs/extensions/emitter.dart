@@ -21,6 +21,9 @@ extension EmitterExtensions<T> on Emitter<WidgetStateEvent<T>> {
   void emitSuccess(T data) =>
       call(WidgetStateEvent(FullWidgetState.success, data: data));
 
+  void emitCancel(T data) =>
+      call(WidgetStateEvent(FullWidgetState.cancel, data: data));
+
   @Deprecated('Please use emitter.emit(state.addEvent(...)')
   void emitEvent(
     WidgetStateEvent<T> currentState,

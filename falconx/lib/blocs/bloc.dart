@@ -1,9 +1,14 @@
 import 'package:falconx/lib.dart';
 
 abstract class FalconWidgetStateEventSafeBloc<EVENT, DATA>
-    extends FalconBloc<EVENT, WidgetStateEvent<DATA>> {
-  FalconWidgetStateEventSafeBloc(DATA data)
-      : super(WidgetStateEvent(FullWidgetState.initial, data: data));
+    extends FalconEventBloc<EVENT, WidgetStateEvent<DATA>> {
+  FalconWidgetStateEventSafeBloc(
+    DATA data, {
+    EventTransformer<BlocEvent<EVENT>>? transformer,
+  }) : super(
+          WidgetStateEvent(FullWidgetState.initial, data: data),
+          transformer: transformer,
+        );
 
   DATA get data => state.data;
 
@@ -53,6 +58,9 @@ ensure the event handler has not completed.
   void emitSuccess([DATA? data]) => _emit(
       WidgetStateEvent(FullWidgetState.success, data: data ?? state.data));
 
+  void emitCancel([DATA? data]) => _emit(
+      WidgetStateEvent(FullWidgetState.cancel, data: data ?? state.data));
+
   Future<void> callStream<A>({
     required Stream<WidgetStateEvent<A?>> call,
     required Function(
@@ -83,7 +91,7 @@ ensure the event handler has not completed.
     );
   }
 
-  Future<void> callEitherFutureDebounce<A>({
+  Future<void> callEitherFuture<A>({
     required Object key,
     required Future<Either<Failure, A>> call,
     required Function(
@@ -97,7 +105,7 @@ ensure the event handler has not completed.
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchWidgetStateEitherFuture<A>(
+        call: fetchEitherFuture<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -106,7 +114,7 @@ ensure the event handler has not completed.
         onFailure: onFailure,
       );
 
-  Future<void> callEitherStreamDebounce<A>({
+  Future<void> callEitherStream<A>({
     required Object key,
     required Stream<Either<Failure, A>> call,
     required Function(
@@ -120,7 +128,7 @@ ensure the event handler has not completed.
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchWidgetStateEitherStream<A>(
+        call: fetchEitherStream<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -132,9 +140,12 @@ ensure the event handler has not completed.
 }
 
 abstract class FalconWidgetStateEventBloc<EVENT, DATA>
-    extends FalconBloc<EVENT, WidgetStateEvent<DATA?>> {
-  FalconWidgetStateEventBloc([DATA? data])
-      : super(WidgetStateEvent(FullWidgetState.initial, data: data));
+    extends FalconEventBloc<EVENT, WidgetStateEvent<DATA?>> {
+  FalconWidgetStateEventBloc({
+    DATA? data,
+    EventTransformer<BlocEvent<EVENT>>? transformer,
+  }) : super(WidgetStateEvent(FullWidgetState.initial, data: data),
+            transformer: transformer);
 
   DATA? get data => state.data;
 
@@ -160,6 +171,9 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
 
   void emitSuccess([DATA? data]) => _emit(
       WidgetStateEvent(FullWidgetState.success, data: data ?? state.data));
+
+  void emitCancel([DATA? data]) => _emit(
+      WidgetStateEvent(FullWidgetState.cancel, data: data ?? state.data));
 
   Future<void> callStream<A>({
     required Stream<WidgetStateEvent<A?>> call,
@@ -191,7 +205,7 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
     );
   }
 
-  Future<void> callEitherFutureDebounce<A>({
+  Future<void> callEitherFuture<A>({
     required Object key,
     required Future<Either<Failure, A>> call,
     required Function(
@@ -205,7 +219,7 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchWidgetStateEitherFuture<A>(
+        call: fetchEitherFuture<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -214,7 +228,7 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
         onFailure: onFailure,
       );
 
-  Future<void> callEitherStreamDebounce<A>({
+  Future<void> callEitherStream<A>({
     required Object key,
     required Stream<Either<Failure, A>> call,
     required Function(
@@ -228,7 +242,7 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
     bool debounceFetch = true,
   }) =>
       callStream<A>(
-        call: fetchWidgetStateEitherStream<A>(
+        call: fetchEitherStream<A>(
           key: key,
           call: call,
           debounceFetch: debounceFetch,
@@ -238,14 +252,18 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
       );
 }
 
-abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
-  FalconBloc(super.initialState) : _fetcher = EitherStreamFetcherList() {
+abstract class FalconEventBloc<EVENT, STATE>
+    extends FalconBloc<BlocEvent<EVENT>, STATE> {
+  FalconEventBloc(
+    super.initialState, {
+    EventTransformer<BlocEvent<EVENT>>? transformer,
+  }) {
     on<BlocEvent<EVENT>>(
         (BlocEvent<EVENT> event, Emitter<STATE> emitter) async {
       _emitter = emitter;
       await onBlocEvent(event);
       _emitter = null;
-    });
+    }, transformer: transformer);
   }
 
   Emitter<STATE> get emitter {
@@ -254,7 +272,6 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<BlocEvent<EVENT>, STATE> {
   }
 
   Emitter<STATE>? _emitter;
-  final EitherStreamFetcherList _fetcher;
 
   Future<void> onBlocEvent(BlocEvent<EVENT> event);
 
@@ -281,7 +298,26 @@ ensure the event handler has not completed.
     );
   }
 
-  Stream<WidgetStateEvent<T?>> fetchWidgetStateEitherStream<T>({
+  void addEvent<T>(EVENT event, {T? data}) {
+    add(BlocEvent(event, data: data));
+  }
+
+  @override
+  Future<void> close() async {
+    _emitter = null;
+    return super.close();
+  }
+}
+
+abstract class FalconBloc<EVENT, STATE> extends Bloc<EVENT, STATE> {
+  FalconBloc(
+    super.initialState, {
+    EventTransformer<EVENT>? transformer,
+  }) : _fetcher = EitherStreamFetcherList();
+
+  final EitherStreamFetcherList _fetcher;
+
+  Stream<WidgetStateEvent<T?>> fetchEitherStream<T>({
     required Object key,
     required Stream<Either<Failure, T>> call,
     bool debounceFetch = true,
@@ -292,13 +328,13 @@ ensure the event handler has not completed.
         debounceFetch: debounceFetch,
       );
 
-  Stream<WidgetStateEvent<T>> fetchWidgetStateEitherStreamSafe<T>({
+  Stream<WidgetStateEvent<T>> fetchEitherStreamSafe<T>({
     required Object key,
     required Stream<Either<Failure, T>> call,
     required T defaultData,
     bool debounceFetch = true,
   }) =>
-      fetchWidgetStateEitherStream(
+      fetchEitherStream(
         key: key,
         call: call,
         debounceFetch: debounceFetch,
@@ -308,7 +344,7 @@ ensure the event handler has not completed.
         ),
       );
 
-  Stream<WidgetStateEvent<T?>> fetchWidgetStateEitherFuture<T>({
+  Stream<WidgetStateEvent<T?>> fetchEitherFuture<T>({
     required Object key,
     required Future<Either<Failure, T>> call,
     bool debounceFetch = true,
@@ -319,13 +355,13 @@ ensure the event handler has not completed.
         debounceFetch: debounceFetch,
       );
 
-  Stream<WidgetStateEvent<T>> fetchWidgetStateEitherFutureSafe<T>({
+  Stream<WidgetStateEvent<T>> fetchEitherFutureSafe<T>({
     required Object key,
     required Future<Either<Failure, T>> call,
     required T defaultData,
     bool debounceFetch = true,
   }) =>
-      fetchWidgetStateEitherFuture(
+      fetchEitherFuture(
         key: key,
         call: call,
         debounceFetch: debounceFetch,
@@ -337,12 +373,7 @@ ensure the event handler has not completed.
 
   @override
   Future<void> close() async {
-    _emitter = null;
     await _fetcher.closeAsync();
     return super.close();
-  }
-
-  void addEvent<T>(EVENT event, {T? data}) {
-    add(BlocEvent(event, data: data));
   }
 }

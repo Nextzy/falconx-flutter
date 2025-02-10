@@ -14,7 +14,7 @@ dependencies:
     path: ../faltool
 
   #PLATFORM: All
-  dio: ^5.7.0
+  dio: ^5.8.0+1
 
 dev_dependencies:
   flutter_test:
