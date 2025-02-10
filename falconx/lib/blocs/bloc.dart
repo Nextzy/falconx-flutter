@@ -6,7 +6,7 @@ abstract class FalconWidgetStateEventSafeBloc<EVENT, DATA>
     DATA initialData, {
     EventTransformer<BlocEvent<EVENT>>? transformer,
   }) : super(
-          WidgetStateEvent(FullWidgetState.initial, data: initialData),
+          WidgetStateEvent.initial(initialData),
           transformer: transformer,
         );
 
@@ -43,44 +43,38 @@ ensure the event handler has not completed.
   void emitEvent<T>(Object event, [T? data]) =>
       _emit(state.addEvent(event, data));
 
-  void emitInitial([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.initial, data: data ?? state.data));
+  void emitInitial([DATA? data]) =>
+      _emit(WidgetStateEvent.initial(data ?? state.data));
 
-  void emitLoading([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.loading, data: data ?? state.data));
+  void emitLoading([DATA? data]) =>
+      _emit(WidgetStateEvent.loading(data ?? state.data));
 
   void emitFail([DATA? data]) =>
-      _emit(WidgetStateEvent(FullWidgetState.fail, data: data ?? state.data));
+      _emit(WidgetStateEvent.fail(data ?? state.data));
 
-  void emitWarning([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.warning, data: data ?? state.data));
+  void emitWarning([DATA? data]) =>
+      _emit(WidgetStateEvent.warning(data ?? state.data));
 
-  void emitSuccess([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.success, data: data ?? state.data));
+  void emitSuccess([DATA? data]) =>
+      _emit(WidgetStateEvent.success(data ?? state.data));
 
-  void emitCancel([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.cancel, data: data ?? state.data));
+  void emitCancel([DATA? data]) =>
+      _emit(WidgetStateEvent.cancel(data ?? state.data));
 
   Future<void> callStream<A>({
     required Stream<WidgetStateEvent<A?>> call,
-    required Function(
-      Emitter<WidgetStateEvent<DATA>> emitter,
-      WidgetStateEvent<A?> state,
-    ) onData,
-    Function(
-      Emitter<WidgetStateEvent<DATA>> emitter,
-      Failure failure,
-    )? onFailure,
+    required Function(WidgetStateEvent<A?> state) onData,
+    Function(Failure failure)? onFailure,
   }) {
     _assertEmitter();
     return _emitter!.onEach(
       call,
       onData: (WidgetStateEvent<A?> state) {
-        onData(_emitter!, state);
+        onData(state);
       },
       onError: (error, stackTrace) {
         if (error is Failure) {
-          onFailure?.call(_emitter!, error);
+          onFailure?.call(error);
         } else {
           FlutterError.reportError(FlutterErrorDetails(
             exception: error,
@@ -94,21 +88,15 @@ ensure the event handler has not completed.
   Future<void> callEitherFuture<A>({
     required Object key,
     required Future<Either<Failure, A>> call,
-    required Function(
-      Emitter<WidgetStateEvent<DATA>> emitter,
-      WidgetStateEvent<A?> state,
-    ) onData,
-    Function(
-      Emitter<WidgetStateEvent<DATA>> emitter,
-      Failure failure,
-    )? onFailure,
-    bool debounceFetch = true,
+    required Function(WidgetStateEvent<A?> state) onData,
+    Function(Failure failure)? onFailure,
+    bool debounceCall = true,
   }) =>
       callStream<A>(
         call: fetchEitherFuture<A>(
           key: key,
           call: call,
-          debounceFetch: debounceFetch,
+          debounceFetch: debounceCall,
         ),
         onData: onData,
         onFailure: onFailure,
@@ -117,21 +105,15 @@ ensure the event handler has not completed.
   Future<void> callEitherStream<A>({
     required Object key,
     required Stream<Either<Failure, A>> call,
-    required Function(
-      Emitter<WidgetStateEvent<DATA>> emitter,
-      WidgetStateEvent<A?> state,
-    ) onData,
-    Function(
-      Emitter<WidgetStateEvent<DATA>> emitter,
-      Failure failure,
-    )? onFailure,
-    bool debounceFetch = true,
+    required Function(WidgetStateEvent<A?> state) onData,
+    Function(Failure failure)? onFailure,
+    bool debounceCall = true,
   }) =>
       callStream<A>(
         call: fetchEitherStream<A>(
           key: key,
           call: call,
-          debounceFetch: debounceFetch,
+          debounceFetch: debounceCall,
           // defaultData: state.data,
         ),
         onData: onData,
@@ -144,8 +126,7 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
   FalconWidgetStateEventBloc({
     DATA? initialData,
     EventTransformer<BlocEvent<EVENT>>? transformer,
-  }) : super(WidgetStateEvent(FullWidgetState.initial, data: initialData),
-            transformer: transformer);
+  }) : super(WidgetStateEvent.initial(initialData), transformer: transformer);
 
   DATA? get data => state.data;
 
@@ -157,44 +138,38 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
   void emitEvent<T>(Object event, [T? data]) =>
       _emit(state.addEvent(event, data));
 
-  void emitInitial([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.initial, data: data ?? state.data));
+  void emitInitial([DATA? data]) =>
+      _emit(WidgetStateEvent.initial(data ?? state.data));
 
-  void emitLoading([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.loading, data: data ?? state.data));
+  void emitLoading([DATA? data]) =>
+      _emit(WidgetStateEvent.loading(data ?? state.data));
 
   void emitFail([DATA? data]) =>
-      _emit(WidgetStateEvent(FullWidgetState.fail, data: data ?? state.data));
+      _emit(WidgetStateEvent.fail(data ?? state.data));
 
-  void emitWarning([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.warning, data: data ?? state.data));
+  void emitWarning([DATA? data]) =>
+      _emit(WidgetStateEvent.warning(data ?? state.data));
 
-  void emitSuccess([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.success, data: data ?? state.data));
+  void emitSuccess([DATA? data]) =>
+      _emit(WidgetStateEvent.success(data ?? state.data));
 
-  void emitCancel([DATA? data]) => _emit(
-      WidgetStateEvent(FullWidgetState.cancel, data: data ?? state.data));
+  void emitCancel([DATA? data]) =>
+      _emit(WidgetStateEvent.cancel(data ?? state.data));
 
   Future<void> callStream<A>({
     required Stream<WidgetStateEvent<A?>> call,
-    required Function(
-      Emitter<WidgetStateEvent<DATA?>> emitter,
-      WidgetStateEvent<A?> state,
-    ) onData,
-    Function(
-      Emitter<WidgetStateEvent<DATA?>> emitter,
-      Failure failure,
-    )? onFailure,
+    required Function(WidgetStateEvent<A?> state) onData,
+    Function(Failure failure)? onFailure,
   }) {
     assertEmitter();
     return _emitter!.onEach(
       call,
       onData: (WidgetStateEvent<A?> state) {
-        onData(_emitter!, state);
+        onData(state);
       },
       onError: (error, stackTrace) {
         if (error is Failure) {
-          onFailure?.call(_emitter!, error);
+          onFailure?.call(error);
         } else {
           FlutterError.reportError(FlutterErrorDetails(
             exception: error,
@@ -208,21 +183,15 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
   Future<void> callEitherFuture<A>({
     required Object key,
     required Future<Either<Failure, A>> call,
-    required Function(
-      Emitter<WidgetStateEvent<DATA?>> emitter,
-      WidgetStateEvent<A?> state,
-    ) onData,
-    Function(
-      Emitter<WidgetStateEvent<DATA?>> emitter,
-      Failure failure,
-    )? onFailure,
-    bool debounceFetch = true,
+    required Function(WidgetStateEvent<A?> state) onData,
+    Function(Failure failure)? onFailure,
+    bool debounceCall = true,
   }) =>
       callStream<A>(
         call: fetchEitherFuture<A>(
           key: key,
           call: call,
-          debounceFetch: debounceFetch,
+          debounceFetch: debounceCall,
         ),
         onData: onData,
         onFailure: onFailure,
@@ -231,21 +200,15 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
   Future<void> callEitherStream<A>({
     required Object key,
     required Stream<Either<Failure, A>> call,
-    required Function(
-      Emitter<WidgetStateEvent<DATA?>> emitter,
-      WidgetStateEvent<A?> state,
-    ) onData,
-    Function(
-      Emitter<WidgetStateEvent<DATA?>> emitter,
-      Failure failure,
-    )? onFailure,
-    bool debounceFetch = true,
+    required Function(WidgetStateEvent<A?> state) onData,
+    Function(Failure failure)? onFailure,
+    bool debounceCall = true,
   }) =>
       callStream<A>(
         call: fetchEitherStream<A>(
           key: key,
           call: call,
-          debounceFetch: debounceFetch,
+          debounceFetch: debounceCall,
         ),
         onData: onData,
         onFailure: onFailure,

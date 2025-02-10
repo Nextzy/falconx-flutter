@@ -17,8 +17,7 @@ class EitherStreamFetcher<T> {
   Stream<WidgetStateEvent<T?>> fetch(
     Stream<Either<Failure, T>> call,
   ) {
-    _streamController
-        .add(WidgetStateEvent(FullWidgetState.loading, data: _data));
+    _streamController.add(WidgetStateEvent.loading(_data));
     _streamSubscription = call.listen(
       (data) {
         data.fold(
@@ -28,8 +27,7 @@ class EitherStreamFetcher<T> {
           },
           (T data) {
             _data = data;
-            _streamController
-                .add(WidgetStateEvent(FullWidgetState.success, data: _data));
+            _streamController.add(WidgetStateEvent.success(_data));
           },
         );
       },

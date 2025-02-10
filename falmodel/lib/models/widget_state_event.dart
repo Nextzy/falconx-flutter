@@ -50,8 +50,7 @@ enum FullWidgetState {
   bool get isNotWarning => !isWarning;
   bool get isNotCancel => !isCancel;
 
-  WidgetState? get toWidgetState =>
-      switch(this){
+  WidgetState? get toWidgetState => switch (this) {
         FullWidgetState.hovered => WidgetState.hovered,
         FullWidgetState.focused => WidgetState.focused,
         FullWidgetState.pressed => WidgetState.pressed,
@@ -66,12 +65,103 @@ enum FullWidgetState {
 
 @immutable
 class WidgetStateEvent<DATA> {
-  const WidgetStateEvent(
+  const WidgetStateEvent._(
     this.state, {
-      required this.data,
-      this.event,
-      this.build = true,
+    required this.data,
+    this.event,
+    this.build = true,
   });
+
+  factory WidgetStateEvent.initial(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.initial, data: data, build: build);
+
+  factory WidgetStateEvent.normal(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.normal, data: data, build: build);
+
+  factory WidgetStateEvent.empty(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.empty, data: data, build: build);
+
+  factory WidgetStateEvent.hovered(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.hovered, data: data, build: build);
+
+  factory WidgetStateEvent.focused(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.focused, data: data, build: build);
+
+  factory WidgetStateEvent.pressed(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.pressed, data: data, build: build);
+
+  factory WidgetStateEvent.dragged(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.dragged, data: data, build: build);
+
+  factory WidgetStateEvent.selected(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.selected, data: data, build: build);
+
+  factory WidgetStateEvent.scrolledUnder(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.scrolledUnder,
+          data: data, build: build);
+
+  factory WidgetStateEvent.disabled(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.disabled, data: data, build: build);
+
+  factory WidgetStateEvent.loading(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.loading, data: data, build: build);
+
+  factory WidgetStateEvent.success(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.success, data: data, build: build);
+
+  factory WidgetStateEvent.cancel(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.cancel, data: data, build: build);
+
+  factory WidgetStateEvent.warning(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.warning, data: data, build: build);
+
+  factory WidgetStateEvent.fail(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.fail, data: data, build: build);
 
   final FullWidgetState state;
 
@@ -115,15 +205,16 @@ class WidgetStateEvent<DATA> {
   bool get isNotCancel => !isCancel;
 
   bool get hasData => data != null;
+  bool get noData => data == null;
 
   R apply<R>(Function2<FullWidgetState, DATA, R> f) => f(state, data);
 
   WidgetStateEvent<NT2> mapData<NT2>(Function1<DATA, NT2> f, {bool? build}) =>
-      WidgetStateEvent(state, data: f(data), build: build ?? true);
+      WidgetStateEvent._(state, data: f(data), build: build ?? true);
 
   WidgetStateEvent<DATA> mapState(Function1<FullWidgetState, FullWidgetState> f,
           {bool? build}) =>
-      WidgetStateEvent(f(state), data: data, build: build ?? true);
+      WidgetStateEvent._(f(state), data: data, build: build ?? true);
 
   WidgetStateEvent<DATA> toState(FullWidgetState state,
           {DATA? data, bool? build}) =>
@@ -182,7 +273,7 @@ class WidgetStateEvent<DATA> {
     DATA? data,
     bool? build,
   }) =>
-      WidgetStateEvent<DATA>(
+      WidgetStateEvent<DATA>._(
         state ?? this.state,
         data: data ?? this.data,
         build: build ?? true,
@@ -203,7 +294,7 @@ class WidgetStateEvent<DATA> {
     Object event, [
     Object? data,
   ]) =>
-      WidgetStateEvent<DATA>(
+      WidgetStateEvent<DATA>._(
         this.state,
         event: WidgetEvent(event, data),
         data: this.data,
