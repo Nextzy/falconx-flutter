@@ -19,8 +19,8 @@ abstract class FalconWidgetEventBlocState<
     DATA> extends FalconBlocState<WIDGET, BLOC, WidgetStateEvent<DATA?>> {
   FalconWidgetEventBlocState({super.initialWidgetState});
 
-  Widget buildWithBloc<PAGE_EVENT>({
-    BlocWidgetListenerEvent<PAGE_EVENT>? listenEvent,
+  Widget buildWithBloc({
+    BlocWidgetListenerEvent<Object>? listenEvent,
     BlocWidgetListenerState<WidgetStateEvent<DATA?>>? listenState,
     CanPopListener<WidgetStateEvent<DATA?>>? canPop,
     PopListener<WidgetStateEvent<DATA?>>? onPop,
@@ -34,7 +34,7 @@ abstract class FalconWidgetEventBlocState<
             BuildContext context, WidgetStateEvent<DATA?> state)
         builder,
   }) =>
-      WidgetStateBlocConsumer<PAGE_EVENT, BLOC, DATA>(
+      WidgetStateBlocConsumer<BLOC, DATA>(
         bloc: bloc,
         listenEvent: listenEvent,
         listenState: listenState,
@@ -58,8 +58,8 @@ abstract class FalconWidgetEventSafeBlocState<
     DATA> extends FalconBlocState<WIDGET, BLOC, WidgetStateEvent<DATA>> {
   FalconWidgetEventSafeBlocState({super.initialWidgetState});
 
-  Widget buildWithBloc<PAGE_EVENT>({
-    BlocWidgetListenerEvent<PAGE_EVENT>? listenEvent,
+  Widget buildWithBloc({
+    BlocWidgetListenerEvent<Object>? listenEvent,
     BlocWidgetListenerState<WidgetStateEvent<DATA>>? listenState,
     CanPopListener<WidgetStateEvent<DATA>>? canPop,
     PopListener<WidgetStateEvent<DATA>>? onPop,
@@ -72,7 +72,7 @@ abstract class FalconWidgetEventSafeBlocState<
     required Widget Function(BuildContext context, WidgetStateEvent<DATA> state)
         builder,
   }) =>
-      WidgetStateSafeBlocConsumer<PAGE_EVENT, BLOC, DATA>(
+      WidgetStateSafeBlocConsumer<BLOC, DATA>(
         bloc: bloc,
         listenEvent: listenEvent,
         listenState: listenState,

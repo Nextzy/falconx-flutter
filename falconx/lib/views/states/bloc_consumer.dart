@@ -1,13 +1,12 @@
 import 'package:falconx/lib.dart';
 
 class WidgetStateBlocConsumer<
-    PAGE_EVENT,
     B extends StateStreamable<WidgetStateEvent<DATA?>>,
     DATA> extends BlocConsumer<B, WidgetStateEvent<DATA?>> {
   WidgetStateBlocConsumer({
     super.key,
     super.bloc,
-    BlocWidgetListenerEvent<PAGE_EVENT>? listenEvent,
+    BlocWidgetListenerEvent<Object>? listenEvent,
     BlocWidgetListenerState<WidgetStateEvent<DATA?>>? listenState,
     BlocBuilderCondition<WidgetStateEvent<DATA?>>? buildWhen,
     required super.builder,
@@ -15,8 +14,7 @@ class WidgetStateBlocConsumer<
           listenWhen: (previous, current) => true,
           listener: (context, state) {
             if (state.event != null) {
-              listenEvent?.call(
-                  context, state.event!.name as PAGE_EVENT, state.event!.data);
+              listenEvent?.call(context, state.event!.name, state.event!.data);
             }
             listenState?.call(context, state);
           },
@@ -36,13 +34,12 @@ class WidgetStateBlocConsumer<
 }
 
 class WidgetStateSafeBlocConsumer<
-    PAGE_EVENT,
     B extends StateStreamable<WidgetStateEvent<DATA>>,
     DATA> extends BlocConsumer<B, WidgetStateEvent<DATA>> {
   WidgetStateSafeBlocConsumer({
     super.key,
     super.bloc,
-    BlocWidgetListenerEvent<PAGE_EVENT>? listenEvent,
+    BlocWidgetListenerEvent<Object>? listenEvent,
     BlocWidgetListenerState<WidgetStateEvent<DATA>>? listenState,
     BlocBuilderCondition<WidgetStateEvent<DATA>>? buildWhen,
     required super.builder,
@@ -50,8 +47,7 @@ class WidgetStateSafeBlocConsumer<
           listenWhen: (previous, current) => true,
           listener: (context, state) {
             if (state.event != null) {
-              listenEvent?.call(
-                  context, state.event!.name as PAGE_EVENT, state.event!.data);
+              listenEvent?.call(context, state.event!.name, state.event!.data);
             }
             listenState?.call(context, state);
           },
