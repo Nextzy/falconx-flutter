@@ -61,6 +61,25 @@ ensure the event handler has not completed.
   void emitCancel([DATA? data]) =>
       _emit(WidgetStateEvent.cancel(data ?? state.data));
 
+  void saveInitialState(DATA data) =>
+      _emit(WidgetStateEvent.initial(data, build: false));
+
+  void saveLoadingState(DATA data) =>
+      _emit(WidgetStateEvent.loading(data, build: false));
+
+  void saveFailState(DATA data) =>
+      _emit(WidgetStateEvent.fail(data, build: false));
+
+  void saveWarningState(DATA data) =>
+      _emit(WidgetStateEvent.warning(data, build: false));
+
+  void saveSuccessState(DATA data) =>
+      _emit(WidgetStateEvent.success(data, build: false));
+
+  void saveCancelState(DATA data) =>
+      _emit(WidgetStateEvent.cancel(data, build: false));
+
+
   Future<void> callStream<A>({
     required Stream<WidgetStateEvent<A?>> call,
     required Function(WidgetStateEvent<A?> state) onData,
@@ -155,6 +174,24 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
 
   void emitCancel([DATA? data]) =>
       _emit(WidgetStateEvent.cancel(data ?? state.data));
+
+  void saveInitialState(DATA? data) =>
+      _emit(WidgetStateEvent.initial(data, build: false));
+
+  void saveLoadingState(DATA? data) =>
+      _emit(WidgetStateEvent.loading(data, build: false));
+
+  void saveFailState(DATA? data) =>
+      _emit(WidgetStateEvent.fail(data, build: false));
+
+  void saveWarningState(DATA? data) =>
+      _emit(WidgetStateEvent.warning(data, build: false));
+
+  void saveSuccessState(DATA? data) =>
+      _emit(WidgetStateEvent.success(data, build: false));
+
+  void saveCancelState(DATA? data) =>
+      _emit(WidgetStateEvent.cancel(data, build: false));
 
   Future<void> callStream<A>({
     required Stream<WidgetStateEvent<A?>> call,
