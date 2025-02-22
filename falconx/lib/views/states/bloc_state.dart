@@ -18,6 +18,38 @@ abstract class FalconWidgetEventBlocState<
     BLOC extends BlocBase<WidgetStateEvent<DATA?>>,
     DATA> extends FalconBlocState<WIDGET, BLOC, WidgetStateEvent<DATA?>> {
   FalconWidgetEventBlocState({super.initialWidgetState});
+
+  Widget buildWithBloc<PAGE_EVENT>({
+    BlocWidgetListenerEvent<PAGE_EVENT>? listenEvent,
+    BlocWidgetListenerState<WidgetStateEvent<DATA?>>? listenState,
+    CanPopListener<WidgetStateEvent<DATA?>>? canPop,
+    PopListener<WidgetStateEvent<DATA?>>? onPop,
+    @Deprecated(
+      'Use onPop instead. '
+      'This feature was deprecated after v3.12.0-1.0.pre.',
+    )
+    WillPopListener<WidgetStateEvent<DATA?>>? onWillPop,
+    BlocListenerCondition<WidgetStateEvent<DATA?>>? buildWhen,
+    required Widget Function(
+            BuildContext context, WidgetStateEvent<DATA?> state)
+        builder,
+  }) =>
+      WidgetStateBlocConsumer<PAGE_EVENT, BLOC, DATA>(
+        bloc: bloc,
+        listenEvent: listenEvent,
+        listenState: listenState,
+        buildWhen: buildWhen,
+        builder: (context, state) => GestureDetector(
+          onTap: clearFocus,
+          child: buildCompatPopScope<WidgetStateEvent<DATA?>>(
+            state: state,
+            canPop: canPop,
+            onPop: onPop,
+            onWillPop: onWillPop,
+            child: builder(context, state),
+          ),
+        ),
+      );
 }
 
 abstract class FalconWidgetEventSafeBlocState<
@@ -25,6 +57,37 @@ abstract class FalconWidgetEventSafeBlocState<
     BLOC extends BlocBase<WidgetStateEvent<DATA>>,
     DATA> extends FalconBlocState<WIDGET, BLOC, WidgetStateEvent<DATA>> {
   FalconWidgetEventSafeBlocState({super.initialWidgetState});
+
+  Widget buildWithBloc<PAGE_EVENT>({
+    BlocWidgetListenerEvent<PAGE_EVENT>? listenEvent,
+    BlocWidgetListenerState<WidgetStateEvent<DATA>>? listenState,
+    CanPopListener<WidgetStateEvent<DATA>>? canPop,
+    PopListener<WidgetStateEvent<DATA>>? onPop,
+    @Deprecated(
+      'Use onPop instead. '
+      'This feature was deprecated after v3.12.0-1.0.pre.',
+    )
+    WillPopListener<WidgetStateEvent<DATA>>? onWillPop,
+    BlocListenerCondition<WidgetStateEvent<DATA>>? buildWhen,
+    required Widget Function(BuildContext context, WidgetStateEvent<DATA> state)
+        builder,
+  }) =>
+      WidgetStateSafeBlocConsumer<PAGE_EVENT, BLOC, DATA>(
+        bloc: bloc,
+        listenEvent: listenEvent,
+        listenState: listenState,
+        buildWhen: buildWhen,
+        builder: (context, state) => GestureDetector(
+          onTap: clearFocus,
+          child: buildCompatPopScope<WidgetStateEvent<DATA>>(
+            state: state,
+            canPop: canPop,
+            onPop: onPop,
+            onWillPop: onWillPop,
+            child: builder(context, state),
+          ),
+        ),
+      );
 }
 
 abstract class FalconBlocState<WIDGET extends StatefulWidget,
@@ -35,68 +98,7 @@ abstract class FalconBlocState<WIDGET extends StatefulWidget,
 
   BLOC get bloc => context.read<BLOC>();
 
-  Widget buildWithBloc<EVENT>({
-    BlocWidgetListenerEvent<EVENT>? listenEvent,
-    BlocWidgetListenerState<STATE>? listenState,
-    CanPopListener<STATE>? canPop,
-    PopListener<STATE>? onPop,
-    @Deprecated(
-      'Use onPop instead. '
-      'This feature was deprecated after v3.12.0-1.0.pre.',
-    )
-    WillPopListener<STATE>? onWillPop,
-    BlocListenerCondition<STATE>? buildWhen,
-    required Widget Function(BuildContext context, STATE state) builder,
-  }) =>
-      WidgetStateBlocConsumer<EVENT, BLOC, STATE>(
-        bloc: bloc,
-        listenEvent: listenEvent,
-        listenState: listenState,
-        buildWhen: buildWhen,
-        builder: (context, state) => GestureDetector(
-          onTap: clearFocus,
-          child: _buildCompatPopScope<STATE>(
-            state: state,
-            canPop: canPop,
-            onPop: onPop,
-            onWillPop: onWillPop,
-            child: builder(context, state),
-          ),
-        ),
-      );
-
-  Widget buildWithAnotherBloc<EVENT, B extends StateStreamable<S>, S>({
-    required B bloc,
-    BlocWidgetListenerEvent<EVENT>? listenEvent,
-    BlocWidgetListenerState<S>? listenState,
-    CanPopListener<S>? canPop,
-    PopListener<S>? onPop,
-    @Deprecated(
-      'Use onPop instead. '
-      'This feature was deprecated after v3.12.0-1.0.pre.',
-    )
-    WillPopListener<S>? onWillPop,
-    BlocListenerCondition<S>? buildWhen,
-    required Widget Function(BuildContext context, S state) builder,
-  }) =>
-      WidgetStateBlocConsumer<EVENT, B, S>(
-        bloc: bloc,
-        listenEvent: listenEvent,
-        listenState: listenState,
-        buildWhen: buildWhen,
-        builder: (context, state) => GestureDetector(
-          onTap: clearFocus,
-          child: _buildCompatPopScope<S>(
-            state: state,
-            canPop: canPop,
-            onPop: onPop,
-            onWillPop: onWillPop,
-            child: builder(context, state),
-          ),
-        ),
-      );
-
-  Widget _buildCompatPopScope<S>({
+  Widget buildCompatPopScope<S>({
     required S state,
     required CanPopListener<S>? canPop,
     required PopListener<S>? onPop,
