@@ -18,6 +18,23 @@ extension EmitterExtensions<T> on Emitter<WidgetStateEvent<T>> {
 
   void emitCancel(T data) => call(WidgetStateEvent.cancel(data));
 
+  void saveInitialState(T data) =>
+      call(WidgetStateEvent.initial(data, build: false));
+
+  void saveLoadingState(T data) =>
+      call(WidgetStateEvent.loading(data, build: false));
+
+  void saveFailState(T data) => call(WidgetStateEvent.fail(data, build: false));
+
+  void saveWarningState(T data) =>
+      call(WidgetStateEvent.warning(data, build: false));
+
+  void saveSuccessState(T data) =>
+      call(WidgetStateEvent.success(data, build: false));
+
+  void saveCancelState(T data) =>
+      call(WidgetStateEvent.cancel(data, build: false));
+
   /// Or use:
   /// emitter.emit(state.addEvent(...))
   void emitEvent(
