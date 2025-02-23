@@ -22,7 +22,6 @@ import 'package:flutter/foundation.dart';
 /// [Flutter State with FalconX]
 /// - initState
 /// - didChangeDependencies
-/// - restoreState
 /// - resume (Came to foreground)
 /// - build
 /// - (didUpdateWidget)
@@ -40,7 +39,7 @@ import 'package:flutter/foundation.dart';
 ///
 
 abstract class FalconState<T extends StatefulWidget> extends State<T>
-    with WidgetsBindingObserver, RestorationMixin {
+    with WidgetsBindingObserver {
   FalconState({FullWidgetState? initialWidgetState})
       : _initState = initialWidgetState;
 
@@ -54,9 +53,6 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   String get tag => '${widget.runtimeType} State';
 
   Key? get key => widget.key;
-
-  @override
-  String? get restorationId => widget.key?.toString();
 
   Future<Version> get currentVersion async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -79,27 +75,6 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
         postFrame(context);
       }
     });
-  }
-
-  /// Call registerForRestoration(property, 'id'); for register restorable data.
-  @override
-  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
-    if (debug) {
-      printInfo('$tag => Lifecycle State: restoreState\n'
-          '$tag => Old bucket: $oldBucket\n'
-          '$tag => Initial restore: $initialRestore');
-    }
-  }
-
-  @override
-  void registerForRestoration(
-      RestorableProperty<Object?> property, String restorationId) {
-    super.registerForRestoration(property, restorationId);
-    if (debug) {
-      printInfo('$tag => Lifecycle State: registerForRestoration\n'
-          '$tag => Property: $property\n'
-          '$tag => Restoration Id: $restorationId\n');
-    }
   }
 
   @override
