@@ -7,6 +7,7 @@ export 'package:ansicolor/ansicolor.dart';
 export 'package:falconnect/utils/nlog.dart';
 export 'package:falmodel/falmodel.dart';
 export 'package:faltool/faltool.dart';
+export 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'dart:convert';
 import 'package:ansicolor/ansicolor.dart';
