@@ -11,10 +11,10 @@ dependencies:
     sdk: flutter
 
   #PLATFORM: All
-  package_info_plus: ^8.2.1
-  device_info_plus: ^11.3.0
+  package_info_plus: ^8.3.0
+  device_info_plus: ^11.3.3
   share_plus: ^10.1.4
-  freezed_annotation: ^2.4.4
+  freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
   equatable: ^2.0.7
   ansicolor: ^2.0.3
@@ -47,6 +47,6 @@ dev_dependencies:
     sdk: flutter
 
   build_runner: ^2.4.15
-  flutter_gen_runner: ^5.9.0
+  flutter_gen_runner: ^5.10.0
 
 flutter:

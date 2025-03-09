@@ -1,6 +1,6 @@
 name: falconx
-description: A new Flutter package project.
-version: 3.8.1
+description: A FalconX package project.
+version: 3.8.2
 publish_to: none
 
 environment:
@@ -29,7 +29,7 @@ dependencies:
 
   #======= Utils ========#
   #PLATFORM: All
-  flutter_bloc: ^9.0.0
+  flutter_bloc: ^9.1.0
   bloc_concurrency: ^0.3.0
   app_links: ^6.4.0
 

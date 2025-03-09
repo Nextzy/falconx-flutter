@@ -7,9 +7,7 @@ extension FalconToolStreamExtension<T> on Stream<T> {
         handleError,
   }) =>
       transform<S>(StreamTransformer<T, S>.fromHandlers(
-        handleData: (T data, EventSink<S> sink) {
-          handleData.call(data, sink);
-        },
+        handleData: handleData,
         handleError: handleError,
       ));
 }
