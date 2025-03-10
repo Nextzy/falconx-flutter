@@ -31,7 +31,31 @@ extension FalconnectFutureResponseExtensions<T> on Future<Response<T>> {
       (value) => value,
       onError: (error, stackTrace) {
         if (f != null && error is DioException) {
-          final resolve = f(error, null);
+          final resolve = f(error, error.stackTrace);
+          final response = error.response.transformData(data: resolve);
+          return Future.value(response);
+        }
+        throw error;
+      },
+    );
+  }
+}
+
+extension FalconnectHttpFutureRpcResponseExtensions<T>
+    on Future<JsonRpcResponse<T>> {
+  Future<T> unwrapResponse() {
+    return then<T>((JsonRpcResponse<T> response) {
+      return Future.value(response.result);
+    });
+  }
+
+  Future<JsonRpcResponse<T>> catchWhenError(
+      T? Function(DioException exception, StackTrace? stackTrace)? f) {
+    return then(
+      (value) => value,
+      onError: (error, stackTrace) {
+        if (f != null && error is DioException) {
+          final resolve = f(error, error.stackTrace);
           final response = error.response.transformData(data: resolve);
           return Future.value(response);
         }
@@ -46,6 +70,21 @@ extension FalconnectHttpFutureResponseExtensions<T> on Future<HttpResponse<T>> {
     return then<T>((HttpResponse<T> response) {
       return Future.value(response.data);
     });
+  }
+
+  Future<HttpResponse<T>> catchWhenError(
+      T? Function(DioException exception, StackTrace? stackTrace)? f) {
+    return then(
+      (value) => value,
+      onError: (error, stackTrace) {
+        if (f != null && error is DioException) {
+          final resolve = f(error, error.stackTrace);
+          final response = error.response.transformData(data: resolve);
+          return Future.value(response);
+        }
+        throw error;
+      },
+    );
   }
 }
 
