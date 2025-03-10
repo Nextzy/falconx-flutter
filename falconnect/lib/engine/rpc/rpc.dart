@@ -1,6 +1,5 @@
-import 'package:falconnect/lib.dart';
-
-export 'rpc_body.dart';
+export 'batch_rpc_request.dart';
+export 'rpc_request.dart';
 export 'rpc_response.dart';
 
 abstract class JsonRpc {

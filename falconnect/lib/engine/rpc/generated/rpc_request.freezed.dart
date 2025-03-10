@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of '../rpc_body.dart';
+part of '../rpc_request.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,27 +14,28 @@ part of '../rpc_body.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$RpcBody<T> {
+mixin _$JsonRpcRequest {
   String? get jsonrpc;
   String? get method;
-  T? get params;
+  Map<String, dynamic>? get params;
   String? get id;
 
-  /// Create a copy of RpcBody
+  /// Create a copy of JsonRpcRequest
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $RpcBodyCopyWith<T, RpcBody<T>> get copyWith =>
-      _$RpcBodyCopyWithImpl<T, RpcBody<T>>(this as RpcBody<T>, _$identity);
+  $JsonRpcRequestCopyWith<JsonRpcRequest> get copyWith =>
+      _$JsonRpcRequestCopyWithImpl<JsonRpcRequest>(
+          this as JsonRpcRequest, _$identity);
 
-  /// Serializes this RpcBody to a JSON map.
-  Map<String, dynamic> toJson(Object? Function(T) toJsonT);
+  /// Serializes this JsonRpcRequest to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is RpcBody<T> &&
+            other is JsonRpcRequest &&
             (identical(other.jsonrpc, jsonrpc) || other.jsonrpc == jsonrpc) &&
             (identical(other.method, method) || other.method == method) &&
             const DeepCollectionEquality().equals(other.params, params) &&
@@ -48,26 +49,32 @@ mixin _$RpcBody<T> {
 
   @override
   String toString() {
-    return 'RpcBody<$T>(jsonrpc: $jsonrpc, method: $method, params: $params, id: $id)';
+    return 'JsonRpcRequest(jsonrpc: $jsonrpc, method: $method, params: $params, id: $id)';
   }
 }
 
 /// @nodoc
-abstract mixin class $RpcBodyCopyWith<T, $Res> {
-  factory $RpcBodyCopyWith(RpcBody<T> value, $Res Function(RpcBody<T>) _then) =
-      _$RpcBodyCopyWithImpl;
+abstract mixin class $JsonRpcRequestCopyWith<$Res> {
+  factory $JsonRpcRequestCopyWith(
+          JsonRpcRequest value, $Res Function(JsonRpcRequest) _then) =
+      _$JsonRpcRequestCopyWithImpl;
   @useResult
-  $Res call({String? jsonrpc, String? method, T? params, String? id});
+  $Res call(
+      {String? jsonrpc,
+      String? method,
+      Map<String, dynamic>? params,
+      String? id});
 }
 
 /// @nodoc
-class _$RpcBodyCopyWithImpl<T, $Res> implements $RpcBodyCopyWith<T, $Res> {
-  _$RpcBodyCopyWithImpl(this._self, this._then);
+class _$JsonRpcRequestCopyWithImpl<$Res>
+    implements $JsonRpcRequestCopyWith<$Res> {
+  _$JsonRpcRequestCopyWithImpl(this._self, this._then);
 
-  final RpcBody<T> _self;
-  final $Res Function(RpcBody<T>) _then;
+  final JsonRpcRequest _self;
+  final $Res Function(JsonRpcRequest) _then;
 
-  /// Create a copy of RpcBody
+  /// Create a copy of JsonRpcRequest
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -89,7 +96,7 @@ class _$RpcBodyCopyWithImpl<T, $Res> implements $RpcBodyCopyWith<T, $Res> {
       params: freezed == params
           ? _self.params
           : params // ignore: cast_nullable_to_non_nullable
-              as T?,
+              as Map<String, dynamic>?,
       id: freezed == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -99,77 +106,91 @@ class _$RpcBodyCopyWithImpl<T, $Res> implements $RpcBodyCopyWith<T, $Res> {
 }
 
 /// @nodoc
-@JsonSerializable(genericArgumentFactories: true)
-class _RpcBody<T> extends RpcBody<T> {
-  const _RpcBody(
+@JsonSerializable()
+class _JsonRpcRequest extends JsonRpcRequest {
+  const _JsonRpcRequest(
       {required final String? jsonrpc,
       required this.method,
-      this.params,
+      final Map<String, dynamic>? params,
       final String? id})
-      : super._(jsonrpc: jsonrpc, id: id);
-  factory _RpcBody.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$RpcBodyFromJson(json, fromJsonT);
+      : _params = params,
+        super._(jsonrpc: jsonrpc, id: id);
+  factory _JsonRpcRequest.fromJson(Map<String, dynamic> json) =>
+      _$JsonRpcRequestFromJson(json);
 
   @override
   final String? method;
+  final Map<String, dynamic>? _params;
   @override
-  final T? params;
+  Map<String, dynamic>? get params {
+    final value = _params;
+    if (value == null) return null;
+    if (_params is EqualUnmodifiableMapView) return _params;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
 
-  /// Create a copy of RpcBody
+  /// Create a copy of JsonRpcRequest
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$RpcBodyCopyWith<T, _RpcBody<T>> get copyWith =>
-      __$RpcBodyCopyWithImpl<T, _RpcBody<T>>(this, _$identity);
+  _$JsonRpcRequestCopyWith<_JsonRpcRequest> get copyWith =>
+      __$JsonRpcRequestCopyWithImpl<_JsonRpcRequest>(this, _$identity);
 
   @override
-  Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
-    return _$RpcBodyToJson<T>(this, toJsonT);
+  Map<String, dynamic> toJson() {
+    return _$JsonRpcRequestToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RpcBody<T> &&
+            other is _JsonRpcRequest &&
             (identical(other.jsonrpc, jsonrpc) || other.jsonrpc == jsonrpc) &&
             (identical(other.method, method) || other.method == method) &&
-            const DeepCollectionEquality().equals(other.params, params) &&
+            const DeepCollectionEquality().equals(other._params, _params) &&
             (identical(other.id, id) || other.id == id));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, jsonrpc, method,
-      const DeepCollectionEquality().hash(params), id);
+      const DeepCollectionEquality().hash(_params), id);
 
   @override
   String toString() {
-    return 'RpcBody<$T>(jsonrpc: $jsonrpc, method: $method, params: $params, id: $id)';
+    return 'JsonRpcRequest(jsonrpc: $jsonrpc, method: $method, params: $params, id: $id)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$RpcBodyCopyWith<T, $Res>
-    implements $RpcBodyCopyWith<T, $Res> {
-  factory _$RpcBodyCopyWith(
-          _RpcBody<T> value, $Res Function(_RpcBody<T>) _then) =
-      __$RpcBodyCopyWithImpl;
+abstract mixin class _$JsonRpcRequestCopyWith<$Res>
+    implements $JsonRpcRequestCopyWith<$Res> {
+  factory _$JsonRpcRequestCopyWith(
+          _JsonRpcRequest value, $Res Function(_JsonRpcRequest) _then) =
+      __$JsonRpcRequestCopyWithImpl;
   @override
   @useResult
-  $Res call({String? jsonrpc, String? method, T? params, String? id});
+  $Res call(
+      {String? jsonrpc,
+      String? method,
+      Map<String, dynamic>? params,
+      String? id});
 }
 
 /// @nodoc
-class __$RpcBodyCopyWithImpl<T, $Res> implements _$RpcBodyCopyWith<T, $Res> {
-  __$RpcBodyCopyWithImpl(this._self, this._then);
+class __$JsonRpcRequestCopyWithImpl<$Res>
+    implements _$JsonRpcRequestCopyWith<$Res> {
+  __$JsonRpcRequestCopyWithImpl(this._self, this._then);
 
-  final _RpcBody<T> _self;
-  final $Res Function(_RpcBody<T>) _then;
+  final _JsonRpcRequest _self;
+  final $Res Function(_JsonRpcRequest) _then;
 
-  /// Create a copy of RpcBody
+  /// Create a copy of JsonRpcRequest
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -179,7 +200,7 @@ class __$RpcBodyCopyWithImpl<T, $Res> implements _$RpcBodyCopyWith<T, $Res> {
     Object? params = freezed,
     Object? id = freezed,
   }) {
-    return _then(_RpcBody<T>(
+    return _then(_JsonRpcRequest(
       jsonrpc: freezed == jsonrpc
           ? _self.jsonrpc
           : jsonrpc // ignore: cast_nullable_to_non_nullable
@@ -189,9 +210,9 @@ class __$RpcBodyCopyWithImpl<T, $Res> implements _$RpcBodyCopyWith<T, $Res> {
           : method // ignore: cast_nullable_to_non_nullable
               as String?,
       params: freezed == params
-          ? _self.params
+          ? _self._params
           : params // ignore: cast_nullable_to_non_nullable
-              as T?,
+              as Map<String, dynamic>?,
       id: freezed == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
