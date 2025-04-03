@@ -247,7 +247,7 @@ packages:
       path: "../falconnect"
       relative: true
     source: path
-    version: "1.3.4"
+    version: "1.3.5"
   falkit:
     dependency: "direct main"
     description:

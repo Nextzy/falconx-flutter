@@ -54,7 +54,9 @@ class HttpLogInterceptor extends Interceptor {
 
   @override
   void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     if (!kReleaseMode) {
       logPrint(_title('*** Request ↗️ ***'));
       _printKV('URL', options.uri);
@@ -68,12 +70,19 @@ class HttpLogInterceptor extends Interceptor {
         _printKV('sendTimeout', options.sendTimeout);
         _printKV('receiveTimeout', options.receiveTimeout);
         _printKV(
-            'receiveDataWhenStatusError', options.receiveDataWhenStatusError);
+          'receiveDataWhenStatusError',
+          options.receiveDataWhenStatusError,
+        );
         _printKV('extra', options.extra);
       }
       if (requestHeader) {
         logPrint('headers:');
-        options.headers.forEach((key, v) => _printKV(' $key', _title(v)));
+        options.headers.forEach(
+          (key, v) => _printKV(
+            ' $key',
+            _title(v ?? 'null'),
+          ),
+        );
       }
       if (requestBody) {
         final data = options.data;
@@ -85,10 +94,15 @@ class HttpLogInterceptor extends Interceptor {
             final newList = data.fields
                 .map((MapEntry<String, String> e) => {e.key: e.value})
                 .toList();
-            newList.addAll(data.files
-                .map((MapEntry<String, MultipartFile> e) =>
-                    {e.key: _getMultipartFileString(e.value)})
-                .toList());
+            newList.addAll(
+              data.files
+                  .map(
+                    (MapEntry<String, MultipartFile> e) => {
+                      e.key: _getMultipartFileString(e.value),
+                    },
+                  )
+                  .toList(),
+            );
             prettyPrint = encoder.convert(newList);
           } else {
             logPrint(_json('Body Data:'));
@@ -142,8 +156,9 @@ class HttpLogInterceptor extends Interceptor {
         }
 
         logPrint('headers:');
-        response.headers
-            .forEach((key, v) => _printKV(' $key', v.join('\r\n\t')));
+        response.headers.forEach(
+          (key, v) => _printKV(' $key', v.join('\r\n\t')),
+        );
       }
       if (responseBody) {
         logPrint(_json('Response Text:'));
