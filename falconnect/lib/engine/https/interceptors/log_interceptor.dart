@@ -80,7 +80,7 @@ class HttpLogInterceptor extends Interceptor {
         options.headers.forEach(
           (key, v) => _printKV(
             ' $key',
-            _title(v ?? 'null'),
+            _title(v.toString()),
           ),
         );
       }
