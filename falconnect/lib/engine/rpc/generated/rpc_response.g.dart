@@ -6,26 +6,28 @@ part of '../rpc_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_JsonRpcResponse<T> _$JsonRpcResponseFromJson<T>(
+_JsonRpcResponse<T, E> _$JsonRpcResponseFromJson<T, E>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
+  E Function(Object? json) fromJsonE,
 ) =>
-    _JsonRpcResponse<T>(
+    _JsonRpcResponse<T, E>(
       jsonrpc: json['jsonrpc'] as String?,
       result: _$nullableGenericFromJson(json['result'], fromJsonT),
-      error: json['error'],
+      error: _$nullableGenericFromJson(json['error'], fromJsonE),
       id: json['id'] as String?,
     );
 
-Map<String, dynamic> _$JsonRpcResponseToJson<T>(
-  _JsonRpcResponse<T> instance,
+Map<String, dynamic> _$JsonRpcResponseToJson<T, E>(
+  _JsonRpcResponse<T, E> instance,
   Object? Function(T value) toJsonT,
+  Object? Function(E value) toJsonE,
 ) =>
     <String, dynamic>{
       'jsonrpc': instance.jsonrpc,
       'id': instance.id,
       'result': _$nullableGenericToJson(instance.result, toJsonT),
-      'error': instance.error,
+      'error': _$nullableGenericToJson(instance.error, toJsonE),
     };
 
 T? _$nullableGenericFromJson<T>(

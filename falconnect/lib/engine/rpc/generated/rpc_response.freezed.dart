@@ -14,28 +14,29 @@ part of '../rpc_response.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$JsonRpcResponse<T> {
+mixin _$JsonRpcResponse<T, E> {
   String? get jsonrpc;
   T? get result;
-  Object? get error;
+  E? get error;
   String? get id;
 
   /// Create a copy of JsonRpcResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $JsonRpcResponseCopyWith<T, JsonRpcResponse<T>> get copyWith =>
-      _$JsonRpcResponseCopyWithImpl<T, JsonRpcResponse<T>>(
-          this as JsonRpcResponse<T>, _$identity);
+  $JsonRpcResponseCopyWith<T, E, JsonRpcResponse<T, E>> get copyWith =>
+      _$JsonRpcResponseCopyWithImpl<T, E, JsonRpcResponse<T, E>>(
+          this as JsonRpcResponse<T, E>, _$identity);
 
   /// Serializes this JsonRpcResponse to a JSON map.
-  Map<String, dynamic> toJson(Object? Function(T) toJsonT);
+  Map<String, dynamic> toJson(
+      Object? Function(T) toJsonT, Object? Function(E) toJsonE);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is JsonRpcResponse<T> &&
+            other is JsonRpcResponse<T, E> &&
             (identical(other.jsonrpc, jsonrpc) || other.jsonrpc == jsonrpc) &&
             const DeepCollectionEquality().equals(other.result, result) &&
             const DeepCollectionEquality().equals(other.error, error) &&
@@ -53,26 +54,26 @@ mixin _$JsonRpcResponse<T> {
 
   @override
   String toString() {
-    return 'JsonRpcResponse<$T>(jsonrpc: $jsonrpc, result: $result, error: $error, id: $id)';
+    return 'JsonRpcResponse<$T, $E>(jsonrpc: $jsonrpc, result: $result, error: $error, id: $id)';
   }
 }
 
 /// @nodoc
-abstract mixin class $JsonRpcResponseCopyWith<T, $Res> {
-  factory $JsonRpcResponseCopyWith(
-          JsonRpcResponse<T> value, $Res Function(JsonRpcResponse<T>) _then) =
+abstract mixin class $JsonRpcResponseCopyWith<T, E, $Res> {
+  factory $JsonRpcResponseCopyWith(JsonRpcResponse<T, E> value,
+          $Res Function(JsonRpcResponse<T, E>) _then) =
       _$JsonRpcResponseCopyWithImpl;
   @useResult
-  $Res call({String? jsonrpc, T? result, Object? error, String? id});
+  $Res call({String? jsonrpc, T? result, E? error, String? id});
 }
 
 /// @nodoc
-class _$JsonRpcResponseCopyWithImpl<T, $Res>
-    implements $JsonRpcResponseCopyWith<T, $Res> {
+class _$JsonRpcResponseCopyWithImpl<T, E, $Res>
+    implements $JsonRpcResponseCopyWith<T, E, $Res> {
   _$JsonRpcResponseCopyWithImpl(this._self, this._then);
 
-  final JsonRpcResponse<T> _self;
-  final $Res Function(JsonRpcResponse<T>) _then;
+  final JsonRpcResponse<T, E> _self;
+  final $Res Function(JsonRpcResponse<T, E>) _then;
 
   /// Create a copy of JsonRpcResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -93,7 +94,10 @@ class _$JsonRpcResponseCopyWithImpl<T, $Res>
           ? _self.result
           : result // ignore: cast_nullable_to_non_nullable
               as T?,
-      error: freezed == error ? _self.error : error,
+      error: freezed == error
+          ? _self.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as E?,
       id: freezed == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -104,40 +108,42 @@ class _$JsonRpcResponseCopyWithImpl<T, $Res>
 
 /// @nodoc
 @JsonSerializable(genericArgumentFactories: true)
-class _JsonRpcResponse<T> extends JsonRpcResponse<T> {
+class _JsonRpcResponse<T, E> extends JsonRpcResponse<T, E> {
   const _JsonRpcResponse(
       {required final String? jsonrpc,
       this.result,
       this.error,
       final String? id})
       : super._(jsonrpc: jsonrpc, id: id);
-  factory _JsonRpcResponse.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$JsonRpcResponseFromJson(json, fromJsonT);
+  factory _JsonRpcResponse.fromJson(Map<String, dynamic> json,
+          T Function(Object?) fromJsonT, E Function(Object?) fromJsonE) =>
+      _$JsonRpcResponseFromJson(json, fromJsonT, fromJsonE);
 
   @override
   final T? result;
   @override
-  final Object? error;
+  final E? error;
 
   /// Create a copy of JsonRpcResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$JsonRpcResponseCopyWith<T, _JsonRpcResponse<T>> get copyWith =>
-      __$JsonRpcResponseCopyWithImpl<T, _JsonRpcResponse<T>>(this, _$identity);
+  _$JsonRpcResponseCopyWith<T, E, _JsonRpcResponse<T, E>> get copyWith =>
+      __$JsonRpcResponseCopyWithImpl<T, E, _JsonRpcResponse<T, E>>(
+          this, _$identity);
 
   @override
-  Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
-    return _$JsonRpcResponseToJson<T>(this, toJsonT);
+  Map<String, dynamic> toJson(
+      Object? Function(T) toJsonT, Object? Function(E) toJsonE) {
+    return _$JsonRpcResponseToJson<T, E>(this, toJsonT, toJsonE);
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _JsonRpcResponse<T> &&
+            other is _JsonRpcResponse<T, E> &&
             (identical(other.jsonrpc, jsonrpc) || other.jsonrpc == jsonrpc) &&
             const DeepCollectionEquality().equals(other.result, result) &&
             const DeepCollectionEquality().equals(other.error, error) &&
@@ -155,28 +161,28 @@ class _JsonRpcResponse<T> extends JsonRpcResponse<T> {
 
   @override
   String toString() {
-    return 'JsonRpcResponse<$T>(jsonrpc: $jsonrpc, result: $result, error: $error, id: $id)';
+    return 'JsonRpcResponse<$T, $E>(jsonrpc: $jsonrpc, result: $result, error: $error, id: $id)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$JsonRpcResponseCopyWith<T, $Res>
-    implements $JsonRpcResponseCopyWith<T, $Res> {
-  factory _$JsonRpcResponseCopyWith(
-          _JsonRpcResponse<T> value, $Res Function(_JsonRpcResponse<T>) _then) =
+abstract mixin class _$JsonRpcResponseCopyWith<T, E, $Res>
+    implements $JsonRpcResponseCopyWith<T, E, $Res> {
+  factory _$JsonRpcResponseCopyWith(_JsonRpcResponse<T, E> value,
+          $Res Function(_JsonRpcResponse<T, E>) _then) =
       __$JsonRpcResponseCopyWithImpl;
   @override
   @useResult
-  $Res call({String? jsonrpc, T? result, Object? error, String? id});
+  $Res call({String? jsonrpc, T? result, E? error, String? id});
 }
 
 /// @nodoc
-class __$JsonRpcResponseCopyWithImpl<T, $Res>
-    implements _$JsonRpcResponseCopyWith<T, $Res> {
+class __$JsonRpcResponseCopyWithImpl<T, E, $Res>
+    implements _$JsonRpcResponseCopyWith<T, E, $Res> {
   __$JsonRpcResponseCopyWithImpl(this._self, this._then);
 
-  final _JsonRpcResponse<T> _self;
-  final $Res Function(_JsonRpcResponse<T>) _then;
+  final _JsonRpcResponse<T, E> _self;
+  final $Res Function(_JsonRpcResponse<T, E>) _then;
 
   /// Create a copy of JsonRpcResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -188,7 +194,7 @@ class __$JsonRpcResponseCopyWithImpl<T, $Res>
     Object? error = freezed,
     Object? id = freezed,
   }) {
-    return _then(_JsonRpcResponse<T>(
+    return _then(_JsonRpcResponse<T, E>(
       jsonrpc: freezed == jsonrpc
           ? _self.jsonrpc
           : jsonrpc // ignore: cast_nullable_to_non_nullable
@@ -197,7 +203,10 @@ class __$JsonRpcResponseCopyWithImpl<T, $Res>
           ? _self.result
           : result // ignore: cast_nullable_to_non_nullable
               as T?,
-      error: freezed == error ? _self.error : error,
+      error: freezed == error
+          ? _self.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as E?,
       id: freezed == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
