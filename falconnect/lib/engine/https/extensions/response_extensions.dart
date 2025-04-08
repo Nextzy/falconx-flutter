@@ -41,15 +41,15 @@ extension FalconnectFutureResponseExtensions<T> on Future<Response<T>> {
   }
 }
 
-extension FalconnectHttpFutureRpcResponseExtensions<T>
-    on Future<JsonRpcResponse<T>> {
+extension FalconnectHttpFutureRpcResponseExtensions<T, E>
+    on Future<JsonRpcResponse<T, E>> {
   Future<T> unwrapResponse() {
-    return then<T>((JsonRpcResponse<T> response) {
+    return then<T>((JsonRpcResponse<T, E> response) {
       return Future.value(response.result);
     });
   }
 
-  Future<JsonRpcResponse<T>> catchWhenError(
+  Future<JsonRpcResponse<T, E>> catchWhenError(
       T? Function(DioException exception, StackTrace? stackTrace)? f) {
     return then(
       (value) => value,

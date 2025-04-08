@@ -5,7 +5,8 @@ part 'generated/rpc_response.freezed.dart';
 part 'generated/rpc_response.g.dart';
 
 @Freezed(genericArgumentFactories: true)
-abstract class JsonRpcResponse<T> extends JsonRpc with _$JsonRpcResponse<T> {
+abstract class JsonRpcResponse<T, E> extends JsonRpc
+    with _$JsonRpcResponse<T, E> {
   const JsonRpcResponse._({
     super.jsonrpc,
     super.id,
@@ -14,13 +15,17 @@ abstract class JsonRpcResponse<T> extends JsonRpc with _$JsonRpcResponse<T> {
   const factory JsonRpcResponse({
     required String? jsonrpc,
     T? result,
-    Object? error,
+    E? error,
     String? id,
-  }) = _JsonRpcResponse<T>;
+  }) = _JsonRpcResponse<T, E>;
 
-  factory JsonRpcResponse.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$JsonRpcResponseFromJson(json, fromJsonT);
+  factory JsonRpcResponse.fromJson(Map<String, dynamic> json,
+          T Function(Object?) fromJsonT, E Function(Object?) fromJsonE) =>
+      _$JsonRpcResponseFromJson(
+        json,
+        fromJsonT,
+        fromJsonE,
+      );
 
   bool get hasResult => result != null;
 
