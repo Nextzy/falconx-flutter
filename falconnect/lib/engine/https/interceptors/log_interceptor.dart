@@ -80,7 +80,7 @@ class HttpLogInterceptor extends Interceptor {
         options.headers.forEach(
           (key, v) => _printKV(
             ' $key',
-            _title(v.toString()),
+            _title(v?.toString() ?? ''),
           ),
         );
       }
@@ -110,7 +110,7 @@ class HttpLogInterceptor extends Interceptor {
           }
           _printAll(_json(prettyPrint));
         } catch (e) {
-          _printAll(_json(data.toString()));
+          _printAll(_json(data?.toString() ?? ''));
         }
       }
       logPrint('');

@@ -6,12 +6,12 @@ class BatchJsonRpcBody<RESPONSE> extends JsonRpc {
     super.id,
     required this.method,
     this.params,
-    this.toJsonResponse,
+    this.fromJsonResponse,
   }) : super();
 
   final String? method;
   final Map<String, dynamic>? params;
-  final RESPONSE Function(Map<String, dynamic>? json)? toJsonResponse;
+  final RESPONSE Function(Map<String, dynamic>? json)? fromJsonResponse;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = {};
