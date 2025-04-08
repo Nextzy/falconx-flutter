@@ -18,6 +18,6 @@ abstract class JsonRpcRequest extends JsonRpc with _$JsonRpcRequest {
     String? id,
   }) = _JsonRpcRequest;
 
-  factory JsonRpcRequest.fromJson( Map<String, dynamic> json) =>
+  factory JsonRpcRequest.fromJson(Map<String, dynamic> json) =>
       _$JsonRpcRequestFromJson(json);
 }

@@ -23,15 +23,16 @@ dependencies:
   stack_trace: ^1.11.0
   dartx: ^1.2.0
   rxdart: ^0.28.0
-  enum_to_string: ^2.2.0
-  dartz: ^0.10.1
+  enum_to_string: ^2.2.1
+  fpdart: ^1.1.1
   version: ^3.0.2
   crypto: ^3.0.6
   url_strategy: ^0.3.0
   timeago: ^3.7.0
   numeral: ^3.0.0
   money_formatter: ^0.0.6
-  shared_preferences: ^2.5.2
+  shared_preferences: ^2.5.3
+  retry: ^3.1.2
 
   #PLATFORM: Android, iOS, Linux, MacOS, Windows
   path_provider: ^2.1.5
