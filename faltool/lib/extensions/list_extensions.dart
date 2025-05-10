@@ -19,13 +19,6 @@ extension FalconToolListExtensions<V> on List<V> {
     }
     return false;
   }
-
-  V? firstWhereOrNull(bool Function(V element) predicate) {
-    for (V element in this) {
-      if (predicate(element)) return element;
-    }
-    return null;
-  }
 }
 
 extension FalconToolListNullableExtensions<V> on List<V>? {

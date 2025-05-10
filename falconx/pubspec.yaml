@@ -1,6 +1,6 @@
 name: falconx
 description: A FalconX package project.
-version: 3.8.8
+version: 3.8.9
 publish_to: none
 
 environment:
@@ -21,15 +21,15 @@ dependencies:
     path: ../falstore
 
   #PLATFORM: All
-  provider: ^6.1.4
+  provider: ^6.1.5
   ansicolor: ^2.0.3
 
   #PLATFORM: Android, iOS, Linux, MacOS
-  flutter_local_notifications: ^19.0.0
+  flutter_local_notifications: ^19.2.0
 
   #======= Utils ========#
   #PLATFORM: All
-  flutter_bloc: ^9.1.0
+  flutter_bloc: ^9.1.1
   bloc_concurrency: ^0.3.0
   app_links: ^6.4.0
 
@@ -38,5 +38,3 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-
-flutter:
