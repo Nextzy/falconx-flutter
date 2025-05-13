@@ -7,6 +7,7 @@ enum FullWidgetState {
   empty,
   hovered,
   focused,
+  focusedVisible,
   pressed,
   dragged,
   selected,
@@ -18,37 +19,39 @@ enum FullWidgetState {
   warning,
   fail;
 
-  bool get isInitial => this == FullWidgetState.initial;
-  bool get isNormal => this == FullWidgetState.normal;
-  bool get isEmpty => this == FullWidgetState.empty;
-  bool get isHovered => this == FullWidgetState.hovered;
-  bool get isFocused => this == FullWidgetState.focused;
-  bool get isPressed => this == FullWidgetState.pressed;
-  bool get isDragged => this == FullWidgetState.dragged;
-  bool get isSelected => this == FullWidgetState.selected;
-  bool get isScrolledUnder => this == FullWidgetState.scrolledUnder;
-  bool get isDisabled => this == FullWidgetState.disabled;
-  bool get isLoading => this == FullWidgetState.loading;
-  bool get isSuccess => this == FullWidgetState.success;
-  bool get isFail => this == FullWidgetState.fail;
-  bool get isWarning => this == FullWidgetState.warning;
-  bool get isCancel => this == FullWidgetState.cancel;
+  bool get isInitial => this == FullWidgetState.initial; //
+  bool get isNormal => this == FullWidgetState.normal; //
+  bool get isEmpty => this == FullWidgetState.empty; //
+  bool get isHovered => this == FullWidgetState.hovered; //
+  bool get isFocused => this == FullWidgetState.focused; //
+  bool get isFocusedVisible => this == FullWidgetState.focusedVisible; //
+  bool get isPressed => this == FullWidgetState.pressed; //
+  bool get isDragged => this == FullWidgetState.dragged; //
+  bool get isSelected => this == FullWidgetState.selected; //
+  bool get isScrolledUnder => this == FullWidgetState.scrolledUnder; //
+  bool get isDisabled => this == FullWidgetState.disabled; //
+  bool get isLoading => this == FullWidgetState.loading; //
+  bool get isSuccess => this == FullWidgetState.success; //
+  bool get isFail => this == FullWidgetState.fail; //
+  bool get isWarning => this == FullWidgetState.warning; //
+  bool get isCancel => this == FullWidgetState.cancel; //
 
-  bool get isNotInitial => !isInitial;
-  bool get isNotNormal => !isNormal;
-  bool get isNotEmpty => !isEmpty;
-  bool get isNotHovered => !isHovered;
-  bool get isNotFocused => !isFocused;
-  bool get isNotPressed => !isPressed;
-  bool get isNotDragged => !isDragged;
-  bool get isNotSelected => !isSelected;
-  bool get isNotScrolledUnder => !isScrolledUnder;
-  bool get isNotDisabled => !isDisabled;
-  bool get isNotLoading => !isLoading;
-  bool get isNotSuccess => !isSuccess;
-  bool get isNotFail => !isFail;
-  bool get isNotWarning => !isWarning;
-  bool get isNotCancel => !isCancel;
+  bool get isNotInitial => !isInitial; //
+  bool get isNotNormal => !isNormal; //
+  bool get isNotEmpty => !isEmpty; //
+  bool get isNotHovered => !isHovered; //
+  bool get isNotFocused => !isFocused; //
+  bool get isNotFocusedVisible => !isFocusedVisible; //
+  bool get isNotPressed => !isPressed; //
+  bool get isNotDragged => !isDragged; //
+  bool get isNotSelected => !isSelected; //
+  bool get isNotScrolledUnder => !isScrolledUnder; //
+  bool get isNotDisabled => !isDisabled; //
+  bool get isNotLoading => !isLoading; //
+  bool get isNotSuccess => !isSuccess; //
+  bool get isNotFail => !isFail; //
+  bool get isNotWarning => !isWarning; //
+  bool get isNotCancel => !isCancel; //
 
   WidgetState? get toWidgetState => switch (this) {
         FullWidgetState.hovered => WidgetState.hovered,
@@ -101,6 +104,13 @@ class WidgetStateEvent<DATA> {
     bool build = true,
   }) =>
       WidgetStateEvent._(FullWidgetState.focused, data: data, build: build);
+
+  factory WidgetStateEvent.focusedVisible(
+    DATA data, {
+    bool build = true,
+  }) =>
+      WidgetStateEvent._(FullWidgetState.focusedVisible,
+          data: data, build: build);
 
   factory WidgetStateEvent.pressed(
     DATA data, {
@@ -172,40 +182,42 @@ class WidgetStateEvent<DATA> {
   final DATA data;
   final bool build;
 
-  bool get isInitial => state.isInitial;
-  bool get isNormal => state.isNormal;
-  bool get isEmpty => state.isEmpty;
-  bool get isHovered => state.isHovered;
-  bool get isFocused => state.isFocused;
-  bool get isPressed => state.isPressed;
-  bool get isDragged => state.isDragged;
-  bool get isSelected => state.isSelected;
-  bool get isScrolledUnder => state.isScrolledUnder;
-  bool get isDisabled => state.isDisabled;
-  bool get isLoading => state.isLoading;
-  bool get isSuccess => state.isSuccess;
-  bool get isFail => state.isFail;
-  bool get isWarning => state.isWarning;
-  bool get isCancel => state.isCancel;
+  bool get isInitial => state.isInitial; //
+  bool get isNormal => state.isNormal; //
+  bool get isEmpty => state.isEmpty; //
+  bool get isHovered => state.isHovered; //
+  bool get isFocused => state.isFocused; //
+  bool get isFocusedVisible => state.isFocusedVisible; //
+  bool get isPressed => state.isPressed; //
+  bool get isDragged => state.isDragged; //
+  bool get isSelected => state.isSelected; //
+  bool get isScrolledUnder => state.isScrolledUnder; //
+  bool get isDisabled => state.isDisabled; //
+  bool get isLoading => state.isLoading; //
+  bool get isSuccess => state.isSuccess; //
+  bool get isFail => state.isFail; //
+  bool get isWarning => state.isWarning; //
+  bool get isCancel => state.isCancel; //
 
-  bool get isNotInitial => !isInitial;
-  bool get isNotNormal => !isNormal;
-  bool get isNotEmpty => !isEmpty;
-  bool get isNotHovered => !isHovered;
-  bool get isNotFocused => !isFocused;
-  bool get isNotPressed => !isPressed;
-  bool get isNotDragged => !isDragged;
-  bool get isNotSelected => !isSelected;
-  bool get isNotScrolledUnder => !isScrolledUnder;
-  bool get isNotDisabled => !isDisabled;
-  bool get isNotLoading => !isLoading;
-  bool get isNotSuccess => !isSuccess;
-  bool get isNotFail => !isFail;
-  bool get isNotWarning => !isWarning;
-  bool get isNotCancel => !isCancel;
+  bool get isNotInitial => !isInitial; //
+  bool get isNotNormal => !isNormal; //
+  bool get isNotEmpty => !isEmpty; //
+  bool get isNotHovered => !isHovered; //
+  bool get isNotFocused => !isFocused; //
+  bool get isNotFocusedVisible => !isFocusedVisible; //
+  bool get isNotPressed => !isPressed; //
+  bool get isNotDragged => !isDragged; //
+  bool get isNotSelected => !isSelected; //
+  bool get isNotScrolledUnder => !isScrolledUnder; //
+  bool get isNotDisabled => !isDisabled; //
+  bool get isNotLoading => !isLoading; //
+  bool get isNotSuccess => !isSuccess; //
+  bool get isNotFail => !isFail; //
+  bool get isNotWarning => !isWarning; //
+  bool get isNotCancel => !isCancel; //
 
-  bool get hasData => data != null;
-  bool get noData => data == null;
+  bool get hasData => data != null; //
+  bool get noData => data == null; //
 
   R apply<R>(Function2<FullWidgetState, DATA, R> f) => f(state, data);
 
@@ -234,6 +246,9 @@ class WidgetStateEvent<DATA> {
 
   WidgetStateEvent<DATA> toFocused({DATA? data, bool? build}) =>
       copy(state: FullWidgetState.focused, data: data, build: build);
+
+  WidgetStateEvent<DATA> toFocusedVisible({DATA? data, bool? build}) =>
+      copy(state: FullWidgetState.focusedVisible, data: data, build: build);
 
   WidgetStateEvent<DATA> toPressed({DATA? data, bool? build}) =>
       copy(state: FullWidgetState.pressed, data: data, build: build);
