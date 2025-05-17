@@ -1,8 +1,8 @@
 import 'package:falconx/lib.dart';
 
-abstract class FalconWidgetStateEBloc<EVENT, DATA>
+abstract class FalconWidgetStateBloc<EVENT, DATA>
     extends FalconEventBloc<EVENT, WidgetDataState<DATA>> {
-  FalconWidgetStateEBloc(
+  FalconWidgetStateBloc(
     DATA initialData, {
     EventTransformer<BlocEvent<EVENT>>? transformer,
   }) : super(
