@@ -60,9 +60,9 @@ class ContentState<T> extends Cubit<WidgetDataState<T>> {
   }
 }
 
-class ContentSafeBuilder<T>
+class ContentBuilder<T>
     extends BlocBuilder<ContentState<T>, WidgetDataState<T>> {
-  const ContentSafeBuilder({
+  const ContentBuilder({
     super.key,
     required ContentState<T> content,
     super.buildWhen,

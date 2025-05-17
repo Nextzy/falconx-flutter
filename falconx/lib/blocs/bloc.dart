@@ -1,8 +1,8 @@
 import 'package:falconx/lib.dart';
 
-abstract class FalconWidgetStateEventSafeBloc<EVENT, DATA>
+abstract class FalconWidgetStateEBloc<EVENT, DATA>
     extends FalconEventBloc<EVENT, WidgetDataState<DATA>> {
-  FalconWidgetStateEventSafeBloc(
+  FalconWidgetStateEBloc(
     DATA initialData, {
     EventTransformer<BlocEvent<EVENT>>? transformer,
   }) : super(
@@ -140,9 +140,9 @@ ensure the event handler has not completed.
       );
 }
 
-abstract class FalconWidgetStateEventBloc<EVENT, DATA>
+abstract class FalconNullableWidgetStateBloc<EVENT, DATA>
     extends FalconEventBloc<EVENT, WidgetDataState<DATA?>> {
-  FalconWidgetStateEventBloc({
+  FalconNullableWidgetStateBloc({
     DATA? initialData,
     EventTransformer<BlocEvent<EVENT>>? transformer,
   }) : super(WidgetDataState.initial(initialData), transformer: transformer);
