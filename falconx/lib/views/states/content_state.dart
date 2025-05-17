@@ -1,10 +1,9 @@
 import 'package:falconx/lib.dart';
 
-class ContentState<T> extends Cubit<WidgetStateEvent<T?>> {
-  ContentState.initial([T? data]) : super(WidgetStateEvent.initial(data));
+class ContentState<T> extends Cubit<WidgetDataState<T>> {
+  ContentState.initial(T data) : super(WidgetDataState.initial(data));
 
   bool get isInitial => state.isInitial;
-  bool get isEmpty => state.isEmpty;
   bool get isSelected => state.isSelected;
   bool get isDisabled => state.isDisabled;
   bool get isLoading => state.isLoading;
@@ -14,7 +13,6 @@ class ContentState<T> extends Cubit<WidgetStateEvent<T?>> {
   bool get isCancel => state.isCancel;
 
   bool get isNotInitial => !isInitial;
-  bool get isNotEmpty => !isEmpty;
   bool get isNotSelected => !isSelected;
   bool get isNotDisabled => !isDisabled;
   bool get isNotLoading => !isLoading;
@@ -25,50 +23,46 @@ class ContentState<T> extends Cubit<WidgetStateEvent<T?>> {
 
   FullWidgetState get status => state.state;
 
-  T? get data => state.data;
+  T get data => state.data;
 
-  set data(T? data) => success(data);
+  set data(T data) => success(data);
 
   void initial([T? data]) {
-    emit(WidgetStateEvent.initial(data ?? state.data));
-  }
-
-  void empty() {
-    emit(WidgetStateEvent.empty(null));
+    emit(WidgetDataState.initial(data ?? state.data));
   }
 
   void success([T? data]) {
-    emit(WidgetStateEvent.success(data ?? state.data));
+    emit(WidgetDataState.success(data ?? state.data));
   }
 
   void loading([T? data]) {
-    emit(WidgetStateEvent.loading(data ?? state.data));
+    emit(WidgetDataState.loading(data ?? state.data));
   }
 
   void cancel([T? data]) {
-    emit(WidgetStateEvent.cancel(data ?? state.data));
+    emit(WidgetDataState.cancel(data ?? state.data));
   }
 
   void disabled([T? data]) {
-    emit(WidgetStateEvent.disabled(data ?? state.data));
+    emit(WidgetDataState.disabled(data ?? state.data));
   }
 
   void warning([T? data]) {
-    emit(WidgetStateEvent.warning(data ?? state.data));
+    emit(WidgetDataState.warning(data ?? state.data));
   }
 
   void selected([T? data]) {
-    emit(WidgetStateEvent.selected(data ?? state.data));
+    emit(WidgetDataState.selected(data ?? state.data));
   }
 
   void fail([T? data]) {
-    emit(WidgetStateEvent.fail(data ?? state.data));
+    emit(WidgetDataState.fail(data ?? state.data));
   }
 }
 
-class ContentBuilder<T>
-    extends BlocBuilder<ContentState<T>, WidgetStateEvent<T?>> {
-  const ContentBuilder({
+class ContentSafeBuilder<T>
+    extends BlocBuilder<ContentState<T>, WidgetDataState<T>> {
+  const ContentSafeBuilder({
     super.key,
     required ContentState<T> content,
     super.buildWhen,

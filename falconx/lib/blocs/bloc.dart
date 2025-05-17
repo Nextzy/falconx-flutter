@@ -1,12 +1,12 @@
 import 'package:falconx/lib.dart';
 
 abstract class FalconWidgetStateEventSafeBloc<EVENT, DATA>
-    extends FalconEventBloc<EVENT, WidgetStateEvent<DATA>> {
+    extends FalconEventBloc<EVENT, WidgetDataState<DATA>> {
   FalconWidgetStateEventSafeBloc(
     DATA initialData, {
     EventTransformer<BlocEvent<EVENT>>? transformer,
   }) : super(
-          WidgetStateEvent.initial(initialData),
+          WidgetDataState.initial(initialData),
           transformer: transformer,
         );
 
@@ -35,7 +35,7 @@ ensure the event handler has not completed.
     );
   }
 
-  void _emit(WidgetStateEvent<DATA> state) {
+  void _emit(WidgetDataState<DATA> state) {
     _assertEmitter();
     _emitter?.call(state);
   }
@@ -44,51 +44,51 @@ ensure the event handler has not completed.
       _emit(state.addEvent(event, data));
 
   void emitInitial([DATA? data]) =>
-      _emit(WidgetStateEvent.initial(data ?? state.data));
+      _emit(WidgetDataState.initial(data ?? state.data));
 
   void emitLoading([DATA? data]) =>
-      _emit(WidgetStateEvent.loading(data ?? state.data));
+      _emit(WidgetDataState.loading(data ?? state.data));
 
   void emitFail([DATA? data]) =>
-      _emit(WidgetStateEvent.fail(data ?? state.data));
+      _emit(WidgetDataState.fail(data ?? state.data));
 
   void emitWarning([DATA? data]) =>
-      _emit(WidgetStateEvent.warning(data ?? state.data));
+      _emit(WidgetDataState.warning(data ?? state.data));
 
   void emitSuccess([DATA? data]) =>
-      _emit(WidgetStateEvent.success(data ?? state.data));
+      _emit(WidgetDataState.success(data ?? state.data));
 
   void emitCancel([DATA? data]) =>
-      _emit(WidgetStateEvent.cancel(data ?? state.data));
+      _emit(WidgetDataState.cancel(data ?? state.data));
 
   void saveInitialState(DATA data) =>
-      _emit(WidgetStateEvent.initial(data, build: false));
+      _emit(WidgetDataState.initial(data, build: false));
 
   void saveLoadingState(DATA data) =>
-      _emit(WidgetStateEvent.loading(data, build: false));
+      _emit(WidgetDataState.loading(data, build: false));
 
   void saveFailState(DATA data) =>
-      _emit(WidgetStateEvent.fail(data, build: false));
+      _emit(WidgetDataState.fail(data, build: false));
 
   void saveWarningState(DATA data) =>
-      _emit(WidgetStateEvent.warning(data, build: false));
+      _emit(WidgetDataState.warning(data, build: false));
 
   void saveSuccessState(DATA data) =>
-      _emit(WidgetStateEvent.success(data, build: false));
+      _emit(WidgetDataState.success(data, build: false));
 
   void saveCancelState(DATA data) =>
-      _emit(WidgetStateEvent.cancel(data, build: false));
+      _emit(WidgetDataState.cancel(data, build: false));
 
 
   Future<void> callStream<A>({
-    required Stream<WidgetStateEvent<A?>> call,
-    required Function(WidgetStateEvent<A?> state) onData,
+    required Stream<WidgetDataState<A?>> call,
+    required Function(WidgetDataState<A?> state) onData,
     Function(Failure failure)? onFailure,
   }) {
     _assertEmitter();
     return _emitter!.onEach(
       call,
-      onData: (WidgetStateEvent<A?> state) {
+      onData: (WidgetDataState<A?> state) {
         onData(state);
       },
       onError: (error, stackTrace) {
@@ -107,7 +107,7 @@ ensure the event handler has not completed.
   Future<void> callEitherFuture<A>({
     required Object key,
     required Future<Either<Failure, A>> call,
-    required Function(WidgetStateEvent<A?> state) onData,
+    required Function(WidgetDataState<A?> state) onData,
     Function(Failure failure)? onFailure,
     bool debounceCall = true,
   }) =>
@@ -124,7 +124,7 @@ ensure the event handler has not completed.
   Future<void> callEitherStream<A>({
     required Object key,
     required Stream<Either<Failure, A>> call,
-    required Function(WidgetStateEvent<A?> state) onData,
+    required Function(WidgetDataState<A?> state) onData,
     Function(Failure failure)? onFailure,
     bool debounceCall = true,
   }) =>
@@ -141,15 +141,15 @@ ensure the event handler has not completed.
 }
 
 abstract class FalconWidgetStateEventBloc<EVENT, DATA>
-    extends FalconEventBloc<EVENT, WidgetStateEvent<DATA?>> {
+    extends FalconEventBloc<EVENT, WidgetDataState<DATA?>> {
   FalconWidgetStateEventBloc({
     DATA? initialData,
     EventTransformer<BlocEvent<EVENT>>? transformer,
-  }) : super(WidgetStateEvent.initial(initialData), transformer: transformer);
+  }) : super(WidgetDataState.initial(initialData), transformer: transformer);
 
   DATA? get data => state.data;
 
-  void _emit(WidgetStateEvent<DATA?> state) {
+  void _emit(WidgetDataState<DATA?> state) {
     assertEmitter();
     _emitter?.call(state);
   }
@@ -158,50 +158,50 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
       _emit(state.addEvent(event, data));
 
   void emitInitial([DATA? data]) =>
-      _emit(WidgetStateEvent.initial(data ?? state.data));
+      _emit(WidgetDataState.initial(data ?? state.data));
 
   void emitLoading([DATA? data]) =>
-      _emit(WidgetStateEvent.loading(data ?? state.data));
+      _emit(WidgetDataState.loading(data ?? state.data));
 
   void emitFail([DATA? data]) =>
-      _emit(WidgetStateEvent.fail(data ?? state.data));
+      _emit(WidgetDataState.fail(data ?? state.data));
 
   void emitWarning([DATA? data]) =>
-      _emit(WidgetStateEvent.warning(data ?? state.data));
+      _emit(WidgetDataState.warning(data ?? state.data));
 
   void emitSuccess([DATA? data]) =>
-      _emit(WidgetStateEvent.success(data ?? state.data));
+      _emit(WidgetDataState.success(data ?? state.data));
 
   void emitCancel([DATA? data]) =>
-      _emit(WidgetStateEvent.cancel(data ?? state.data));
+      _emit(WidgetDataState.cancel(data ?? state.data));
 
   void saveInitialState(DATA? data) =>
-      _emit(WidgetStateEvent.initial(data, build: false));
+      _emit(WidgetDataState.initial(data, build: false));
 
   void saveLoadingState(DATA? data) =>
-      _emit(WidgetStateEvent.loading(data, build: false));
+      _emit(WidgetDataState.loading(data, build: false));
 
   void saveFailState(DATA? data) =>
-      _emit(WidgetStateEvent.fail(data, build: false));
+      _emit(WidgetDataState.fail(data, build: false));
 
   void saveWarningState(DATA? data) =>
-      _emit(WidgetStateEvent.warning(data, build: false));
+      _emit(WidgetDataState.warning(data, build: false));
 
   void saveSuccessState(DATA? data) =>
-      _emit(WidgetStateEvent.success(data, build: false));
+      _emit(WidgetDataState.success(data, build: false));
 
   void saveCancelState(DATA? data) =>
-      _emit(WidgetStateEvent.cancel(data, build: false));
+      _emit(WidgetDataState.cancel(data, build: false));
 
   Future<void> callStream<A>({
-    required Stream<WidgetStateEvent<A?>> call,
-    required Function(WidgetStateEvent<A?> state) onData,
+    required Stream<WidgetDataState<A?>> call,
+    required Function(WidgetDataState<A?> state) onData,
     Function(Failure failure)? onFailure,
   }) {
     assertEmitter();
     return _emitter!.onEach(
       call,
-      onData: (WidgetStateEvent<A?> state) {
+      onData: (WidgetDataState<A?> state) {
         onData(state);
       },
       onError: (error, stackTrace) {
@@ -220,7 +220,7 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
   Future<void> callEitherFuture<A>({
     required Object key,
     required Future<Either<Failure, A>> call,
-    required Function(WidgetStateEvent<A?> state) onData,
+    required Function(WidgetDataState<A?> state) onData,
     Function(Failure failure)? onFailure,
     bool debounceCall = true,
   }) =>
@@ -237,7 +237,7 @@ abstract class FalconWidgetStateEventBloc<EVENT, DATA>
   Future<void> callEitherStream<A>({
     required Object key,
     required Stream<Either<Failure, A>> call,
-    required Function(WidgetStateEvent<A?> state) onData,
+    required Function(WidgetDataState<A?> state) onData,
     Function(Failure failure)? onFailure,
     bool debounceCall = true,
   }) =>
@@ -317,7 +317,7 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<EVENT, STATE> {
 
   final EitherStreamFetcherList _fetcher;
 
-  Stream<WidgetStateEvent<T?>> fetchEitherStream<T>({
+  Stream<WidgetDataState<T?>> fetchEitherStream<T>({
     required Object key,
     required Stream<Either<Failure, T>> call,
     bool debounceFetch = true,
@@ -328,7 +328,7 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<EVENT, STATE> {
         debounceFetch: debounceFetch,
       );
 
-  Stream<WidgetStateEvent<T>> fetchEitherStreamSafe<T>({
+  Stream<WidgetDataState<T>> fetchEitherStreamSafe<T>({
     required Object key,
     required Stream<Either<Failure, T>> call,
     required T defaultData,
@@ -339,12 +339,12 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<EVENT, STATE> {
         call: call,
         debounceFetch: debounceFetch,
       ).map(
-        (WidgetStateEvent<T?> event) => event.mapData(
+        (WidgetDataState<T?> event) => event.mapData(
           (T? a) => a ?? defaultData,
         ),
       );
 
-  Stream<WidgetStateEvent<T?>> fetchEitherFuture<T>({
+  Stream<WidgetDataState<T?>> fetchEitherFuture<T>({
     required Object key,
     required Future<Either<Failure, T>> call,
     bool debounceFetch = true,
@@ -355,7 +355,7 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<EVENT, STATE> {
         debounceFetch: debounceFetch,
       );
 
-  Stream<WidgetStateEvent<T>> fetchEitherFutureSafe<T>({
+  Stream<WidgetDataState<T>> fetchEitherFutureSafe<T>({
     required Object key,
     required Future<Either<Failure, T>> call,
     required T defaultData,
@@ -366,7 +366,7 @@ abstract class FalconBloc<EVENT, STATE> extends Bloc<EVENT, STATE> {
         call: call,
         debounceFetch: debounceFetch,
       ).map(
-        (WidgetStateEvent<T?> event) => event.mapData(
+        (WidgetDataState<T?> event) => event.mapData(
           (T? a) => a ?? defaultData,
         ),
       );

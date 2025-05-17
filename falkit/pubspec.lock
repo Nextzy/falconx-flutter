@@ -371,10 +371,10 @@ packages:
     dependency: transitive
     description:
       name: numeral
-      sha256: "18f359623a1c8ca5ef51194af86655fd6f9ae2fd83d4a130464d1853ec101b4e"
+      sha256: "860deb8465f3a778822b6cc2c0513be2831fb3083a8c06b611d9a5fef6ea3b67"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "3.1.1"
   package_info_plus:
     dependency: transitive
     description:
@@ -648,10 +648,10 @@ packages:
     dependency: transitive
     description:
       name: timeago
-      sha256: "054cedf68706bb142839ba0ae6b135f6b68039f0b8301cbe8784ae653d5ff8de"
+      sha256: b05159406a97e1cbb2b9ee4faa9fb096fe0e2dfcd8b08fcd2a00553450d3422e
       url: "https://pub.dev"
     source: hosted
-    version: "3.7.0"
+    version: "3.7.1"
   typed_data:
     dependency: transitive
     description:

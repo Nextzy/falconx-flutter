@@ -67,113 +67,144 @@ enum FullWidgetState {
 }
 
 @immutable
-class WidgetStateEvent<DATA> {
-  const WidgetStateEvent._(
+class WidgetDataState<DATA> {
+  const WidgetDataState._(
     this.state, {
+    this.id,
     required this.data,
     this.event,
     this.build = true,
   });
 
-  factory WidgetStateEvent.initial(
+  factory WidgetDataState.initial(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.initial, data: data, build: build);
+      WidgetDataState._(FullWidgetState.initial,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.normal(
+  factory WidgetDataState.normal(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.normal, data: data, build: build);
+      WidgetDataState._(FullWidgetState.normal,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.empty(
+  factory WidgetDataState.empty(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.empty, data: data, build: build);
+      WidgetDataState._(FullWidgetState.empty,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.hovered(
+  factory WidgetDataState.hovered(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.hovered, data: data, build: build);
+      WidgetDataState._(FullWidgetState.hovered,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.focused(
+  factory WidgetDataState.focused(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.focused, data: data, build: build);
+      WidgetDataState._(FullWidgetState.focused,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.focusedVisible(
+  factory WidgetDataState.focusedVisible(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.focusedVisible,
-          data: data, build: build);
+      WidgetDataState._(FullWidgetState.focusedVisible,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.pressed(
+  factory WidgetDataState.pressed(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.pressed, data: data, build: build);
+      WidgetDataState._(FullWidgetState.pressed,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.dragged(
+  factory WidgetDataState.dragged(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.dragged, data: data, build: build);
+      WidgetDataState._(FullWidgetState.dragged,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.selected(
+  factory WidgetDataState.selected(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.selected, data: data, build: build);
+      WidgetDataState._(FullWidgetState.selected,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.scrolledUnder(
+  factory WidgetDataState.scrolledUnder(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.scrolledUnder,
-          data: data, build: build);
+      WidgetDataState._(FullWidgetState.scrolledUnder,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.disabled(
+  factory WidgetDataState.disabled(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.disabled, data: data, build: build);
+      WidgetDataState._(FullWidgetState.disabled,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.loading(
+  factory WidgetDataState.loading(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.loading, data: data, build: build);
+      WidgetDataState._(FullWidgetState.loading,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.success(
+  factory WidgetDataState.success(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.success, data: data, build: build);
+      WidgetDataState._(FullWidgetState.success,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.cancel(
+  factory WidgetDataState.cancel(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.cancel, data: data, build: build);
+      WidgetDataState._(FullWidgetState.cancel,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.warning(
+  factory WidgetDataState.warning(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.warning, data: data, build: build);
+      WidgetDataState._(FullWidgetState.warning,
+          id: id, data: data, build: build);
 
-  factory WidgetStateEvent.fail(
+  factory WidgetDataState.fail(
     DATA data, {
+    String? id,
     bool build = true,
   }) =>
-      WidgetStateEvent._(FullWidgetState.fail, data: data, build: build);
+      WidgetDataState._(FullWidgetState.fail, id: id, data: data, build: build);
 
   final FullWidgetState state;
+  final String? id;
 
   /// Purpose to [WidgetEvent] for communicate BLoC --> Widget
   /// Important: [event] not copy because event must use for one time.
@@ -221,77 +252,93 @@ class WidgetStateEvent<DATA> {
 
   R apply<R>(Function2<FullWidgetState, DATA, R> f) => f(state, data);
 
-  WidgetStateEvent<NT2> mapData<NT2>(Function1<DATA, NT2> f, {bool? build}) =>
-      WidgetStateEvent._(state, data: f(data), build: build ?? true);
+  WidgetDataState<NT2> mapData<NT2>(Function1<DATA, NT2> f,
+          {String? id, bool? build}) =>
+      WidgetDataState._(state,
+          data: f(data), id: id ?? this.id, build: build ?? true);
 
-  WidgetStateEvent<DATA> mapState(Function1<FullWidgetState, FullWidgetState> f,
-          {bool? build}) =>
-      WidgetStateEvent._(f(state), data: data, build: build ?? true);
+  WidgetDataState<DATA> mapState(Function1<FullWidgetState, FullWidgetState> f,
+          {String? id, bool? build}) =>
+      WidgetDataState._(f(state),
+          id: id ?? this.id, data: data, build: build ?? true);
 
-  WidgetStateEvent<DATA> toState(FullWidgetState state,
-          {DATA? data, bool? build}) =>
-      copy(state: state, data: data, build: build);
+  WidgetDataState<DATA> toState(FullWidgetState state,
+          {DATA? data, String? id, bool? build}) =>
+      copy(state: state, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toInitial({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.initial, data: data, build: build);
+  WidgetDataState<DATA> toInitial({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.initial, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toNormal({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.normal, data: data, build: build);
+  WidgetDataState<DATA> toNormal({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.normal, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toEmpty({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.empty, data: data, build: build);
+  WidgetDataState<DATA> toEmpty({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.empty, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toHovered({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.hovered, data: data, build: build);
+  WidgetDataState<DATA> toHovered({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.hovered, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toFocused({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.focused, data: data, build: build);
+  WidgetDataState<DATA> toFocused({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.focused, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toFocusedVisible({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.focusedVisible, data: data, build: build);
+  WidgetDataState<DATA> toFocusedVisible(
+          {DATA? data, String? id, bool? build}) =>
+      copy(
+          state: FullWidgetState.focusedVisible,
+          id: id,
+          data: data,
+          build: build);
 
-  WidgetStateEvent<DATA> toPressed({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.pressed, data: data, build: build);
+  WidgetDataState<DATA> toPressed({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.pressed, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toDragged({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.dragged, data: data, build: build);
+  WidgetDataState<DATA> toDragged({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.dragged, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toSelected({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.selected, data: data, build: build);
+  WidgetDataState<DATA> toSelected({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.selected, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toScrolledUnder({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.scrolledUnder, data: data, build: build);
+  WidgetDataState<DATA> toScrolledUnder(
+          {DATA? data, String? id, bool? build}) =>
+      copy(
+          state: FullWidgetState.scrolledUnder,
+          id: id,
+          data: data,
+          build: build);
 
-  WidgetStateEvent<DATA> toDisabled({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.disabled, data: data, build: build);
+  WidgetDataState<DATA> toDisabled({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.disabled, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toLoading({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.loading, data: data, build: build);
+  WidgetDataState<DATA> toLoading({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.loading, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toSuccess({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.success, data: data, build: build);
+  WidgetDataState<DATA> toSuccess({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.success, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toCancel({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.cancel, data: data, build: build);
+  WidgetDataState<DATA> toCancel({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.cancel, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toWarning({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.warning, data: data, build: build);
+  WidgetDataState<DATA> toWarning({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.warning, id: id, data: data, build: build);
 
-  WidgetStateEvent<DATA> toFail({DATA? data, bool? build}) =>
-      copy(state: FullWidgetState.fail, data: data, build: build);
+  WidgetDataState<DATA> toFail({DATA? data, String? id, bool? build}) =>
+      copy(state: FullWidgetState.fail, id: id, data: data, build: build);
 
   /// Important: Do not copy [event] because event must use that one time.
   /// [event] if you want to send event to view, please use [addEvent]
-  /// [build] this flag use in view layer.
-  WidgetStateEvent<DATA> copy({
+  /// [build] this flag use for control rebuild at widget.
+  WidgetDataState<DATA> copy({
     FullWidgetState? state,
+    String? id,
     DATA? data,
     bool? build,
   }) =>
-      WidgetStateEvent<DATA>._(
+      WidgetDataState<DATA>._(
         state ?? this.state,
+        id: id ?? this.id,
         data: data ?? this.data,
-        build: build ?? true,
+        build: build ?? true, // Always true if build == null
+        event: null, // Clear event
       );
 
   /// In your [buildWhen] in BLoC
@@ -305,20 +352,21 @@ class WidgetStateEvent<DATA> {
   ///   return true;
   /// }
   /// ```
-  WidgetStateEvent<DATA> addEvent(
+  WidgetDataState<DATA> addEvent(
     Object event, [
     Object? data,
   ]) =>
-      WidgetStateEvent<DATA>._(
+      WidgetDataState<DATA>._(
         this.state,
-        event: WidgetEvent(event, data),
+        id: this.id,
         data: this.data,
         build: this.build,
+        event: WidgetEvent(event, data),
       );
 
   @override
   String toString() {
-    return 'WidgetStateEvent{state: $state, data: $data, event: $event, build: $build}';
+    return 'WidgetStateEvent{state: $state, id: $id, data: $data, event: $event, build: $build}';
   }
 }
 

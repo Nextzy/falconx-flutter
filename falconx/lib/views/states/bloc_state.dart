@@ -13,26 +13,70 @@ typedef PopListener<S> = void Function(S state, Object? result);
 typedef WillPopListener<S> = Future<bool> Function(
     BuildContext context, S state);
 
-abstract class FalconWidgetEventBlocState<
+abstract class FalconNullableWidgetBlocState<
     WIDGET extends StatefulWidget,
-    BLOC extends BlocBase<WidgetStateEvent<DATA?>>,
-    DATA> extends FalconBlocState<WIDGET, BLOC, WidgetStateEvent<DATA?>> {
-  FalconWidgetEventBlocState({super.initialWidgetState});
+    BLOC extends BlocBase<WidgetDataState<DATA?>>,
+    DATA> extends FalconBlocState<WIDGET, BLOC, WidgetDataState<DATA?>> {
+  FalconNullableWidgetBlocState({super.initialWidgetState});
 
   Widget buildWithBloc({
     BlocWidgetListenerEvent<Object>? listenEvent,
-    BlocWidgetListenerState<WidgetStateEvent<DATA?>>? listenState,
-    CanPopListener<WidgetStateEvent<DATA?>>? canPop,
-    PopListener<WidgetStateEvent<DATA?>>? onPop,
+    BlocWidgetListenerState<WidgetDataState<DATA?>>? listenState,
+    CanPopListener<WidgetDataState<DATA?>>? canPop,
+    PopListener<WidgetDataState<DATA?>>? onPop,
     @Deprecated(
       'Use onPop instead. '
       'This feature was deprecated after v3.12.0-1.0.pre.',
     )
-    WillPopListener<WidgetStateEvent<DATA?>>? onWillPop,
-    BlocListenerCondition<WidgetStateEvent<DATA?>>? buildWhen,
-    required Widget Function(
-            BuildContext context, WidgetStateEvent<DATA?> state)
-        builder,
+    WillPopListener<WidgetDataState<DATA?>>? onWillPop,
+    BlocListenerCondition<WidgetDataState<DATA?>>? buildWhen,
+    required BlocWidgetBuilder<WidgetDataState<DATA?>> builder,
+    BlocWidgetBuilder<WidgetDataState<DATA?>>? failBuilder,
+    BlocWidgetBuilder<WidgetDataState<DATA?>>? loadingBuilder,
+    BlocWidgetBuilder<WidgetDataState<DATA?>>? warningBuilder,
+  }) =>
+      NullableWidgetStateBlocConsumer<BLOC, DATA>(
+        bloc: bloc,
+        listenEvent: listenEvent,
+        listenState: listenState,
+        buildWhen: buildWhen,
+        builder: (context, state) => GestureDetector(
+          onTap: clearFocus,
+          child: buildCompatPopScope<WidgetDataState<DATA?>>(
+            state: state,
+            canPop: canPop,
+            onPop: onPop,
+            onWillPop: onWillPop,
+            child: builder(context, state),
+          ),
+        ),
+        failBuilder: failBuilder,
+        loadingBuilder: loadingBuilder,
+        warningBuilder: warningBuilder,
+      );
+}
+
+abstract class FalconWidgetBlocState<
+    WIDGET extends StatefulWidget,
+    BLOC extends BlocBase<WidgetDataState<DATA>>,
+    DATA> extends FalconBlocState<WIDGET, BLOC, WidgetDataState<DATA>> {
+  FalconWidgetBlocState({super.initialWidgetState});
+
+  Widget buildWithBloc({
+    BlocWidgetListenerEvent<Object>? listenEvent,
+    BlocWidgetListenerState<WidgetDataState<DATA>>? listenState,
+    CanPopListener<WidgetDataState<DATA>>? canPop,
+    PopListener<WidgetDataState<DATA>>? onPop,
+    @Deprecated(
+      'Use onPop instead. '
+      'This feature was deprecated after v3.12.0-1.0.pre.',
+    )
+    WillPopListener<WidgetDataState<DATA>>? onWillPop,
+    BlocListenerCondition<WidgetDataState<DATA>>? buildWhen,
+    required BlocWidgetBuilder<WidgetDataState<DATA>> builder,
+    BlocWidgetBuilder<WidgetDataState<DATA>>? failBuilder,
+    BlocWidgetBuilder<WidgetDataState<DATA>>? loadingBuilder,
+    BlocWidgetBuilder<WidgetDataState<DATA>>? warningBuilder,
   }) =>
       WidgetStateBlocConsumer<BLOC, DATA>(
         bloc: bloc,
@@ -41,7 +85,7 @@ abstract class FalconWidgetEventBlocState<
         buildWhen: buildWhen,
         builder: (context, state) => GestureDetector(
           onTap: clearFocus,
-          child: buildCompatPopScope<WidgetStateEvent<DATA?>>(
+          child: buildCompatPopScope<WidgetDataState<DATA>>(
             state: state,
             canPop: canPop,
             onPop: onPop,
@@ -49,44 +93,9 @@ abstract class FalconWidgetEventBlocState<
             child: builder(context, state),
           ),
         ),
-      );
-}
-
-abstract class FalconWidgetEventSafeBlocState<
-    WIDGET extends StatefulWidget,
-    BLOC extends BlocBase<WidgetStateEvent<DATA>>,
-    DATA> extends FalconBlocState<WIDGET, BLOC, WidgetStateEvent<DATA>> {
-  FalconWidgetEventSafeBlocState({super.initialWidgetState});
-
-  Widget buildWithBloc({
-    BlocWidgetListenerEvent<Object>? listenEvent,
-    BlocWidgetListenerState<WidgetStateEvent<DATA>>? listenState,
-    CanPopListener<WidgetStateEvent<DATA>>? canPop,
-    PopListener<WidgetStateEvent<DATA>>? onPop,
-    @Deprecated(
-      'Use onPop instead. '
-      'This feature was deprecated after v3.12.0-1.0.pre.',
-    )
-    WillPopListener<WidgetStateEvent<DATA>>? onWillPop,
-    BlocListenerCondition<WidgetStateEvent<DATA>>? buildWhen,
-    required Widget Function(BuildContext context, WidgetStateEvent<DATA> state)
-        builder,
-  }) =>
-      WidgetStateSafeBlocConsumer<BLOC, DATA>(
-        bloc: bloc,
-        listenEvent: listenEvent,
-        listenState: listenState,
-        buildWhen: buildWhen,
-        builder: (context, state) => GestureDetector(
-          onTap: clearFocus,
-          child: buildCompatPopScope<WidgetStateEvent<DATA>>(
-            state: state,
-            canPop: canPop,
-            onPop: onPop,
-            onWillPop: onWillPop,
-            child: builder(context, state),
-          ),
-        ),
+        failBuilder: failBuilder,
+        loadingBuilder: loadingBuilder,
+        warningBuilder: warningBuilder,
       );
 }
 
