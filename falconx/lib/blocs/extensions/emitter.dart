@@ -1,53 +1,53 @@
 import 'package:falconx/lib.dart';
 
-extension EmitterEvent<STATE extends WidgetStateEvent<DATA>, DATA>
+extension EmitterEvent<STATE extends WidgetDataState<DATA>, DATA>
     on Emitter<STATE> {}
 
-extension EmitterExtensions<T> on Emitter<WidgetStateEvent<T>> {
-  void emit(WidgetStateEvent<T> state) => call(state);
+extension EmitterExtensions<T> on Emitter<WidgetDataState<T>> {
+  void emit(WidgetDataState<T> state) => call(state);
 
-  void emitInitial(T data) => call(WidgetStateEvent.initial(data));
+  void emitInitial(T data) => call(WidgetDataState.initial(data));
 
-  void emitLoading(T data) => call(WidgetStateEvent.loading(data));
+  void emitLoading(T data) => call(WidgetDataState.loading(data));
 
-  void emitFail(T data) => call(WidgetStateEvent.fail(data));
+  void emitFail(T data) => call(WidgetDataState.fail(data));
 
-  void emitWarning(T data) => call(WidgetStateEvent.warning(data));
+  void emitWarning(T data) => call(WidgetDataState.warning(data));
 
-  void emitSuccess(T data) => call(WidgetStateEvent.success(data));
+  void emitSuccess(T data) => call(WidgetDataState.success(data));
 
-  void emitCancel(T data) => call(WidgetStateEvent.cancel(data));
+  void emitCancel(T data) => call(WidgetDataState.cancel(data));
 
   void saveInitialState(T data) =>
-      call(WidgetStateEvent.initial(data, build: false));
+      call(WidgetDataState.initial(data, build: false));
 
   void saveLoadingState(T data) =>
-      call(WidgetStateEvent.loading(data, build: false));
+      call(WidgetDataState.loading(data, build: false));
 
-  void saveFailState(T data) => call(WidgetStateEvent.fail(data, build: false));
+  void saveFailState(T data) => call(WidgetDataState.fail(data, build: false));
 
   void saveWarningState(T data) =>
-      call(WidgetStateEvent.warning(data, build: false));
+      call(WidgetDataState.warning(data, build: false));
 
   void saveSuccessState(T data) =>
-      call(WidgetStateEvent.success(data, build: false));
+      call(WidgetDataState.success(data, build: false));
 
   void saveCancelState(T data) =>
-      call(WidgetStateEvent.cancel(data, build: false));
+      call(WidgetDataState.cancel(data, build: false));
 
   /// Or use:
   /// emitter.emit(state.addEvent(...))
   void emitEvent(
-    WidgetStateEvent<T> currentState, {
+    WidgetDataState<T> currentState, {
     required Object event,
     Object? data,
   }) =>
       call(currentState.addEvent(event, data));
 
   Future<void> callStream<A>({
-    required Stream<WidgetStateEvent<A?>> call,
+    required Stream<WidgetDataState<A?>> call,
     required Function(
-      WidgetStateEvent<A?> state,
+      WidgetDataState<A?> state,
     ) onData,
     Function(
       Failure failure,
