@@ -1,10 +1,10 @@
 name: falconx
 description: A FalconX package project.
-version: 3.9.2
+version: 3.9.3
 publish_to: none
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -25,7 +25,7 @@ dependencies:
   ansicolor: ^2.0.3
 
   #PLATFORM: Android, iOS, Linux, MacOS
-  flutter_local_notifications: ^19.2.0
+  flutter_local_notifications: ^19.2.1
 
   #======= Utils ========#
   #PLATFORM: All
