@@ -78,7 +78,7 @@ class Log {
     }
   }
 
-  static void error(Object error, StackTrace stackTrace, {DateTime? time}) {
+  static void error(Object error, StackTrace? stackTrace, {DateTime? time}) {
     if (!kReleaseMode) {
       _logger.e(
         error.toString(),
