@@ -261,20 +261,20 @@ class WidgetDataState<DATA> {
   factory WidgetDataState.warning(
     DATA data, {
     String? id,
-    UserFeedback? warning,
+    UserFeedback? feedback,
     bool build = true,
   }) =>
       WidgetDataState._(FullWidgetState.warning,
-          id: id, feedback: warning ?? Warning(), data: data, build: build);
+          id: id, feedback: feedback ?? Warning(), data: data, build: build);
 
   factory WidgetDataState.fail(
     DATA data, {
     String? id,
-    UserFeedback? failure,
+    UserFeedback? feedback,
     bool build = true,
   }) =>
       WidgetDataState._(FullWidgetState.fail,
-          id: id, feedback: failure ?? Failure(), data: data, build: build);
+          id: id, feedback: feedback ?? Failure(), data: data, build: build);
 
   bool get isInitial => state.isInitial; //
   bool get isNormal => state.isNormal; //
@@ -467,20 +467,20 @@ class WidgetDataState<DATA> {
           build: build);
 
   WidgetDataState<DATA> toWarning(
-          {DATA? data, String? id, UserFeedback? warning, bool? build}) =>
+          {DATA? data, String? id, UserFeedback? feedback, bool? build}) =>
       copy(
           state: FullWidgetState.warning,
           id: id,
-          feedback: warning ?? Warning(),
+          feedback: feedback ?? Warning(),
           data: data,
           build: build);
 
   WidgetDataState<DATA> toFail(
-          {DATA? data, String? id, UserFeedback? failure, bool? build}) =>
+          {DATA? data, String? id, UserFeedback? feedback, bool? build}) =>
       copy(
           state: FullWidgetState.fail,
           id: id,
-          feedback: failure ?? Failure(),
+          feedback: feedback ?? Failure(),
           data: data,
           build: build);
 

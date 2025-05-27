@@ -57,16 +57,16 @@ ensure the event handler has not completed.
         build: true,
       ));
 
-  void emitFail({DATA? data, Failure? failure}) => _emit(WidgetDataState.fail(
+  void emitFail({DATA? data, Failure? feedback}) => _emit(WidgetDataState.fail(
         data ?? state.data,
-        failure: failure,
+        feedback: feedback,
         build: true,
       ));
 
-  void emitWarning({DATA? data, Warning? warning}) =>
+  void emitWarning({DATA? data, Warning? feedback}) =>
       _emit(WidgetDataState.warning(
         data ?? state.data,
-        warning: warning,
+        feedback: feedback,
         build: true,
       ));
 
@@ -98,17 +98,17 @@ ensure the event handler has not completed.
         build: false,
       ));
 
-  void saveFailState(DATA data, {UserFeedback? failure}) =>
+  void saveFailState(DATA data, {Failure? feedback}) =>
       _emit(WidgetDataState.fail(
         data,
-        failure: failure,
+        feedback: feedback,
         build: false,
       ));
 
-  void saveWarningState(DATA data, {UserFeedback? warning}) =>
+  void saveWarningState(DATA data, {Warning? feedback}) =>
       _emit(WidgetDataState.warning(
         data,
-        warning: warning,
+        feedback: feedback,
         build: false,
       ));
 
@@ -217,16 +217,16 @@ abstract class FalconNullableWidgetDataStateBloc<EVENT, DATA>
         build: true,
       ));
 
-  void emitFail({DATA? data, Failure? failure}) => _emit(WidgetDataState.fail(
+  void emitFail({DATA? data, Failure? feedback}) => _emit(WidgetDataState.fail(
         data ?? state.data,
-        failure: failure,
+        feedback: feedback,
         build: true,
       ));
 
-  void emitWarning({DATA? data, Warning? warning}) =>
+  void emitWarning({DATA? data, Warning? feedback}) =>
       _emit(WidgetDataState.warning(
         data ?? state.data,
-        warning: warning,
+        feedback: feedback,
         build: true,
       ));
 
@@ -258,17 +258,17 @@ abstract class FalconNullableWidgetDataStateBloc<EVENT, DATA>
         build: false,
       ));
 
-  void saveFailState(DATA? data, {UserFeedback? failure}) =>
+  void saveFailState(DATA? data, {Failure? feedback}) =>
       _emit(WidgetDataState.fail(
         data,
-        failure: failure,
+        feedback: feedback,
         build: false,
       ));
 
-  void saveWarningState(DATA? data, {UserFeedback? warning}) =>
+  void saveWarningState(DATA? data, {Warning? feedback}) =>
       _emit(WidgetDataState.warning(
         data,
-        warning: warning,
+        feedback: feedback,
         build: false,
       ));
 
