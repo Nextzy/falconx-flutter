@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-class BadGatewayException extends ServerErrorException {
+class BadGatewayException extends ServerNetworkException {
   const BadGatewayException({
     super.statusCode = 502,
     super.type,

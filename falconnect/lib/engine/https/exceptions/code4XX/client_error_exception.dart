@@ -1,8 +1,8 @@
 import 'package:falconnect/lib.dart';
 
 /// Ref: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-class ClientErrorException extends NetworkException {
-  const ClientErrorException({
+class ClientNetworkException extends NetworkException {
+  const ClientNetworkException({
     required super.statusCode,
     super.type,
     super.statusMessage,

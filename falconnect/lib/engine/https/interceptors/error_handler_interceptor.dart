@@ -17,11 +17,10 @@ abstract class NetworkErrorHandlerInterceptor extends QueuedInterceptor {
     final response = err.response;
     if (err.type == DioExceptionType.connectionTimeout ||
         err.type == DioExceptionType.receiveTimeout) {
-      final int timeout =
-          err.requestOptions.connectTimeout?.inMilliseconds ?? -1;
+      final timeout = err.requestOptions.connectTimeout;
       handler.reject(
         err.copyWith(
-          error: DioTimeoutException(
+          error: NetworkTimeoutException(
             timeout: timeout,
             requestOptions: err.requestOptions,
             response: err.response,
@@ -152,7 +151,7 @@ abstract class NetworkErrorHandlerInterceptor extends QueuedInterceptor {
           stackTrace: stacktrace ?? StackTrace.current,
         );
       } else {
-        return ServerErrorException(
+        return ServerNetworkException(
           statusCode: statusCode,
           type: type,
           statusMessage: response?.statusMessage,
@@ -231,7 +230,7 @@ abstract class NetworkErrorHandlerInterceptor extends QueuedInterceptor {
           stackTrace: stacktrace ?? StackTrace.current,
         );
       } else {
-        return ClientErrorException(
+        return ClientNetworkException(
           statusCode: statusCode,
           type: type,
           statusMessage: response?.statusMessage,

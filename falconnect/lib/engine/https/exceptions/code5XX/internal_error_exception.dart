@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-class InternalServerErrorException extends ServerErrorException {
+class InternalServerErrorException extends ServerNetworkException {
   const InternalServerErrorException({
     super.statusCode = 500,
     super.type,

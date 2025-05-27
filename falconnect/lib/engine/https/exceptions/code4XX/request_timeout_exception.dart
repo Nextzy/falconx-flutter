@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-class RequestTimeoutException extends ClientErrorException {
+class RequestTimeoutException extends ClientNetworkException {
   const RequestTimeoutException({
     super.statusCode = 408,
     super.type,

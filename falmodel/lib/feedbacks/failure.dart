@@ -1,20 +1,17 @@
 // ignore_for_file: constant_identifier_names
 import 'package:falmodel/lib.dart';
 
-class Failure<T> extends UserFeedback<T> {
+class Failure<T> extends NegativeFeedback<T> {
   const Failure({
     super.code,
     super.message,
     super.data,
-    this.developerMessage,
-    this.exception,
-    this.stacktrace,
+    super.developerMessage,
+    super.exception,
+    super.stacktrace,
     this.failureList,
   });
 
-  final String? developerMessage;
-  final Object? exception;
-  final StackTrace? stacktrace;
   final List<Failure>? failureList;
 
   factory Failure.fromError(
@@ -77,9 +74,6 @@ class Failure<T> extends UserFeedback<T> {
   @override
   List<Object?> get props => [
         ...super.props,
-        developerMessage,
-        exception,
-        stacktrace,
         failureList,
       ];
 }

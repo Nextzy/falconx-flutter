@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-class AuthenticationException extends ClientErrorException {
+class AuthenticationException extends ClientNetworkException {
   const AuthenticationException({
     super.statusCode = 401,
     super.type,

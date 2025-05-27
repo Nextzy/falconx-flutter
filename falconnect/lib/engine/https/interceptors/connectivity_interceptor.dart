@@ -14,7 +14,7 @@ class ConnectivityInterceptor extends Interceptor {
       handler.reject(
         DioException(
           requestOptions: options,
-          error: DioNoInternetConnectionException(
+          error: NoInternetConnectException(
             message: 'No internet connection.',
             requestOptions: options,
             stackTrace: Trace.current(),

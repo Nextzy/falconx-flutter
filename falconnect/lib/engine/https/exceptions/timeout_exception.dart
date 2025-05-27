@@ -1,7 +1,7 @@
 import 'package:falconnect/lib.dart';
 
-class DioTimeoutException implements Exception {
-  const DioTimeoutException({
+class NetworkTimeoutException implements Exception {
+  const NetworkTimeoutException({
     this.message,
     this.requestOptions,
     this.response,
@@ -10,7 +10,7 @@ class DioTimeoutException implements Exception {
   });
 
   final String? message;
-  final int? timeout;
+  final Duration? timeout;
   final Response? response;
   final RequestOptions? requestOptions;
   final StackTrace? stackTrace;

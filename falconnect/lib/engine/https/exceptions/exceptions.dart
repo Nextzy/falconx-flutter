@@ -15,6 +15,6 @@ export 'code4XX/unauthorized_exception.dart';
 export 'code4XX/request_timeout_exception.dart';
 
 export 'non_standard_error_exception.dart';
-export 'dio_timeout_exception.dart';
+export 'timeout_exception.dart';
 export 'network_exception.dart';
 export 'no_internet_connection.dart';
