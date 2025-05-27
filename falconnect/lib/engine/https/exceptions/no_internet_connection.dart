@@ -1,7 +1,7 @@
 import 'package:falconnect/lib.dart';
 
-class DioNoInternetConnectionException implements Exception {
-  const DioNoInternetConnectionException({
+class NoInternetConnectException implements Exception {
+  const NoInternetConnectException({
     this.message,
     this.requestOptions,
     this.stackTrace,

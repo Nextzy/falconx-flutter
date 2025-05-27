@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-class MethodNotAllowedException extends ClientErrorException {
+class MethodNotAllowedException extends ClientNetworkException {
   const MethodNotAllowedException({
     super.statusCode = 405,
     super.type,

@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-class GatewayTimeoutException extends ServerErrorException {
+class GatewayTimeoutException extends ServerNetworkException {
   const GatewayTimeoutException({
     super.statusCode = 504,
     super.type,

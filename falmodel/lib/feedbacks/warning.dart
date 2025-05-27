@@ -1,21 +1,18 @@
 // ignore_for_file: constant_identifier_names
 import 'package:falmodel/lib.dart';
 
-class Warning<T> extends UserFeedback<T> {
+class Warning<T> extends NegativeFeedback<T> {
   const Warning({
     super.code,
     super.message,
     super.data,
-    this.developerMessage,
-    this.exception,
-    this.stacktrace,
-    this.failureList,
+    super.developerMessage,
+    super.exception,
+    super.stacktrace,
+    this.warningList,
   });
 
-  final String? developerMessage;
-  final Object? exception;
-  final StackTrace? stacktrace;
-  final List<Warning>? failureList;
+  final List<Warning>? warningList;
 
   factory Warning.fromError(
     Error? error, {
@@ -23,7 +20,7 @@ class Warning<T> extends UserFeedback<T> {
     String? message,
     String? developMessage,
     StackTrace? stacktrace,
-    List<Warning>? failureList,
+    List<Warning>? warningList,
     T? data,
   }) =>
       Warning(
@@ -32,7 +29,7 @@ class Warning<T> extends UserFeedback<T> {
         developerMessage: developMessage ?? error.toString(),
         exception: error,
         stacktrace: stacktrace ?? error?.stackTrace ?? StackTrace.current,
-        failureList: failureList,
+        warningList: warningList,
         data: data,
       );
 
@@ -51,7 +48,7 @@ class Warning<T> extends UserFeedback<T> {
         developerMessage: developMessage ?? exception.toString(),
         exception: exception,
         stacktrace: stacktrace ?? StackTrace.current,
-        failureList: failureList,
+        warningList: failureList,
         data: data,
       );
 
@@ -61,7 +58,7 @@ class Warning<T> extends UserFeedback<T> {
     String? developerMessage,
     Object? exception,
     StackTrace? stacktrace,
-    List<Warning>? failureList,
+    List<Warning>? warning,
     T? data,
   }) =>
       Warning(
@@ -70,16 +67,13 @@ class Warning<T> extends UserFeedback<T> {
         developerMessage: developerMessage ?? this.developerMessage,
         exception: exception ?? this.exception,
         stacktrace: stacktrace ?? this.stacktrace,
-        failureList: failureList ?? this.failureList,
+        warningList: warning ?? this.warningList,
         data: data ?? this.data,
       );
 
   @override
   List<Object?> get props => [
         ...super.props,
-        developerMessage,
-        exception,
-        stacktrace,
-        failureList,
+        warningList,
       ];
 }

@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-class NotFoundException extends ClientErrorException {
+class NotFoundException extends ClientNetworkException {
   const NotFoundException({
     super.statusCode = 404,
     super.type,

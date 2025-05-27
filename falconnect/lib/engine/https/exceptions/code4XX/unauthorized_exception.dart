@@ -1,6 +1,6 @@
 import 'package:falconnect/lib.dart';
 
-class UnauthorizedException extends ClientErrorException {
+class UnauthorizedException extends ClientNetworkException {
   const UnauthorizedException({
     super.statusCode = 401,
     super.type,
