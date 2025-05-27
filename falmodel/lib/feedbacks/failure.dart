@@ -1,24 +1,21 @@
 // ignore_for_file: constant_identifier_names
 import 'package:falmodel/lib.dart';
 
-class Failure<T> extends Equatable {
+class Failure<T> extends UserFeedback<T> {
   const Failure({
-    this.code,
-    this.message,
+    super.code,
+    super.message,
+    super.data,
     this.developerMessage,
     this.exception,
     this.stacktrace,
     this.failureList,
-    this.data,
   });
 
-  final String? code;
-  final String? message;
   final String? developerMessage;
   final Object? exception;
   final StackTrace? stacktrace;
   final List<Failure>? failureList;
-  final T? data;
 
   factory Failure.fromError(
     Error? error, {
@@ -79,12 +76,10 @@ class Failure<T> extends Equatable {
 
   @override
   List<Object?> get props => [
-        code,
-        message,
+        ...super.props,
         developerMessage,
         exception,
         stacktrace,
         failureList,
-        data,
       ];
 }
