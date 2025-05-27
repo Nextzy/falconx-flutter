@@ -5,7 +5,7 @@ extension FalconEitherDataAndFailueExtensions<F extends Failure, DATA>
   B resolve<B>(B Function(DATA data) data, B Function(F fail) fail) =>
       fold(fail, data);
 
-  bool get hasFailure => this is Left;
+  bool get isFailure => this is Left;
 
   bool get hasData => this is Right;
 
@@ -39,7 +39,7 @@ extension FalconEitherDataAndExceptionExtensions<E extends Exception, DATA>
   B resolve<B>(B Function(DATA data) data, B Function(E exception) exception) =>
       fold(exception, data);
 
-  bool get hasException => this is Left;
+  bool get isException => this is Left;
 
   bool get hasData => this is Right;
 

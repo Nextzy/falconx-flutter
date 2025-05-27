@@ -1,8 +1,8 @@
 import 'package:falconx/lib.dart';
 
-abstract class FalconWidgetStateBloc<EVENT, DATA>
+abstract class FalconWidgetDataStateBloc<EVENT, DATA>
     extends FalconEventBloc<EVENT, WidgetDataState<DATA>> {
-  FalconWidgetStateBloc(
+  FalconWidgetDataStateBloc(
     DATA initialData, {
     EventTransformer<BlocEvent<EVENT>>? transformer,
   }) : super(
@@ -43,42 +43,88 @@ ensure the event handler has not completed.
   void emitEvent<T>(Object event, [T? data]) =>
       _emit(state.addEvent(event, data));
 
-  void emitInitial([DATA? data]) =>
-      _emit(WidgetDataState.initial(data ?? state.data));
+  void emitInitial({DATA? data, UserFeedback? feedback}) =>
+      _emit(WidgetDataState.initial(
+        data ?? state.data,
+        feedback: feedback,
+        build: true,
+      ));
 
-  void emitLoading([DATA? data]) =>
-      _emit(WidgetDataState.loading(data ?? state.data));
+  void emitLoading({DATA? data, UserFeedback? feedback}) =>
+      _emit(WidgetDataState.loading(
+        data ?? state.data,
+        feedback: feedback,
+        build: true,
+      ));
 
-  void emitFail([DATA? data]) =>
-      _emit(WidgetDataState.fail(data ?? state.data));
+  void emitFail({DATA? data, Failure? failure}) => _emit(WidgetDataState.fail(
+        data ?? state.data,
+        failure: failure,
+        build: true,
+      ));
 
-  void emitWarning([DATA? data]) =>
-      _emit(WidgetDataState.warning(data ?? state.data));
+  void emitWarning({DATA? data, Warning? warning}) =>
+      _emit(WidgetDataState.warning(
+        data ?? state.data,
+        warning: warning,
+        build: true,
+      ));
 
-  void emitSuccess([DATA? data]) =>
-      _emit(WidgetDataState.success(data ?? state.data));
+  void emitSuccess({DATA? data, UserFeedback? feedback}) =>
+      _emit(WidgetDataState.success(
+        data ?? state.data,
+        feedback: feedback,
+        build: true,
+      ));
 
-  void emitCancel([DATA? data]) =>
-      _emit(WidgetDataState.cancel(data ?? state.data));
+  void emitCancel({DATA? data, UserFeedback? feedback}) =>
+      _emit(WidgetDataState.cancel(
+        data ?? state.data,
+        feedback: feedback,
+        build: true,
+      ));
 
-  void saveInitialState(DATA data) =>
-      _emit(WidgetDataState.initial(data, build: false));
+  void saveInitialState(DATA data, {UserFeedback? feedback}) =>
+      _emit(WidgetDataState.initial(
+        data,
+        feedback: feedback,
+        build: false,
+      ));
 
-  void saveLoadingState(DATA data) =>
-      _emit(WidgetDataState.loading(data, build: false));
+  void saveLoadingState(DATA data, {UserFeedback? feedback}) =>
+      _emit(WidgetDataState.loading(
+        data,
+        feedback: feedback,
+        build: false,
+      ));
 
-  void saveFailState(DATA data) =>
-      _emit(WidgetDataState.fail(data, build: false));
+  void saveFailState(DATA data, {UserFeedback? failure}) =>
+      _emit(WidgetDataState.fail(
+        data,
+        failure: failure,
+        build: false,
+      ));
 
-  void saveWarningState(DATA data) =>
-      _emit(WidgetDataState.warning(data, build: false));
+  void saveWarningState(DATA data, {UserFeedback? warning}) =>
+      _emit(WidgetDataState.warning(
+        data,
+        warning: warning,
+        build: false,
+      ));
 
-  void saveSuccessState(DATA data) =>
-      _emit(WidgetDataState.success(data, build: false));
+  void saveSuccessState(DATA data, {UserFeedback? feedback}) =>
+      _emit(WidgetDataState.success(
+        data,
+        feedback: feedback,
+        build: false,
+      ));
 
-  void saveCancelState(DATA data) =>
-      _emit(WidgetDataState.cancel(data, build: false));
-
+  void saveCancelState(DATA data, {UserFeedback? feedback}) =>
+      _emit(WidgetDataState.cancel(
+        data,
+        feedback: feedback,
+        build: false,
+      ));
 
   Future<void> callStream<A>({
     required Stream<WidgetDataState<A?>> call,
@@ -140,9 +186,9 @@ ensure the event handler has not completed.
       );
 }
 
-abstract class FalconNullableWidgetStateBloc<EVENT, DATA>
+abstract class FalconNullableWidgetDataStateBloc<EVENT, DATA>
     extends FalconEventBloc<EVENT, WidgetDataState<DATA?>> {
-  FalconNullableWidgetStateBloc({
+  FalconNullableWidgetDataStateBloc({
     DATA? initialData,
     EventTransformer<BlocEvent<EVENT>>? transformer,
   }) : super(WidgetDataState.initial(initialData), transformer: transformer);
@@ -157,41 +203,88 @@ abstract class FalconNullableWidgetStateBloc<EVENT, DATA>
   void emitEvent<T>(Object event, [T? data]) =>
       _emit(state.addEvent(event, data));
 
-  void emitInitial([DATA? data]) =>
-      _emit(WidgetDataState.initial(data ?? state.data));
+  void emitInitial({DATA? data, UserFeedback? feedback}) =>
+      _emit(WidgetDataState.initial(
+        data ?? state.data,
+        feedback: feedback,
+        build: true,
+      ));
 
-  void emitLoading([DATA? data]) =>
-      _emit(WidgetDataState.loading(data ?? state.data));
+  void emitLoading({DATA? data, UserFeedback? feedback}) =>
+      _emit(WidgetDataState.loading(
+        data ?? state.data,
+        feedback: feedback,
+        build: true,
+      ));
 
-  void emitFail([DATA? data]) =>
-      _emit(WidgetDataState.fail(data ?? state.data));
+  void emitFail({DATA? data, Failure? failure}) => _emit(WidgetDataState.fail(
+        data ?? state.data,
+        failure: failure,
+        build: true,
+      ));
 
-  void emitWarning([DATA? data]) =>
-      _emit(WidgetDataState.warning(data ?? state.data));
+  void emitWarning({DATA? data, Warning? warning}) =>
+      _emit(WidgetDataState.warning(
+        data ?? state.data,
+        warning: warning,
+        build: true,
+      ));
 
-  void emitSuccess([DATA? data]) =>
-      _emit(WidgetDataState.success(data ?? state.data));
+  void emitSuccess({DATA? data, UserFeedback? feedback}) =>
+      _emit(WidgetDataState.success(
+        data ?? state.data,
+        feedback: feedback,
+        build: true,
+      ));
 
-  void emitCancel([DATA? data]) =>
-      _emit(WidgetDataState.cancel(data ?? state.data));
+  void emitCancel({DATA? data, UserFeedback? feedback}) =>
+      _emit(WidgetDataState.cancel(
+        data ?? state.data,
+        feedback: feedback,
+        build: true,
+      ));
 
-  void saveInitialState(DATA? data) =>
-      _emit(WidgetDataState.initial(data, build: false));
+  void saveInitialState(DATA? data, {UserFeedback? feedback}) =>
+      _emit(WidgetDataState.initial(
+        data,
+        feedback: feedback,
+        build: false,
+      ));
 
-  void saveLoadingState(DATA? data) =>
-      _emit(WidgetDataState.loading(data, build: false));
+  void saveLoadingState(DATA? data, {UserFeedback? feedback}) =>
+      _emit(WidgetDataState.loading(
+        data,
+        feedback: feedback,
+        build: false,
+      ));
 
-  void saveFailState(DATA? data) =>
-      _emit(WidgetDataState.fail(data, build: false));
+  void saveFailState(DATA? data, {UserFeedback? failure}) =>
+      _emit(WidgetDataState.fail(
+        data,
+        failure: failure,
+        build: false,
+      ));
 
-  void saveWarningState(DATA? data) =>
-      _emit(WidgetDataState.warning(data, build: false));
+  void saveWarningState(DATA? data, {UserFeedback? warning}) =>
+      _emit(WidgetDataState.warning(
+        data,
+        warning: warning,
+        build: false,
+      ));
 
-  void saveSuccessState(DATA? data) =>
-      _emit(WidgetDataState.success(data, build: false));
+  void saveSuccessState(DATA? data, {UserFeedback? feedback}) =>
+      _emit(WidgetDataState.success(
+        data,
+        feedback: feedback,
+        build: false,
+      ));
 
-  void saveCancelState(DATA? data) =>
-      _emit(WidgetDataState.cancel(data, build: false));
+  void saveCancelState(DATA? data, {UserFeedback? feedback}) =>
+      _emit(WidgetDataState.cancel(
+        data,
+        feedback: feedback,
+        build: false,
+      ));
 
   Future<void> callStream<A>({
     required Stream<WidgetDataState<A?>> call,
