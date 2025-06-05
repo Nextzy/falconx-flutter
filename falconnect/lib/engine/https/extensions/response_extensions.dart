@@ -6,11 +6,11 @@ extension FalconnectHttpFutureDynamicExtensions on Future<Response<dynamic>> {
     return then((Response<dynamic> response) async {
       T data;
       if (response.data is String) {
-        final Map<String, dynamic> map = {};
+        final map = <String, dynamic>{};
         map['result'] = response.data;
         data = await f(map);
       } else {
-        data = await f(response.data);
+        data = await f(response.data as Map<String, Object?>);
       }
 
       return response.copyWith(data: data);
@@ -29,7 +29,7 @@ extension FalconnectFutureResponseExtensions<T> on Future<Response<T>> {
       T? Function(DioException exception, StackTrace? stackTrace)? f) {
     return then(
       (value) => value,
-      onError: (error, stackTrace) {
+      onError: (Object error, StackTrace stackTrace) {
         if (f != null && error is DioException) {
           final resolve = f(error, error.stackTrace);
           final response = error.response.transformData(data: resolve);
@@ -53,7 +53,7 @@ extension FalconnectHttpFutureRpcResponseExtensions<T, E>
       T? Function(DioException exception, StackTrace? stackTrace)? f) {
     return then(
       (value) => value,
-      onError: (error, stackTrace) {
+      onError: (Object error, StackTrace stackTrace) {
         if (f != null && error is DioException) {
           final resolve = f(error, error.stackTrace);
           final response = error.response.transformData(data: resolve);
@@ -76,7 +76,7 @@ extension FalconnectHttpFutureResponseExtensions<T> on Future<HttpResponse<T>> {
       T? Function(DioException exception, StackTrace? stackTrace)? f) {
     return then(
       (value) => value,
-      onError: (error, stackTrace) {
+      onError: (Object error, StackTrace stackTrace) {
         if (f != null && error is DioException) {
           final resolve = f(error, error.stackTrace);
           final response = error.response.transformData(data: resolve);
@@ -100,7 +100,7 @@ extension FalconnectResponseExtensions on Response? {
     Map<String, dynamic>? extra,
   }) {
     return Response<T>(
-      data: data ?? this?.data,
+      data: (data ?? this?.data) as T?,
       headers: headers ?? this?.headers,
       requestOptions: requestOptions ?? this!.requestOptions,
       isRedirect: isRedirect ?? this?.isRedirect ?? false,
@@ -123,7 +123,7 @@ extension FalconnectResponseExtensions on Response? {
   }) {
     if (this == null) {
       this?.data = data;
-      return this as Response<T>;
+      return this! as Response<T>;
     }
     return Response<T>(
       data: data,

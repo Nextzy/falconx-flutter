@@ -13,7 +13,7 @@ class SocketInterceptors extends ListMixin<SocketInterceptor> {
   }
 
   @override
-  void operator []=(int index, value) {
+  void operator []=(int index, SocketInterceptor value) {
     if (_list.length == index) {
       _list.add(value);
     } else {
@@ -23,7 +23,7 @@ class SocketInterceptors extends ListMixin<SocketInterceptor> {
 }
 
 abstract class SocketInterceptor {
-  //TODO: Implement interceptor followed dio concept
+  // TODO(username): Implement interceptor followed dio concept
 
   void onRequest(SocketOptions options);
 

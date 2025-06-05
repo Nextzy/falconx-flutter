@@ -28,7 +28,7 @@ class HttpLogInterceptor extends Interceptor {
   /// Print request header [Options.headers]
   bool requestHeader;
 
-  /// Print request data [Options.data]
+  /// Print request data
   bool requestBody;
 
   /// Print [Response.data]
@@ -87,22 +87,22 @@ class HttpLogInterceptor extends Interceptor {
       if (requestBody) {
         final data = options.data;
         try {
-          JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+          const encoder = JsonEncoder.withIndent('  ');
           String prettyPrint;
           if (data is FormData) {
             logPrint(_json('Form Data:'));
             final newList = data.fields
                 .map((MapEntry<String, String> e) => {e.key: e.value})
-                .toList();
-            newList.addAll(
-              data.files
-                  .map(
-                    (MapEntry<String, MultipartFile> e) => {
-                      e.key: _getMultipartFileString(e.value),
-                    },
-                  )
-                  .toList(),
-            );
+                .toList()
+              ..addAll(
+                data.files
+                    .map(
+                      (MapEntry<String, MultipartFile> e) => {
+                        e.key: _getMultipartFileString(e.value),
+                      },
+                    )
+                    .toList(),
+              );
             prettyPrint = encoder.convert(newList);
           } else {
             logPrint(_json('Body Data:'));
@@ -163,8 +163,8 @@ class HttpLogInterceptor extends Interceptor {
       if (responseBody) {
         logPrint(_json('Response Text:'));
         try {
-          JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-          String prettyPrint = encoder.convert(response.data);
+          const encoder = JsonEncoder.withIndent('  ');
+          final prettyPrint = encoder.convert(response.data);
           _printAll(_json(prettyPrint));
         } catch (e) {
           _printAll(response.data.toString());
@@ -180,7 +180,7 @@ class HttpLogInterceptor extends Interceptor {
     }
   }
 
-  void _printAll(msg) {
+  void _printAll(Object msg) {
     if (!kReleaseMode) {
       msg.toString().split('\n').forEach(logPrint);
     }
@@ -195,15 +195,15 @@ class HttpLogInterceptor extends Interceptor {
 
   static void _logPrintLong(Object? object) async {
     if (kDebugMode) {
-      int defaultPrintLength = 1020;
+      const defaultPrintLength = 1020;
       if (object == null || object.toString().length <= defaultPrintLength) {
         print(object);
       } else {
-        String log = object.toString();
-        int start = 0;
-        int endIndex = defaultPrintLength;
-        int logLength = log.length;
-        int tmpLogLength = log.length;
+        final log = object.toString();
+        var start = 0;
+        var endIndex = defaultPrintLength;
+        final logLength = log.length;
+        var tmpLogLength = log.length;
         while (endIndex < logLength) {
           print(log.substring(start, endIndex));
           endIndex += defaultPrintLength;

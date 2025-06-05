@@ -2,6 +2,198 @@ import 'package:falmodel/lib.dart';
 
 @immutable
 class WidgetDataState<DATA> {
+  factory WidgetDataState.initial(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.initial,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.normal(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.normal,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.empty(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.empty,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.hovered(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.hovered,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.focused(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.focused,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.focusedVisible(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.focusedVisible,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.pressed(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.pressed,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.dragged(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.dragged,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.selected(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.selected,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.scrolledUnder(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.scrolledUnder,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.disabled(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.disabled,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.loading(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.loading,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.success(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.success,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.cancel(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.cancel,
+          id: id,
+          feedback: feedback ?? const Information(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.warning(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.warning,
+          id: id,
+          feedback: feedback ?? const Warning(),
+          data: data,
+          build: build);
+
+  factory WidgetDataState.fail(
+    DATA data, {
+    String? id,
+    UserFeedback? feedback,
+    bool build = true,
+  }) =>
+      WidgetDataState._(FullWidgetState.fail,
+          id: id,
+          feedback: feedback ?? const Failure(),
+          data: data,
+          build: build);
+
   const WidgetDataState._(
     this.state, {
     this.id,
@@ -23,192 +215,6 @@ class WidgetDataState<DATA> {
   final WidgetEvent? event;
   final DATA data;
   final bool build;
-
-  factory WidgetDataState.initial(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.initial,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.normal(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.normal,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.empty(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.empty,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.hovered(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.hovered,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.focused(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.focused,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.focusedVisible(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.focusedVisible,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.pressed(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.pressed,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.dragged(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.dragged,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.selected(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.selected,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.scrolledUnder(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.scrolledUnder,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.disabled(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.disabled,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.loading(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.loading,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.success(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.success,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.cancel(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.cancel,
-          id: id,
-          feedback: feedback ?? Information(),
-          data: data,
-          build: build);
-
-  factory WidgetDataState.warning(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.warning,
-          id: id, feedback: feedback ?? Warning(), data: data, build: build);
-
-  factory WidgetDataState.fail(
-    DATA data, {
-    String? id,
-    UserFeedback? feedback,
-    bool build = true,
-  }) =>
-      WidgetDataState._(FullWidgetState.fail,
-          id: id, feedback: feedback ?? Failure(), data: data, build: build);
 
   bool get isInitial => state.isInitial; //
   bool get isNormal => state.isNormal; //
@@ -271,7 +277,7 @@ class WidgetDataState<DATA> {
           state: state,
           id: id,
           data: data,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           build: build);
 
   WidgetDataState<DATA> toInitial(
@@ -279,7 +285,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.initial,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -288,7 +294,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.normal,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -297,7 +303,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.empty,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -306,7 +312,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.hovered,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -315,7 +321,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.focused,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -324,7 +330,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.focusedVisible,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -333,7 +339,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.pressed,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -342,7 +348,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.dragged,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -351,7 +357,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.selected,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -360,7 +366,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.scrolledUnder,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -369,7 +375,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.disabled,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -378,7 +384,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.loading,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -387,7 +393,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.success,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -396,7 +402,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.cancel,
           id: id,
-          feedback: feedback ?? Information(),
+          feedback: feedback ?? const Information(),
           data: data,
           build: build);
 
@@ -405,7 +411,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.warning,
           id: id,
-          feedback: feedback ?? Warning(),
+          feedback: feedback ?? const Warning(),
           data: data,
           build: build);
 
@@ -414,7 +420,7 @@ class WidgetDataState<DATA> {
       copy(
           state: FullWidgetState.fail,
           id: id,
-          feedback: feedback ?? Failure(),
+          feedback: feedback ?? const Failure(),
           data: data,
           build: build);
 

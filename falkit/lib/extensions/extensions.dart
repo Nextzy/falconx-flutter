@@ -1,4 +1,4 @@
-import '../lib.dart';
+import 'package:falkit/lib.dart';
 
 export 'icons_extensions.dart';
 export 'images_extensions.dart';
@@ -24,4 +24,3 @@ extension WidgetStateExtension on WidgetState? {
   bool get isNotDisabled => !isDisabled;
   bool get isNotError => !isError;
 }
-

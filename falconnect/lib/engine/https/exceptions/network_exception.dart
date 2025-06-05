@@ -42,7 +42,7 @@ class NetworkException implements Exception {
 
   @override
   String toString() {
-    String msg = '';
+    var msg = '';
     if (statusCode != 0) msg += '>>Status code: $statusCode\n';
     if (type != null && type!.isNotEmpty) {
       msg += '>>Type: $type\n';
@@ -58,7 +58,7 @@ class NetworkException implements Exception {
     }
     if (response != null) msg += '>>Response: $response\n';
     errors?.forEach(
-      (error) => msg += '   ${error.toString()}]\n',
+      (error) => msg += '   $error]\n',
     );
     return msg;
   }

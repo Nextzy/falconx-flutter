@@ -1,15 +1,18 @@
+import 'package:falmodel/lib.dart';
+
+@immutable
 class SocketOptions {
-  SocketOptions({
+  const SocketOptions({
     this.uri = '',
     this.retryLimit = 3,
     this.protocol,
     this.data,
   });
 
-  String uri;
-  int retryLimit;
-  String? protocol;
-  String? data;
+  final String uri;
+  final int retryLimit;
+  final String? protocol;
+  final String? data;
 
   @override
   bool operator ==(Object other) =>
@@ -34,7 +37,7 @@ class SocketOptions {
     String? uri,
     int? retryLimit,
     String? protocol,
-    dynamic data,
+    String? data,
   }) {
     return SocketOptions(
       uri: uri ?? this.uri,

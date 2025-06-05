@@ -1,6 +1,6 @@
 name: falconx
 description: A FalconX package project.
-version: 3.10.2
+version: 3.10.3
 publish_to: none
 
 environment:
@@ -36,4 +36,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
+  very_good_analysis: ^8.0.0

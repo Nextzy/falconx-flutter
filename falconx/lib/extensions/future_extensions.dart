@@ -5,12 +5,12 @@ extension FalconFutureExtensions<T> on Future<T> {
     Failure Function(Object? error, StackTrace stacktrace)? handleError,
   }) =>
       then<Either<Failure, T>>(
-        (T value) => Right(value),
+        Right.new,
       ).onError(
         (exception, stackTrace) {
           if (exception is DioException) {
             final tmpError = exception.error;
-            if (tmpError case NetworkException networkException) {
+            if (tmpError case final NetworkException networkException) {
               Log.e(networkException, stackTrace: networkException.stackTrace);
               return Left(
                 handleError?.call(exception, stackTrace) ??
@@ -82,12 +82,12 @@ extension FalconFutureExtensions<T> on Future<T> {
     Exception Function(Object? error, StackTrace stacktrace)? handleError,
   }) =>
       then<Either<Exception, T>>(
-        (T value) => Right(value),
+        Right.new,
       ).onError(
         (exception, stackTrace) {
           if (exception is DioException) {
             final tmpError = exception.error;
-            if (tmpError case NetworkException networkException) {
+            if (tmpError case final NetworkException networkException) {
               Log.e(networkException, stackTrace: networkException.stackTrace);
               return Left(
                 handleError?.call(exception, stackTrace) ?? networkException,

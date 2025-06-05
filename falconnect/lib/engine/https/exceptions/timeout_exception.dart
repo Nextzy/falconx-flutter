@@ -34,9 +34,9 @@ class NetworkTimeoutException implements Exception {
 
   @override
   String toString() {
-    String msg = '';
+    var msg = '';
     if (timeout != null) {
-      msg += '>>Timeout: ${timeout.toString()}\n';
+      msg += '>>Timeout: $timeout\n';
     }
     if (message != null && message!.isNotEmpty) {
       msg += '>>Message: $message\n';

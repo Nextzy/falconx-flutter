@@ -1,7 +1,7 @@
-// ignore_for_file: constant_identifier_names
 import 'package:falmodel/lib.dart';
 
 class Warning<T> extends NegativeFeedback<T> {
+
   const Warning({
     super.code,
     super.message,
@@ -11,9 +11,6 @@ class Warning<T> extends NegativeFeedback<T> {
     super.stacktrace,
     this.warningList,
   });
-
-  final List<Warning>? warningList;
-
   factory Warning.fromError(
     Error? error, {
     String? code,
@@ -51,6 +48,8 @@ class Warning<T> extends NegativeFeedback<T> {
         warningList: failureList,
         data: data,
       );
+
+  final List<Warning>? warningList;
 
   Warning copy({
     String? code,

@@ -9,6 +9,6 @@ class StringResponse extends Response<String> {
     super.isRedirect,
     super.redirects,
     super.extra,
-    Headers? headers,
+    headers,
   });
 }

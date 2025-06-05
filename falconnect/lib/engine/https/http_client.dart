@@ -1,15 +1,14 @@
 import 'package:falconnect/lib.dart';
 
 abstract class BaseHttpClient implements RequestApiService {
-  late final Dio _dio;
-
   BaseHttpClient({
     required Dio dio,
-    Connectivity? connectivity,
   }) : _dio = dio {
     setupOptions(_dio, _dio.options);
     setupInterceptors(_dio, _dio.interceptors);
   }
+
+  late final Dio _dio;
 
   Dio get dio => _dio;
 

@@ -29,7 +29,7 @@ class SpaceDirectional {
           horizontal: horizontal, vertical: vertical);
 
   static EdgeInsetsGeometry get insetZero =>
-      const EdgeInsetsDirectional.all(0.0);
+      EdgeInsetsDirectional.zero;
 
   static EdgeInsetsGeometry get insetAll1 =>
       const EdgeInsetsDirectional.all(1.0);

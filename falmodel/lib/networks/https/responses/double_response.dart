@@ -9,6 +9,5 @@ class DoubleResponse extends Response<double> {
     super.isRedirect,
     super.redirects,
     super.extra,
-    Headers? headers,
   });
 }

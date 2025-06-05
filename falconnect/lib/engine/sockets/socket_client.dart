@@ -1,6 +1,15 @@
 import 'package:falconnect/lib.dart';
 
 abstract class SocketClient implements RequestSocketService {
+  SocketClient(String baseUrl) {
+    _tmpOptions = SocketOptions(uri: baseUrl);
+    _replaySubject = PublishSubject<SocketResponse>();
+    _retryLimitCounter = _tmpOptions.retryLimit;
+    interceptors = SocketInterceptors();
+    setupConfig(_tmpOptions);
+    setupInterceptors(interceptors);
+  }
+
   static const TAG = 'SocketChannel';
   late SocketOptions _tmpOptions;
   late PublishSubject<SocketResponse> _replaySubject;
@@ -16,16 +25,6 @@ abstract class SocketClient implements RequestSocketService {
   set setIsClose(bool isClose) => _isClose = isClose;
 
   SocketOptions get options => _tmpOptions;
-
-  SocketClient(String baseUrl) {
-    _tmpOptions = SocketOptions();
-    _tmpOptions.uri = baseUrl;
-    _replaySubject = PublishSubject<SocketResponse>();
-    _retryLimitCounter = _tmpOptions.retryLimit;
-    interceptors = SocketInterceptors();
-    setupConfig(_tmpOptions);
-    setupInterceptors(interceptors);
-  }
 
   void setupConfig(SocketOptions configs);
 
@@ -44,7 +43,6 @@ abstract class SocketClient implements RequestSocketService {
       onError: _onError,
       onDone: _onDone,
     );
-    //mai Naaaaaaaaa
     _isClose = false;
   }
 
@@ -54,7 +52,7 @@ abstract class SocketClient implements RequestSocketService {
     await closeChannel();
   }
 
-  void _onError(error, stackTrace) async {
+  void _onError(Exception? error, StackTrace? stackTrace) async {
     if (_retryLimitCounter > 0) {
       _executeInterceptorOnError(
           exception: SocketRetryException(
@@ -76,8 +74,8 @@ abstract class SocketClient implements RequestSocketService {
           ),
           options: _tmpOptions.copyWith());
       _isClose = true;
-      _replaySubject.addError(error, stackTrace);
-      _subscription?.cancel();
+      _replaySubject.addError(error as Object, stackTrace);
+      await _subscription?.cancel();
     }
   }
 
@@ -130,10 +128,10 @@ abstract class SocketClient implements RequestSocketService {
     }
   }
 
-  void _onResponse(response) {
+  void _onResponse(dynamic response) {
     _retryLimitCounter = _tmpOptions.retryLimit;
     final responseWrap = SocketResponse(
-      data: response,
+      data: response as String,
       requestOptions: _tmpOptions.copyWith(),
     );
     _executeInterceptorOnResponse(response: responseWrap);

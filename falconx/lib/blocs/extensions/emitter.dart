@@ -46,19 +46,17 @@ extension EmitterExtensions<T> on Emitter<WidgetDataState<T>> {
 
   Future<void> callStream<A>({
     required Stream<WidgetDataState<A?>> call,
-    required Function(
+    required void Function(
       WidgetDataState<A?> state,
     ) onData,
-    Function(
-      Failure failure,
-    )? onFailure,
+    VoidFailureCallback? onFailure,
   }) =>
       onEach(
         call,
         onData: (state) {
           onData(state);
         },
-        onError: (error, stackTrace) {
+        onError: (Object error, StackTrace stackTrace) {
           if (error is Failure) {
             onFailure?.call(error);
           } else {

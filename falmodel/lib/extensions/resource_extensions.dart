@@ -1,26 +1,30 @@
+// Ignore because is not necessary
+// ignore_for_file:  join_return_with_assignment
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:falmodel/lib.dart';
 
 extension ResourceExtension<T extends WidgetDataState> on Stream<T> {
   StreamSubscription<T> listen({
     required void Function(T data) onData,
-    Function? onError,
+    VoidErrorCallback? onError,
   }) {
-    StreamSubscription<T>? subscription;
-    subscription = this.listen((T data) {
+    StreamSubscription<T>? _subscription;
+    _subscription = this.listen((T data) {
       final state = data.state;
       if (state == FullWidgetState.fail) {
         if (onError != null) {
-          onError(data.data);
+          onError(Exception(data.data), StackTrace.current);
         }
       }
       onData(data);
-    }, onError: (error, stackTrace) {
+    }, onError: (Object error, StackTrace? stackTrace) {
       if (onError != null) {
         onError(error, stackTrace);
       }
     }, onDone: () {
-      subscription?.cancel();
+      _subscription?.cancel();
     });
-    return subscription;
+    return _subscription;
   }
 }

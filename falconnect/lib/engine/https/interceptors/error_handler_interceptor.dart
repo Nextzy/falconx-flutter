@@ -1,3 +1,6 @@
+// Ignore because is not necessary
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:falconnect/lib.dart';
 
 /// Support Error Response:
@@ -31,11 +34,11 @@ abstract class NetworkErrorHandlerInterceptor extends QueuedInterceptor {
         ),
       );
     } else if (_isServerError(response)) {
-      final Exception? exception =
+      final exception =
           _getExceptionFromResponse(err.response, stacktrace: err.stackTrace);
       onServerError(err.copyWith(error: exception), handler);
     } else if (_isClientError(response)) {
-      final Exception? exception =
+      final exception =
           _getExceptionFromResponse(err.response, stacktrace: err.stackTrace);
       onClientError(err.copyWith(error: exception), handler);
     } else {
@@ -73,11 +76,11 @@ abstract class NetworkErrorHandlerInterceptor extends QueuedInterceptor {
     String? developerMessage;
     try {
       if (response?.data is String) {
-        errorMessage = response?.data;
+        errorMessage = response?.data as String?;
       } else if (response?.data is Map) {
-        type = response?.data['type'];
-        errorMessage = response?.data['error'];
-        developerMessage = response?.data['developerMessage'];
+        type = response?.data['type'] as String?;
+        errorMessage = response?.data['error'] as String?;
+        developerMessage = response?.data['developerMessage'] as String?;
       }
     } catch (e) {
       errorMessage = null;

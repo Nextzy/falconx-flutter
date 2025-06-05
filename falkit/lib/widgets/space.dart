@@ -3,7 +3,7 @@ import 'package:falkit/lib.dart';
 class Space {
   Space._();
 
-  static get empty => const SizedBox();
+  static Widget get empty => const SizedBox();
 
   static Widget box(double gap) => SizedBox(width: gap, height: gap);
 
@@ -103,7 +103,7 @@ class Space {
   }) =>
       EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical);
 
-  static EdgeInsetsGeometry get insetZero => const EdgeInsets.all(0.0);
+  static EdgeInsetsGeometry get insetZero => EdgeInsets.zero;
 
   static EdgeInsetsGeometry get insetAll1 => const EdgeInsets.all(1.0);
 

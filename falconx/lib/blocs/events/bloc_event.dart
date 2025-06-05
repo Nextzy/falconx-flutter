@@ -1,11 +1,11 @@
 class BlocEvent<Event> {
-  final Event name;
-  final Object? data;
-
   const BlocEvent(
     this.name, {
     this.data,
   });
+
+  final Event name;
+  final Object? data;
 
   @override
   String toString() {

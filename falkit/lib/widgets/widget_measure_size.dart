@@ -5,14 +5,14 @@ import 'package:flutter/scheduler.dart';
 /// [onChange] get changed [Size] of the Widget
 /// [child] Widget to get size of it at runtime
 class WidgetMeasureSize extends StatefulWidget {
-  final Widget child;
-  final Function(Size) onChange;
-
   const WidgetMeasureSize({
     super.key,
     required this.onChange,
     required this.child,
   });
+
+  final Widget child;
+  final void Function(Size) onChange;
 
   @override
   State<WidgetMeasureSize> createState() => _WidgetMeasureSizeState();
@@ -28,14 +28,14 @@ class _WidgetMeasureSizeState extends State<WidgetMeasureSize> {
     );
   }
 
-  var widgetKey = GlobalKey();
+  GlobalKey<State<StatefulWidget>> widgetKey = GlobalKey();
   Size? oldSize;
 
   void postFrameCallback(_) async {
-    var context = widgetKey.currentContext;
+    final context = widgetKey.currentContext;
     if (!mounted || context == null) return; // not yet attached to layout
 
-    var newSize = context.size!;
+    final newSize = context.size!;
     if (oldSize == newSize) return;
 
     oldSize = newSize;
