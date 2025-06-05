@@ -4,7 +4,7 @@ export 'rpc_response.dart';
 
 abstract class JsonRpc {
   const JsonRpc({
-    this.jsonrpc = "2.0",
+    this.jsonrpc = '2.0',
     this.id,
   });
 

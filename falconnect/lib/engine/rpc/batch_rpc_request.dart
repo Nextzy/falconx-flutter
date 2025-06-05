@@ -16,7 +16,7 @@ class BatchJsonRpcBody<RESPONSE,ERROR> extends JsonRpc {
   final ERROR Function(Map<String, dynamic>? json)? fromErrorJson;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = {};
+    final json = <String, dynamic>{};
     json['method'] = method;
     json['params'] = params;
     json.removeWhere((k, v) => v == null);

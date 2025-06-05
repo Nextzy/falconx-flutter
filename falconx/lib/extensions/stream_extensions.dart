@@ -18,7 +18,7 @@ extension FalconStreamDataAndFailureExtensions<F extends Failure, DATA>
   ) =>
       map(
         (event) => event.resolve(
-          (data) => Right(data),
+          Right.new,
           (fail) => Left(mapFailure(fail)),
         ),
       );
@@ -32,7 +32,7 @@ extension FalconStreamDataAndExceptionExtensions<E extends Exception, DATA>
       map(
         (event) => event.resolve(
           (data) => Right(mapData(data)),
-          (exception) => Left(exception),
+          Left.new,
         ),
       );
 
@@ -41,14 +41,14 @@ extension FalconStreamDataAndExceptionExtensions<E extends Exception, DATA>
   ) =>
       map(
         (event) => event.resolve(
-          (data) => Right(data),
+          Right.new,
           (exception) => Left(mapException(exception)),
         ),
       );
 
   Stream<Either<Failure, DATA>> mapEitherExceptionToFailure() => map(
         (event) => event.resolve(
-          (data) => Right(data),
+          Right.new,
           (exception) => Left(Failure.fromException(exception.toString())),
         ),
       );

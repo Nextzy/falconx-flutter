@@ -1,5 +1,6 @@
-import 'package:faltool/lib.dart';
 import 'dart:convert';
+
+import 'package:faltool/lib.dart';
 
 class DeviceIdGenerator {
   static const String _deviceIdKey = 'device_id_key';
@@ -9,7 +10,7 @@ class DeviceIdGenerator {
   static Future<String> getDeviceId() async {
     // Try to get cached device ID first
     final prefs = await SharedPreferences.getInstance();
-    String? deviceId = prefs.getString(_deviceIdKey);
+    var deviceId = prefs.getString(_deviceIdKey);
 
     if (deviceId != null) {
       return deviceId;
@@ -22,7 +23,7 @@ class DeviceIdGenerator {
   }
 
   static Future<String> _generateDeviceId() async {
-    final StringBuffer deviceData = StringBuffer();
+    final deviceData = StringBuffer();
 
     try {
       if (PlatformChecker.isAndroid) {

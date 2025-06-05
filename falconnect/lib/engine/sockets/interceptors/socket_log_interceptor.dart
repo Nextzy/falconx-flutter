@@ -1,5 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:falconnect/lib.dart';
+import 'package:flutter/foundation.dart';
 
 class SocketLogInterceptor extends SocketInterceptor {
   SocketLogInterceptor({
@@ -15,7 +15,7 @@ class SocketLogInterceptor extends SocketInterceptor {
   final AnsiPen _error = AnsiPen()..red(bold: true);
   final AnsiPen _json = AnsiPen()..green(bold: true);
 
-  /// Print request data [Options.data]
+  /// Print request data
   bool requestBody;
 
   /// Print [Response.data]
@@ -35,7 +35,7 @@ class SocketLogInterceptor extends SocketInterceptor {
 
       if (requestBody) {
         final data = options.data;
-        JsonEncoder encoder = const JsonEncoder.withIndent('  ');
+        const encoder = JsonEncoder.withIndent('  ');
         String prettyPrint;
         logPrint(_json('Body Data:'));
         prettyPrint = encoder.convert(data);
@@ -75,8 +75,8 @@ class SocketLogInterceptor extends SocketInterceptor {
       _printKV('Protocol', response.requestOptions.protocol);
       if (responseBody) {
         logPrint(_json('Response Text:'));
-        JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-        String prettyPrint = encoder.convert(response.data);
+        const encoder = JsonEncoder.withIndent('  ');
+        final prettyPrint = encoder.convert(response.data);
         _printAll(_json(prettyPrint));
       }
       logPrint('');
@@ -89,7 +89,7 @@ class SocketLogInterceptor extends SocketInterceptor {
     }
   }
 
-  void _printAll(msg) {
+  void _printAll(Object msg) {
     if (!kReleaseMode) {
       msg.toString().split('\n').forEach(logPrint);
     }
@@ -97,15 +97,15 @@ class SocketLogInterceptor extends SocketInterceptor {
 
   static void _logPrintLong(Object? object) async {
     if (kDebugMode) {
-      int defaultPrintLength = 1020;
+      const defaultPrintLength = 1020;
       if (object == null || object.toString().length <= defaultPrintLength) {
         print(object);
       } else {
-        String log = object.toString();
-        int start = 0;
-        int endIndex = defaultPrintLength;
-        int logLength = log.length;
-        int tmpLogLength = log.length;
+        final log = object.toString();
+        var start = 0;
+        var endIndex = defaultPrintLength;
+        final logLength = log.length;
+        var tmpLogLength = log.length;
         while (endIndex < logLength) {
           print(log.substring(start, endIndex));
           endIndex += defaultPrintLength;

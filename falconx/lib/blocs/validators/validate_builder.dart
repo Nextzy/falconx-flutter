@@ -1,3 +1,6 @@
+// Ignore because is not necessary
+// ignore_for_file: deprecated_member_use_from_same_package
+
 import 'package:falconx/lib.dart';
 
 typedef ValidateWidgetBuilder<DATA> = Widget Function(
@@ -28,7 +31,7 @@ abstract class ValidatorCubit<DATA> extends Cubit<ValidateState<DATA?>> {
   }
 
 
-  @Deprecated("Please use [validate] or [emitError]")
+  @Deprecated('Please use [validate] or [emitError]')
   @protected
   @visibleForTesting
   @override

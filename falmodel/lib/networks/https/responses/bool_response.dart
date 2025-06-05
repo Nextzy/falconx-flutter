@@ -10,6 +10,5 @@ class BoolResponse extends Response<bool> {
     super.isRedirect,
     super.redirects,
     super.extra,
-    Headers? headers,
   });
 }

@@ -1,5 +1,6 @@
-// ignore_for_file: constant_identifier_names
 import 'package:falmodel/lib.dart';
+
+typedef VoidFailureCallback = void Function(Failure failure);
 
 class Failure<T> extends NegativeFeedback<T> {
   const Failure({
@@ -11,8 +12,6 @@ class Failure<T> extends NegativeFeedback<T> {
     super.stacktrace,
     this.failureList,
   });
-
-  final List<Failure>? failureList;
 
   factory Failure.fromError(
     Error? error, {
@@ -51,6 +50,8 @@ class Failure<T> extends NegativeFeedback<T> {
         failureList: failureList,
         data: data,
       );
+
+  final List<Failure>? failureList;
 
   Failure copy({
     String? code,

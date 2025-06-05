@@ -29,7 +29,7 @@ class NoInternetConnectException implements Exception {
 
   @override
   String toString() {
-    String msg = '';
+    var msg = '';
     if (message != null && message!.isNotEmpty) {
       msg += '>>Message: $message\n';
     }

@@ -35,7 +35,7 @@ class EitherStreamFetcher<T> {
         printSuccess('Fetch: onDone called');
         close();
       },
-      onError: (error, stackTrace) {
+      onError: (Object error, StackTrace? stackTrace) {
         _streamController.addError(error, stackTrace);
         close();
       },

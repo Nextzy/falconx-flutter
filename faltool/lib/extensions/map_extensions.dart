@@ -1,20 +1,61 @@
 import 'package:faltool/lib.dart';
 
 extension FalconToolMapExtension<K, V> on Map<K, V> {
-  Map<K, V> removeNullOrEmptyString() => removeNullsFromMap(this);
+  /// Returns a new map with null values and empty strings removed
+  Map<K, V> removeNullOrEmptyString() => Map<K, V>.fromEntries(
+    entries
+        .where((entry) =>
+    !_isNullOrEmptyString(entry.key) &&
+        !_isNullOrEmptyString(entry.value))
+        .map((entry) => MapEntry(
+      entry.key,
+      _removeNullsDeep(entry.value),
+    )),
+  );
 }
 
-List<V> removeNullsFromList<V>(List<V> list) => list.isEmpty ? [] : list
-  ..removeWhere(
-      (value) => value is String ? value.isNullOrEmpty : value == null)
-  ..map((e) => removeNulls(e)).toList();
+/// Checks if a value is null or an empty string
+bool _isNullOrEmptyString(dynamic value) {
+  if (value == null) return true;
+  if (value is String) return value.isEmpty;
+  return false;
+}
 
-Map<K, V> removeNullsFromMap<K, V>(Map<K, V> json) => json
-  ..removeWhere((K key, V value) =>
-      (key is String ? key.isNullOrEmpty : key == null) ||
-      (value is String ? value.isNullOrEmpty : value == null))
-  ..map<K, V>((key, value) => MapEntry(key, removeNulls(value)));
+/// Recursively removes nulls and empty strings from collections
+T _removeNullsDeep<T>(T value) {
+  if (value is List) {
+    return removeNullsFromList(value) as T;
+  } else if (value is Map) {
+    return removeNullsFromMap(value) as T;
+  }
+  return value;
+}
 
-dynamic removeNulls(dynamic e) => (e is List)
-    ? removeNullsFromList(e)
-    : (e is Map ? removeNullsFromMap(e) : e);
+/// Removes nulls and empty strings from a list
+List<T> removeNullsFromList<T>(List<T> list) {
+  if (list.isEmpty) return <T>[];
+
+  return list
+      .where((item) => !_isNullOrEmptyString(item))
+      .map(_removeNullsDeep)
+      .toList();
+}
+
+/// Removes nulls and empty strings from a map
+Map<K, V> removeNullsFromMap<K, V>(Map<K, V> map) {
+  if (map.isEmpty) return <K, V>{};
+
+  return Map<K, V>.fromEntries(
+    map.entries
+        .where((entry) =>
+    !_isNullOrEmptyString(entry.key) &&
+        !_isNullOrEmptyString(entry.value))
+        .map((entry) => MapEntry(
+      entry.key,
+      _removeNullsDeep(entry.value),
+    )),
+  );
+}
+
+/// Public API for removing nulls and empty strings from any data structure
+T removeNullsAndEmptyStrings<T>(T data) => _removeNullsDeep(data);

@@ -5,8 +5,8 @@ import 'package:faltool/lib.dart';
 extension FalconToolListExtensions<V> on List<V> {
   List<V> removeNulls() => removeNullsFromList(this);
 
-  Future<List<T>> mapAsync<T>(Future<T> Function(V e) toElement) async =>
-      await Future.wait(map((e) async => await toElement(e)));
+  Future<List<T>> mapAsync<T>(Future<T> Function(V e) toElement) =>
+      Future.wait(map((e) => toElement(e)));
 
   List<V> copy() => toList();
 
@@ -27,7 +27,7 @@ extension FalconToolListNullableExtensions<V> on List<V>? {
   bool get isNotEmptyOrNull => !isEmptyOrNull;
 
   bool get isNull => this == null;
-  
+
   bool get isNotNull => this != null;
 
   Future<List<T>> futureAsyncMap<T>(

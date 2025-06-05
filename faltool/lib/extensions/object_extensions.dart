@@ -1,7 +1,6 @@
 extension FalconToolNullableObject<T> on T? {
-
-  void let(Function(T data) let) {
-    T? data = this;
+  void let(void Function(T data) let) {
+    final data = this;
     if (data != null) let(data);
   }
 }

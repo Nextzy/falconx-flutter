@@ -257,8 +257,8 @@ ensure the event handler has not completed.
 
   Future<void> callStream<A>({
     required Stream<WidgetDataState<A?>> call,
-    required Function(WidgetDataState<A?> state) onData,
-    Function(Failure failure)? onFailure,
+    required void Function(WidgetDataState<A?> state) onData,
+    VoidFailureCallback? onFailure,
   }) {
     assertEmitter();
     return _emitter!.onEach(
@@ -266,7 +266,7 @@ ensure the event handler has not completed.
       onData: (WidgetDataState<A?> state) {
         onData(state);
       },
-      onError: (error, stackTrace) {
+      onError: (Object error, StackTrace stackTrace) {
         if (error is Failure) {
           onFailure?.call(error);
         } else {
@@ -282,8 +282,8 @@ ensure the event handler has not completed.
   Future<void> callEitherFuture<A>({
     required Object key,
     required Future<Either<Failure, A>> call,
-    required Function(WidgetDataState<A?> state) onData,
-    Function(Failure failure)? onFailure,
+    required void Function(WidgetDataState<A?> state) onData,
+    VoidFailureCallback? onFailure,
     bool debounceCall = true,
   }) =>
       callStream<A>(
@@ -299,8 +299,8 @@ ensure the event handler has not completed.
   Future<void> callEitherStream<A>({
     required Object key,
     required Stream<Either<Failure, A>> call,
-    required Function(WidgetDataState<A?> state) onData,
-    Function(Failure failure)? onFailure,
+    required void Function(WidgetDataState<A?> state) onData,
+    VoidFailureCallback? onFailure,
     bool debounceCall = true,
   }) =>
       callStream<A>(
@@ -322,9 +322,8 @@ ensure the event handler has not completed.
 
 abstract class FalconBloc<EVENT, STATE> extends Bloc<EVENT, STATE> {
   FalconBloc(
-    super.initialState, {
-    EventTransformer<EVENT>? transformer,
-  }) : _fetcher = EitherStreamFetcherList();
+    super.initialState,
+  ) : _fetcher = EitherStreamFetcherList();
 
   final EitherStreamFetcherList _fetcher;
 

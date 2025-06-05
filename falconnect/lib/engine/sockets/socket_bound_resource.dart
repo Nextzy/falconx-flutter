@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:falconnect/lib.dart';
 
 class SocketBoundResource<EntityType, ResponseType> {
@@ -13,7 +11,7 @@ class SocketBoundResource<EntityType, ResponseType> {
     required Stream<ResponseType> Function() createCallStream,
     FutureOr<EntityType> Function(ResponseType result)? processResponse,
     Future Function(EntityType item)? saveCallResult,
-    Function? error,
+    VoidErrorCallback? error,
   }) {
     assert(
       ResponseType == EntityType ||
@@ -23,7 +21,7 @@ class SocketBoundResource<EntityType, ResponseType> {
 
     // Start: inner function
     void onHandleException({
-      required Function? onError,
+      required VoidErrorCallback? onError,
       required Object exception,
       required StackTrace? stackTrace,
       required EventSink<Either<Failure, EntityType>> sink,
@@ -55,14 +53,14 @@ class SocketBoundResource<EntityType, ResponseType> {
         try {
           late EntityType data;
           if (processResponse != null) {
-            final EntityType processedData = await processResponse(response);
+            final processedData = await processResponse(response);
             data = processedData;
           } else {
-            final EntityType castData = response as EntityType;
+            final castData = response as EntityType;
             data = castData;
           }
 
-          if (whenSave?.call(data) == true && saveCallResult != null) {
+          if ((whenSave?.call(data) ?? false) && saveCallResult != null) {
             await saveCallResult(data);
             NLog.i(TAG, 'Success save result data');
           }

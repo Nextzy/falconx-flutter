@@ -9,6 +9,5 @@ class IntResponse extends Response<int> {
     super.isRedirect,
     super.redirects,
     super.extra,
-    Headers? headers,
   });
 }

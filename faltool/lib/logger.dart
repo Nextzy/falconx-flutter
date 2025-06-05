@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 
 import 'dart:convert';
 
@@ -119,8 +118,8 @@ class Log {
 
   static void title(Object? message) {
     if (!kReleaseMode) {
-      JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-      String prettyPrint = encoder.convert(
+      const encoder = JsonEncoder.withIndent('  ');
+      final prettyPrint = encoder.convert(
         message?.toString() ?? 'Null',
       );
       _printLong(_title(prettyPrint));
@@ -129,8 +128,8 @@ class Log {
 
   static void success(Object? message) {
     if (!kReleaseMode) {
-      JsonEncoder encoder = const JsonEncoder.withIndent('  ');
-      String prettyPrint = encoder.convert(
+      const encoder = JsonEncoder.withIndent('  ');
+      final prettyPrint = encoder.convert(
         message?.toString() ?? 'Null',
       );
       _printLong(_success(prettyPrint));
@@ -147,15 +146,15 @@ class Log {
 
   static void _printLong(Object? object) async {
     if (!kReleaseMode) {
-      int defaultPrintLength = 1020;
+      const defaultPrintLength = 1020;
       if (object == null || object.toString().length <= defaultPrintLength) {
         print(object);
       } else {
-        String log = object.toString();
-        int start = 0;
-        int endIndex = defaultPrintLength;
-        int logLength = log.length;
-        int tmpLogLength = log.length;
+        final log = object.toString();
+        var start = 0;
+        var endIndex = defaultPrintLength;
+        final logLength = log.length;
+        var tmpLogLength = log.length;
         while (endIndex < logLength) {
           print(log.substring(start, endIndex));
           endIndex += defaultPrintLength;

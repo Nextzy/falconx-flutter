@@ -1,4 +1,5 @@
-// ignore_for_file: constant_identifier_names
+// Ignore because is not necessary
+// ignore_for_file: only_throw_errors
 
 import 'package:falconnect/lib.dart';
 
@@ -39,14 +40,14 @@ class DatasourceBoundWithFailureState<DataType, ResponseType> {
   /// ```
   static Stream<Either<Failure, DataType>> asLocalStream<DataType>({
     required Future<DataType> Function() loadFromDbFuture,
-    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(Object error, StackTrace? stacktrace)? handleError,
   }) async* {
     try {
-      DataType dataFromDb = await loadFromDbFuture();
+      final dataFromDb = await loadFromDbFuture();
       NLog.i(TAG, 'Success load data from database');
       yield Right(dataFromDb);
       return;
-    } catch (exception, stackTrace) {
+    } on Exception catch (exception, stackTrace) {
       NLog.e(TAG, 'Load from DB failed', exception);
       final failure = handleError?.call(exception, stackTrace);
       yield Left(failure ??
@@ -61,7 +62,7 @@ class DatasourceBoundWithFailureState<DataType, ResponseType> {
 
   static Future<Either<Failure, DataType>> asLocalFuture<DataType>({
     required Future<DataType> Function() loadFromDbFuture,
-    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(Object error, StackTrace? stacktrace)? handleError,
   }) =>
       asLocalStream(
         loadFromDbFuture: loadFromDbFuture,
@@ -109,7 +110,7 @@ class DatasourceBoundWithFailureState<DataType, ResponseType> {
       asRemoteStream<ResponseType, DataType>({
     required Future<ResponseType> Function() createCallFuture,
     FutureOr<DataType> Function(ResponseType response)? processResponse,
-    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(Object error, StackTrace? stacktrace)? handleError,
   }) async* {
     assert(
       ResponseType == DataType ||
@@ -117,21 +118,21 @@ class DatasourceBoundWithFailureState<DataType, ResponseType> {
       'You need to specify the `processResponse` when the DataType and ResponseType types are different',
     );
     try {
-      final ResponseType response = await createCallFuture();
+      final response = await createCallFuture();
       NLog.i(TAG, 'Success fetch data');
 
       late DataType data;
       if (processResponse != null) {
-        final DataType processedData = await processResponse(response);
+        final processedData = await processResponse(response);
         data = processedData;
       } else {
-        final DataType castData = response as DataType;
+        final castData = response as DataType;
         data = castData;
       }
 
       yield Right(data);
       return;
-    } catch (exception, stackTrace) {
+    } on Exception catch (exception, stackTrace) {
       NLog.e(TAG, 'Fetching failed', exception);
       final failure = handleError?.call(exception, stackTrace);
       yield Left(failure ??
@@ -148,7 +149,7 @@ class DatasourceBoundWithFailureState<DataType, ResponseType> {
       asRemoteFuture<ResponseType, DataType>({
     required Future<ResponseType> Function() createCallFuture,
     FutureOr<DataType> Function(ResponseType response)? processResponse,
-    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(Object error, StackTrace? stacktrace)? handleError,
   }) =>
           asRemoteStream(
             createCallFuture: createCallFuture,
@@ -217,7 +218,7 @@ class DatasourceBoundWithFailureState<DataType, ResponseType> {
     Future<ResponseType> Function()? createCallFuture,
     Future? Function(ResponseType response)? saveCallResult,
     FutureOr<DataType> Function(ResponseType response)? processResponse,
-    Failure Function(dynamic error, StackTrace stacktrace)? handleError,
+    Failure Function(Object error, StackTrace? stacktrace)? handleError,
   }) async* {
     assert(
       ResponseType == DataType ||
@@ -229,7 +230,7 @@ class DatasourceBoundWithFailureState<DataType, ResponseType> {
     Stream<Either<Failure, DataType>> fetchRemoteData() async* {
       if (createCallFuture != null) {
         try {
-          final ResponseType response = await createCallFuture();
+          final response = await createCallFuture();
           NLog.i(TAG, 'Success fetch data');
 
           if (saveCallResult != null) {
@@ -239,14 +240,14 @@ class DatasourceBoundWithFailureState<DataType, ResponseType> {
 
           late DataType data;
           if (processResponse != null) {
-            final DataType processedData = await processResponse(response);
+            final processedData = await processResponse(response);
             data = processedData;
           } else {
-            final DataType castData = response as DataType;
+            final castData = response as DataType;
             data = castData;
           }
           yield Right(data);
-        } catch (exception, stackTrace) {
+        } on Exception catch (exception, stackTrace) {
           NLog.e(TAG, 'Fetching failed', exception);
           final failure = handleError?.call(exception, stackTrace);
           yield Left(failure ??
@@ -263,7 +264,7 @@ class DatasourceBoundWithFailureState<DataType, ResponseType> {
     Future<DataType> loadDbData() async {
       try {
         return await loadFromDbFuture!.call();
-      } catch (exception, stackTrace) {
+      } on Exception catch (exception, stackTrace) {
         NLog.e(TAG, 'Load from DB failed', exception);
         final failure = handleError?.call(exception, stackTrace);
         throw failure ??

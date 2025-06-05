@@ -1,6 +1,7 @@
 import 'package:falconx/lib.dart';
 
-abstract class FalconApplicationState<T extends StatefulWidget> extends FalconState<T> {
+abstract class FalconApplicationState<T extends StatefulWidget>
+    extends FalconState<T> {
   final Deeplink deeplink = Deeplink();
 
   @override
@@ -15,5 +16,5 @@ abstract class FalconApplicationState<T extends StatefulWidget> extends FalconSt
     super.dispose();
   }
 
-  void onDeeplinkUri(Uri uri){}
+  void onDeeplinkUri(Uri uri) {}
 }

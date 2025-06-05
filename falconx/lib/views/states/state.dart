@@ -1,5 +1,4 @@
 import 'package:falconx/lib.dart';
-import 'package:flutter/foundation.dart';
 
 /// [Android State]
 /// - onCreate
@@ -55,7 +54,7 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   Key? get key => widget.key;
 
   Future<Version> get currentVersion async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final packageInfo = await PackageInfo.fromPlatform();
     final versionStr = packageInfo.version;
     final buildNumber = packageInfo.buildNumber;
     final fullVersion = '$versionStr+$buildNumber';
@@ -86,7 +85,7 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   }
 
   Widget buildState(BuildContext context, FullWidgetState state) {
-    return Placeholder();
+    return const Placeholder();
   }
 
   @override
@@ -121,31 +120,26 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
           printInfo('$tag => Lifecycle State: resumed');
         }
         resumed();
-        break;
       case AppLifecycleState.inactive:
         if (debug) {
           printInfo('$tag => Lifecycle State: inactive');
         }
         inactive();
-        break;
       case AppLifecycleState.hidden:
         if (debug) {
           printInfo('$tag => Lifecycle State: hidden');
         }
         hidden();
-        break;
       case AppLifecycleState.paused:
         if (debug) {
           printInfo('$tag => Lifecycle State: paused');
         }
         paused();
-        break;
       case AppLifecycleState.detached:
         if (debug) {
           printInfo('$tag => Lifecycle State: detached');
         }
         detached();
-        break;
     }
   }
 
@@ -159,8 +153,6 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   void updateState() => setState(() {});
 
   void clearFocus() => FocusScope.of(context).unfocus();
-
-
 
   /// Updates the widget state using [stateNotifier] if the widget is still mounted.
   ///

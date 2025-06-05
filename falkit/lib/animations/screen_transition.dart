@@ -69,7 +69,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
 
   /// Page transition constructor. We can pass the next page as a child,
   ScreenTransition({
-    Key? key,
     required this.child,
     required this.type,
     this.childCurrent,
@@ -104,8 +103,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
             switch (type) {
               case ScreenTransitionType.fade:
                 return FadeTransition(opacity: animation, child: child);
-                // ignore: dead_code
-                break;
 
               /// PageTransitionType.rightToLeft which is the give us right to left transition
               case ScreenTransitionType.rightToLeft:
@@ -119,8 +116,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                   )),
                   child: child,
                 );
-                // ignore: dead_code
-                break;
 
               /// PageTransitionType.leftToRight which is the give us left to right transition
               case ScreenTransitionType.leftToRight:
@@ -134,8 +129,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                   )),
                   child: child,
                 );
-                // ignore: dead_code
-                break;
 
               /// PageTransitionType.topToBottom which is the give us up to down transition
               case ScreenTransitionType.topToBottom:
@@ -149,8 +142,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                   )),
                   child: child,
                 );
-                // ignore: dead_code
-                break;
 
               /// PageTransitionType.downToUp which is the give us down to up transition
               case ScreenTransitionType.bottomToTop:
@@ -164,8 +155,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                   )),
                   child: child,
                 );
-                // ignore: dead_code
-                break;
 
               /// PageTransitionType.scale which is the scale functionality for transition you can also use curve for this transition
 
@@ -182,8 +171,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                   ),
                   child: child,
                 );
-                // ignore: dead_code
-                break;
 
               /// PageTransitionType.rotate which is the rotate functionality for transition you can also use alignment for this transition
 
@@ -200,8 +187,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                     ),
                   ),
                 );
-                // ignore: dead_code
-                break;
 
               /// PageTransitionType.size which is the rotate functionality for transition you can also use curve for this transition
 
@@ -216,8 +201,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                     child: child,
                   ),
                 );
-                // ignore: dead_code
-                break;
 
               /// PageTransitionType.rightToLeftWithFade which is the fade functionality from right o left
 
@@ -241,8 +224,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                     ),
                   ),
                 );
-                // ignore: dead_code
-                break;
 
               /// PageTransitionType.leftToRightWithFade which is the fade functionality from left o right with curve
 
@@ -268,8 +249,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                     ),
                   ),
                 );
-                // ignore: dead_code
-                break;
 
               case ScreenTransitionType.rightToLeftJoined:
                 assert(childCurrent != null, """
@@ -284,7 +263,7 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                   children: <Widget>[
                     SlideTransition(
                       position: Tween<Offset>(
-                        begin: const Offset(0.0, 0.0),
+                        begin: Offset.zero,
                         end: const Offset(-1.0, 0.0),
                       ).animate(
                         CurvedAnimation(
@@ -308,8 +287,6 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                     )
                   ],
                 );
-                // ignore: dead_code
-                break;
 
               case ScreenTransitionType.leftToRightJoined:
                 assert(childCurrent != null, """
@@ -324,7 +301,7 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                     SlideTransition(
                       position: Tween<Offset>(
                         begin: const Offset(-1.0, 0.0),
-                        end: const Offset(0.0, 0.0),
+                        end: Offset.zero,
                       ).animate(
                         CurvedAnimation(
                           parent: animation,
@@ -335,7 +312,7 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                     ),
                     SlideTransition(
                       position: Tween<Offset>(
-                        begin: const Offset(0.0, 0.0),
+                        begin: Offset.zero,
                         end: const Offset(1.0, 0.0),
                       ).animate(
                         CurvedAnimation(
@@ -347,9 +324,10 @@ class ScreenTransition<T> extends PageRouteBuilder<T> {
                     )
                   ],
                 );
-                // ignore: dead_code
-                break;
-              }
+            }
           },
-        );
+        ) {
+    // TODO(username): implement ScreenTransition
+    throw UnimplementedError();
+  }
 }

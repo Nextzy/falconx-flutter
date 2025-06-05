@@ -7,7 +7,7 @@ class Deeplink {
 
   final _appLinks = AppLinks();
   StreamSubscription? _deepLinkSubscription;
-  Function(Uri uri)? _onDeeplinkUri;
+  void Function(Uri uri)? _onDeeplinkUri;
   final Queue<Uri> _uriList = Queue<Uri>.from([]);
   bool _finished = false;
 
@@ -46,7 +46,7 @@ class Deeplink {
         } else {
           printInfo('Null URI');
         }
-      }, onError: (err, stacktrace) {
+      }, onError: (Object? err, StackTrace? stacktrace) {
         printError(err, stacktrace);
       });
     }

@@ -30,7 +30,7 @@ class InternetConnectionBloc extends BlocBase<List<ConnectivityResult>> {
 
   @override
   Future<void> close() async {
-    _subscription?.cancel();
+    await _subscription?.cancel();
     return super.close();
   }
 

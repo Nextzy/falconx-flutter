@@ -7,7 +7,7 @@ extension FalconToolColorThemeExtensions on Color {
   Color brighten([int amount = 10]) {
     if (amount <= 0) return this;
     if (amount > 100) return Colors.white;
-    final Color color = Color.fromARGB(
+    final color = Color.fromARGB(
       alpha,
       math.max(0, math.min(255, red - (255 * -(amount / 100)).round())),
       math.max(0, math.min(255, green - (255 * -(amount / 100)).round())),
@@ -23,7 +23,7 @@ extension FalconToolColorThemeExtensions on Color {
     if (amount > 100.0) return Colors.white;
     // HSLColor returns saturation 1 for black, we want 0 instead to be able
     // lighten black color up along the grey scale from black.
-    final HSLColor hsl = this == const Color(0xFF000000)
+    final hsl = this == const Color(0xFF000000)
         ? HSLColor.fromColor(this).withSaturation(0)
         : HSLColor.fromColor(this);
     return hsl
@@ -36,7 +36,7 @@ extension FalconToolColorThemeExtensions on Color {
   Color darken([double amount = 10]) {
     if (amount <= 0.0) return this;
     if (amount > 100.0) return Colors.black;
-    final HSLColor hsl = HSLColor.fromColor(this);
+    final hsl = HSLColor.fromColor(this);
     return hsl
         .withLightness(math.min(1, math.max(0, hsl.lightness - amount / 100)))
         .toColor();
@@ -84,7 +84,6 @@ extension FalconToolColorThemeExtensions on Color {
     bool keepWhite = true,
   }) {
     if (shadeValue <= 0) return this;
-    // ignore: parameter_assignments
     if (shadeValue > 100) shadeValue = 100;
 
     // Trying to make black darker, just return black
@@ -118,7 +117,6 @@ extension FalconToolColorThemeExtensions on Color {
   /// Return uppercase RGB hex code string, with # and no alpha value.
   /// This format is often used in APIs and in CSS color values..
   String get hex {
-    // ignore: lines_longer_than_80_chars
     return '#${value.toRadixString(16).toUpperCase().padLeft(8, '0').substring(2)}';
   }
 }
@@ -143,11 +141,11 @@ extension FalconToolStringThemeExtensions on String {
   /// THEN fully opaque black color is returned ELSE the Color is returned.
   Color get toColor {
     if (this == '') return const Color(0xFF000000);
-    String hexColor = replaceAll('#', '');
+    var hexColor = replaceAll('#', '');
     hexColor = hexColor.replaceAll('0x', '');
     hexColor = hexColor.padLeft(6, '0');
     hexColor = hexColor.padLeft(8, 'F');
-    final int length = hexColor.length;
+    final length = hexColor.length;
     return Color(int.tryParse('0x${hexColor.substring(length - 8, length)}') ??
         0xFF000000);
   }
@@ -156,5 +154,4 @@ extension FalconToolStringThemeExtensions on String {
   String get capitalize {
     return (length > 1) ? this[0].toUpperCase() + substring(1) : toUpperCase();
   }
-
 }
