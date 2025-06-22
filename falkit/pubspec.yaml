@@ -15,7 +15,7 @@ dependencies:
 
   #PLATFORM: All
   gap: ^3.0.1
-  flutter_svg: ^2.1.0
+  flutter_svg: ^2.2.0
   extended_image: ^10.0.1
   smooth_page_indicator: ^1.2.1
   flutter_animate: ^4.5.2
@@ -24,6 +24,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  very_good_analysis: ^8.0.0
+  very_good_analysis: ^9.0.0
 
 

@@ -1,18 +1,15 @@
-import 'package:falmodel/lib.dart';
-
-@immutable
 class SocketOptions {
-  const SocketOptions({
+  SocketOptions({
     this.uri = '',
     this.retryLimit = 3,
     this.protocol,
     this.data,
   });
 
-  final String uri;
-  final int retryLimit;
-  final String? protocol;
-  final String? data;
+  String uri;
+  int retryLimit;
+  String? protocol;
+  String? data;
 
   @override
   bool operator ==(Object other) =>
