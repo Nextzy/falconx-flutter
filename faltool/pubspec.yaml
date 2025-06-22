@@ -12,7 +12,7 @@ dependencies:
 
   #PLATFORM: All
   package_info_plus: ^8.3.0
-  device_info_plus: ^11.4.0
+  device_info_plus: ^11.5.0
   share_plus: ^11.0.0
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
@@ -46,6 +46,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  build_runner: ^2.4.15
+  build_runner: ^2.5.3
   flutter_gen_runner: ^5.10.0
-  very_good_analysis: ^8.0.0
+  very_good_analysis: ^9.0.0

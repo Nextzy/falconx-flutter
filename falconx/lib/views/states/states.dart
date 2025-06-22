@@ -6,5 +6,3 @@ export 'nullable_content_state.dart';
 export 'pop_result.dart';
 export 'state.dart';
 export 'widget_state_notifier.dart';
-
-

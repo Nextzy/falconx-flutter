@@ -78,14 +78,23 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
 
   @override
   Widget build(BuildContext context) {
-    return FullWidgetStateBuilder(
-      create: stateNotifier,
-      builder: (context, state, child) => buildState(context, state),
+    return stateBuilder(
+      (context, state, child) => buildState(context, state),
     );
   }
 
   Widget buildState(BuildContext context, FullWidgetState state) {
     return const Placeholder();
+  }
+
+  Widget stateBuilder(
+    Widget Function(BuildContext context, FullWidgetState state, Widget? child)
+        builder,
+  ) {
+    return FullWidgetStateBuilder(
+      create: stateNotifier,
+      builder: builder,
+    );
   }
 
   @override
@@ -160,19 +169,19 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   ///
   /// Example usage:
   /// ```dart
-  /// setFullWidgetState(FullWidgetState.loading); // Set loading state
+  /// changeToFullWidgetState(FullWidgetState.loading); // Set loading state
   ///
   /// // In async operations
   /// try {
-  ///   setFullWidgetState(FullWidgetState.loading);
+  ///   changeToFullWidgetState(FullWidgetState.loading);
   ///   await someOperation();
-  ///   setFullWidgetState(FullWidgetState.success);
+  ///   changeToFullWidgetState(FullWidgetState.success);
   /// } catch (e) {
-  ///   setFullWidgetState(FullWidgetState.error);
+  ///   changeToFullWidgetState(FullWidgetState.error);
   /// }
   /// ```
   ///
-  /// To handle state changes in the UI:
+  /// To handle change state in the UI:
   /// ```dart
   /// buildState(context, state) {
   ///   switch (state) {
@@ -195,9 +204,17 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   ///   },
   /// )
   /// ```
-  void setFullWidgetState(FullWidgetState state) {
+  void changeToFullWidgetState(FullWidgetState state) {
     if (mounted) {
       stateNotifier.value = state;
+    }
+  }
+
+  void setFullWidgetState(FullWidgetState state) {
+    if (mounted) {
+      setState(() {
+        stateNotifier.value = state;
+      });
     }
   }
 
@@ -208,20 +225,29 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setNormalState();
+  /// changeToNormalState();
   ///
   /// // With callback
-  /// setNormalState(() {
+  /// changeToNormalState(() {
   ///   // Do something before setting normal state
   ///   data.clear();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setNormalState([VoidCallback? fn]) {
+  void changeToNormalState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.normal;
+    }
+  }
+
+  void setNormalState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.normal;
+      });
     }
   }
 
@@ -232,20 +258,29 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setLoadingState();
+  /// changeToLoadingState();
   ///
   /// // With callback
-  /// setLoadingState(() {
+  /// changeToLoadingState(() {
   ///   // Do something before setting loading state
-  ///   data.setLoadingState();
+  ///   data.changeToLoadingState();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setLoadingState([VoidCallback? fn]) {
+  void changeToLoadingState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.loading;
+    }
+  }
+
+  void setLoadingState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.loading;
+      });
     }
   }
 
@@ -256,20 +291,29 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setHoveredState();
+  /// changeToHoveredState();
   ///
   /// // With callback
-  /// setHoveredState(() {
+  /// changeToHoveredState(() {
   ///   // Do something before setting hovered state
-  ///   data.setHoveredState();
+  ///   data.changeToHoveredState();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setHoveredState([VoidCallback? fn]) {
+  void changeToHoveredState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.hovered;
+    }
+  }
+
+  void setHoveredState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.hovered;
+      });
     }
   }
 
@@ -280,20 +324,62 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setFocusedState();
+  /// changeToFocusedState();
   ///
   /// // With callback
-  /// setFocusedState(() {
+  /// changeToFocusedState(() {
   ///   // Do something before setting focused state
-  ///   data.setFocusedState();
+  ///   data.changeToFocusedState();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setFocusedState([VoidCallback? fn]) {
+  void changeToFocusedState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.focused;
+    }
+  }
+
+  void setFocusedState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.focused;
+      });
+    }
+  }
+
+  /// Sets the widget state to focus-visible and optionally executes a callback function.
+  ///
+  /// The optional [fn] parameter is a callback that will be executed before setting the state to focus-visible.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// // Simple usage
+  /// changeToFocusedVisibleState();
+  ///
+  /// // With callback
+  /// changeToFocusedVisibleState(() {
+  ///   // Do something before setting focused state
+  ///   data.changeToFocusedVisibleState();
+  /// });
+  /// ```
+  ///
+  /// See how to handle states in UI at `setFullWidgetState()`
+  void changeToFocusedVisibleState([VoidCallback? fn]) {
+    if (mounted) {
+      fn?.call();
+      stateNotifier.value = FullWidgetState.focusedVisible;
+    }
+  }
+
+  void setFocusedVisibleState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.focusedVisible;
+      });
     }
   }
 
@@ -304,20 +390,29 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setDisabledState();
+  /// changeToDisabledState();
   ///
   /// // With callback
-  /// setDisabledState(() {
+  /// changeToDisabledState(() {
   ///   // Do something before setting disabled state
-  ///   data.setDisabledState();
+  ///   data.changeToDisabledState();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setDisabledState([VoidCallback? fn]) {
+  void changeToDisabledState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.disabled;
+    }
+  }
+
+  void setDisabledState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.disabled;
+      });
     }
   }
 
@@ -328,20 +423,29 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setWarningState();
+  /// changeToWarningState();
   ///
   /// // With callback
-  /// setWarningState(() {
+  /// changeToWarningState(() {
   ///   // Do something before setting warning state
-  ///   data.setWarningState();
+  ///   data.changeToWarningState();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setWarningState([VoidCallback? fn]) {
+  void changeToWarningState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.warning;
+    }
+  }
+
+  void setWarningState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.warning;
+      });
     }
   }
 
@@ -352,20 +456,29 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setEmptyState();
+  /// changeToEmptyState();
   ///
   /// // With callback
-  /// setEmptyState(() {
+  /// changeToEmptyState(() {
   ///   // Do something before setting empty state
-  ///   data.setEmptyState();
+  ///   data.changeToEmptyState();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setEmptyState([VoidCallback? fn]) {
+  void changeToEmptyState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.empty;
+    }
+  }
+
+  void setEmptyState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.empty;
+      });
     }
   }
 
@@ -386,10 +499,19 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setSelectedState([VoidCallback? fn]) {
+  void changeToSelectedState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.selected;
+    }
+  }
+
+  void setSelectedState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.selected;
+      });
     }
   }
 
@@ -400,20 +522,29 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setSuccessState();
+  /// changeToSuccessState();
   ///
   /// // With callback
-  /// setSuccessState(() {
+  /// changeToSuccessState(() {
   ///   // Do something before setting success state
-  ///   data.setSuccessState();
+  ///   data.changeToSuccessState();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setSuccessState([VoidCallback? fn]) {
+  void changeToSuccessState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.success;
+    }
+  }
+
+  void setSuccessState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.success;
+      });
     }
   }
 
@@ -424,20 +555,29 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setCancelState();
+  /// changeToCancelState();
   ///
   /// // With callback
-  /// setCancelState(() {
+  /// changeToCancelState(() {
   ///   // Do something before setting cancel state
-  ///   data.setCancelState();
+  ///   data.changeToCancelState();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setCancelState([VoidCallback? fn]) {
+  void changeToCancelState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.cancel;
+    }
+  }
+
+  void setCancelState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.cancel;
+      });
     }
   }
 
@@ -448,20 +588,29 @@ abstract class FalconState<T extends StatefulWidget> extends State<T>
   /// Example usage:
   /// ```dart
   /// // Simple usage
-  /// setFailState();
+  /// changeToFailState();
   ///
   /// // With callback
-  /// setFailState(() {
+  /// changeToFailState(() {
   ///   // Do something before setting fail state
-  ///   data.setFailState();
+  ///   data.changeToFailState();
   /// });
   /// ```
   ///
   /// See how to handle states in UI at `setFullWidgetState()`
-  void setFailState([VoidCallback? fn]) {
+  void changeToFailState([VoidCallback? fn]) {
     if (mounted) {
       fn?.call();
       stateNotifier.value = FullWidgetState.fail;
+    }
+  }
+
+  void setFailState([VoidCallback? fn]) {
+    if (mounted) {
+      setState(() {
+        fn?.call();
+        stateNotifier.value = FullWidgetState.fail;
+      });
     }
   }
 }
