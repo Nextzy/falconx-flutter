@@ -10,7 +10,14 @@
       "Bash(dart analyze:*)",
       "Bash(touch:*)",
       "Bash(mv:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(flutter test:*)",
+      "Bash(grep:*)",
+      "Bash(dart pub:*)",
+      "Bash(dart:*)",
+      "Bash(rm:*)",
+      "Bash(flutter pub:*)",
+      "Bash(sed:*)"
     ],
     "deny": []
   }
