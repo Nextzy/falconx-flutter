@@ -6,7 +6,11 @@
       "Bash(find:*)",
       "Bash(melos get:*)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:pub.dev)"
+      "WebFetch(domain:pub.dev)",
+      "Bash(dart analyze:*)",
+      "Bash(touch:*)",
+      "Bash(mv:*)",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": []
   }
