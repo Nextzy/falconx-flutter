@@ -18,7 +18,11 @@
       "Bash(rm:*)",
       "Bash(flutter pub:*)",
       "Bash(sed:*)",
-      "Bash(flutter:*)"
+      "Bash(flutter:*)",
+      "mcp__serena__find_symbol",
+      "mcp__serena__activate_project",
+      "mcp__serena__replace_symbol_body",
+      "mcp__sequential-thinking__sequentialthinking"
     ],
     "deny": []
   }
